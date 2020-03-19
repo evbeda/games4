@@ -2,5 +2,5 @@ from senku import Senku
 
 senku = Senku()
 
-senku.show_board()
+print senku.play(3, 1, 3, 3)
 
