@@ -1,5 +1,5 @@
 from love_letter.card import Card
-from love_letter.Cards.baron import Baron
+from love_letter.cards.baron import Baron
 
 
 class LoveLetterGame:
