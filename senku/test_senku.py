@@ -8,7 +8,7 @@ class TestSenku(unittest.TestCase):
         self.game = Senku()
 
     def test_get_board_initial(self):
-        self.assertEqual(self.game.show_board(),
+        self.assertEqual(self.game.board,
                          "X X 0 0 0 X X\n"
                          "X X 0 0 0 X X\n"
                          "0 0 0 0 0 0 0\n"
@@ -28,8 +28,8 @@ class TestSenku(unittest.TestCase):
         self.assertFalse(self.game.validate_move(3, 2, -2, 3))
 
     def test_move_piece(self):
-        self.game.move_piece(3, 1, 3, 3)
-        self.assertEqual(self.game.show_board(),
+        self.game.play(3, 1, 3, 3)
+        self.assertEqual(self.game.board,
                          "X X 0 0 0 X X\n"
                          "X X 0 0 0 X X\n"
                          "0 0 0 0 0 0 0\n"
