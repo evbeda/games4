@@ -47,10 +47,11 @@ class Senku(object):
         return False
 
     def move_piece(self, initial_x, initial_y, final_x, final_y):
-        pass
+        self.board[initial_x][initial_y] = self.space_free
+        self.board[final_x][final_y] = self.space_occupied
 
+        if initial_x == final_x:
+            self.board[initial_x][(initial_y + final_y) // 2] = self.space_free
 
-
-
-
-
+        if initial_y == final_y:
+            self.board[(initial_x + final_x) // 2][final_y] = self.space_free
