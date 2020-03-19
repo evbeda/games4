@@ -1,11 +1,13 @@
 class Ahorcado:
 
-	is_win = False
-	is_lose = False
+	
 
 	def __init__(self):
 		self.word = self.get_word_from_api()
 		self.lifes = 6
+		self.is_win = False
+		self.is_lose = False
+
 		self.status_message = "Welcome to the game! Please choose one letter"
 		self.hidden_letters_message = "_ _ _ _ _ _ _"
 		self.used_letters_message = ""
@@ -22,7 +24,7 @@ class Ahorcado:
 			self.status_message = "The player already lost"
 			return "The player already lost"
 		else:
-			self.show_board()
+			#print(self.board)
 			self.play()
 
 	def play(self, letter):
@@ -46,7 +48,7 @@ class Ahorcado:
 		for character in word:
 			if letter == character:
 				new_hidden_letters.append(letter)
-			elif letter != character and character == "_":
+			elif letter != character and character not in self.used_letters_message:
 				new_hidden_letters.append("_")
 			else:
 				new_hidden_letters.append(character)
@@ -55,5 +57,6 @@ class Ahorcado:
 	def set_used_letters(self, letter):
 		self.used_letters_message += letter + " "
 
-	def show_board(self):
+	@property
+	def board(self):
 		return self.status_message + '\n' + self.hidden_letters_message + '\n' + self.used_letters_message + '\n' + self.lifes_message

@@ -23,17 +23,17 @@ class TestAhorcado(unittest.TestCase):
         self.game.play("Z")
         self.assertEqual(self.game.lifes, 5)
         my_board = "Wrong letter, you lose one life\n_ _ _ _ _ _ _\nZ \nLifes: 5"
-        self.assertEqual(self.game.show_board(), my_board)
+        self.assertEqual(self.game.board, my_board)
 
     def test_right_letter_p(self):
         self.game.play('P')
         self.assertEqual(self.game.lifes, 6)
         my_board = "Correct letter! Choose another\nP _ _ _ _ _ _\nP \nLifes: 6"
-        self.assertEqual(self.game.show_board(), my_board)
+        self.assertEqual(self.game.board, my_board)
 
     def test_show_board(self):
         my_board = "Welcome to the game! Please choose one letter\n_ _ _ _ _ _ _\n\nLifes: 6"
-        self.assertEqual(self.game.show_board(), my_board)
+        self.assertEqual(self.game.board, my_board)
 
     def test_set_hiden_leters(self):
         self.game.set_hidden_letters('P')
