@@ -7,7 +7,7 @@ class TestAhorcado(unittest.TestCase):
 
     def setUp(self):
         self.game = Ahorcado()
-        #self.game.getword()
+        self.game.word = "PALABRA"
 
     def test_force_win(self):
         setted_word = set(self.game.word)
@@ -23,7 +23,15 @@ class TestAhorcado(unittest.TestCase):
         self.game.play(my_letter)
         self.assertEqual(self.game.lifes, 5)
         self.assertEqual(self.game.status_message, "Wrong letter, you lose one life")
+    
+    def test_simple_letter(self):
+        pass
 
+    def test_show_board(self):
+        self.assertEqual(self.game.status_message, "Welcome to the game! Please choose one letter")
+        self.assertEqual(self.game.hidden_letters_message, "_ _ _ _ _ _ _ ")
+        self.assertEqual(self.game.used_letters_message, "")
+        self.assertEqual(self.game.lifes_message, "Lifes: 6")
 
 if __name__ == "__main__":
 
