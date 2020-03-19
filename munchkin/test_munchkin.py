@@ -10,18 +10,18 @@ class TestMunchkin(unittest.TestCase) :
         self.assertLessEqual(result, 6)
 
     def test_monstruo_has_level_greater_or_equal_than_1(self):
-        monstruo = Monstruo()
-        result = monstruo.get_level
+        monstruo = Monstruo("CHUPACABRAS", 8, 1, 2)
+        result = monstruo.level
         self.assertGreaterEqual(result, 1)
     
     def test_monstruo_has_treasures_greater_or_equal_than_1(self):
-        monstruo = Monstruo()
-        result = monstruo.get_treasures
+        monstruo = Monstruo("CHUPACABRAS", 8, 1, 2)
+        result = monstruo.treasures
         self.assertGreaterEqual(result, 1)        
 
     def test_monstruo_has_level_add_greater_or_equal_than_1(self):
-        monstruo = Monstruo()
-        result = monstruo.get_level
+        monstruo = Monstruo("CHUPACABRAS", 8, 1, 2)
+        result = monstruo.level
         self.assertGreaterEqual(result, 1)
 
 
