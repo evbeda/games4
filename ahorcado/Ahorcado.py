@@ -15,10 +15,10 @@ class Ahorcado:
 		return "palabra"
 
 	def next_turn(self):
-		if is_win:
+		if self.is_win:
 			self.status_message = "The player already won"
 			return "The player already won"
-		elif is_lose:
+		elif self.is_lose:
 			self.status_message = "The player already lost"
 			return "The player already lost"
 		else:
