@@ -24,8 +24,8 @@ class Senku(object):
             return 'Game Over'
 
     def play(self, initial_x, initial_y, final_x, final_y):
-        self.validate_move(initial_x, initial_y, final_x, final_y)
-        pass
+        if self.validate_move(initial_x, initial_y, final_x, final_y):
+            self.move_piece(initial_x, initial_y, final_x, final_y)
 
     def show_board(self):
         return '\n'.join(' '.join(elem) for elem in self.board)
@@ -34,11 +34,23 @@ class Senku(object):
         initial_x, initial_y, final_x, final_y = positions
 
         for pos in positions:
-            if not 0 < pos < 7 and not self.board[initial_x][initial_y] == self.space_occupied and not self.board[final_x][final_y] == self.space_free
+            if (pos < 0 or pos > 6) or not self.board[initial_x][initial_y] == self.space_occupied or not self.board[final_x][final_y] == self.space_free:
                 return False
 
+        if initial_x == final_x and abs(initial_y - final_y) == 2:
+            if self.board[initial_x][initial_y + (final_y - initial_y)] == self.space_free:
+                return True
 
-        if self.board[final_x][final_y] != self.space_free:
-            return False
+        if initial_y == final_y and abs(initial_x - final_x) == 2:
+            if self.board[initial_x + (final_x - initial_x)][initial_y] == self.space_free:
+                return True
+        return False
+
+    def move_piece(self, initial_x, initial_y, final_x, final_y):
+        pass
+
+
+
+
 
 
