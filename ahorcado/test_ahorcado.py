@@ -35,6 +35,10 @@ class TestAhorcado(unittest.TestCase):
         my_board = "Welcome to the game! Please choose one letter\n_ _ _ _ _ _ _\n\nLifes: 6"
         self.assertEqual(self.game.show_board(), my_board)
 
+    def test_set_hiden_leters(self):
+        self.game.set_hidden_letters('P')
+        self.assertEqual(self.game.hidden_letters_message, "P _ _ _ _ _ _")
+
 
 if __name__ == "__main__":
 

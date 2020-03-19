@@ -39,7 +39,7 @@ class Ahorcado:
             self.set_used_letters(letter)
 			self.set_hidden_letters(letter)
 			
-			#self.is_win = True
+			
 			self.next_turn()
 
 	def set_hidden_letters(self, letter):
