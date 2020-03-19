@@ -1,7 +1,5 @@
 class Ahorcado:
 
-	
-
 	def __init__(self):
 		self.word = self.get_word_from_api()
 		self.lifes = 6
@@ -9,12 +7,24 @@ class Ahorcado:
 		self.is_lose = False
 
 		self.status_message = "Welcome to the game! Please choose one letter"
-		self.hidden_letters_message = "_ _ _ _ _ _ _"
-		self.used_letters_message = ""
+		#self.hidden_letters_message = "_ _ _ _ _ _ _"
+		self.used_letters = []
 		self.lifes_message = "Lifes: {}".format(self.lifes)
 
 	def get_word_from_api(self):
 		return "palabra"
+
+	def status_message(self):
+		return self.status_message
+
+	def hidden_letters_message(self):
+		new_hidden_letters = []
+		for character in self.word:
+			if character in self.used_letters:
+				new_hidden_letters.append(character)
+			elif character not in self.used_letters_message:
+				new_hidden_letters.append("_")
+		return " ".join(new_hidden_letters)
 
 	def next_turn(self):
 		if self.is_win:
@@ -25,10 +35,11 @@ class Ahorcado:
 			return "The player already lost"
 		else:
 			#print(self.board)
-			self.play()
+			in_letter = input("Please, put letter: ")
+			self.play(in_letter)
 
 	def play(self, letter):
-		if letter in self.used_letters_message:
+		if letter in self.used_letters:
 			self.status_message = "Already tried that Letter! Try again"
 			self.next_turn()
 		elif letter not in self.word:
@@ -38,25 +49,16 @@ class Ahorcado:
 			self.next_turn()
 		elif letter in self.word:
 			self.status_message = "Correct letter! Choose another"
-			self.set_hidden_letters(letter)
 			self.set_used_letters(letter)
 			self.next_turn()
 
-	def set_hidden_letters(self, letter):
-		word = list(self.word)
-		new_hidden_letters = []
-		for character in word:
-			if letter == character:
-				new_hidden_letters.append(letter)
-			elif letter != character and character not in self.used_letters_message:
-				new_hidden_letters.append("_")
-			else:
-				new_hidden_letters.append(character)
-		self.hidden_letters_message = " ".join(new_hidden_letters)
-
 	def set_used_letters(self, letter):
-		self.used_letters_message += letter + " "
+		if letter not in used_letters:
+			self.used_letters.append(letter)
+		else:
+			pass
+
 
 	@property
 	def board(self):
-		return self.status_message + '\n' + self.hidden_letters_message + '\n' + self.used_letters_message + '\n' + self.lifes_message
+		return self.status_message + '\n' + self.hidden_letters_message() + '\n' + self.used_letters_message + '\n' + self.lifes_message
