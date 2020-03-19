@@ -1,13 +1,13 @@
 import unittest
 from guess_number_game.test_guess_number_game import TestGuessNumberGame
-from love_letter.test_love_letter import TestLoveLetter
+from love_letter.test_love_letter import TestDeck
 
 
 def suite():
     test_suite = unittest.TestSuite()
     # GUESS NUMBER GAME
     test_suite.addTest(unittest.makeSuite(TestGuessNumberGame))
-    test_suite.addTest(unittest.makeSuite(TestLoveLetter))
+    test_suite.addTest(unittest.makeSuite(TestDeck))
     return test_suite
 
 
