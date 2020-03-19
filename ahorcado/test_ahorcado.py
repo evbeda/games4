@@ -17,7 +17,7 @@ class TestAhorcado(unittest.TestCase):
         for letter in "PALABRA":
             self.game.play(letter)
         my_str = self.game.next_turn()
-        self.assertEqual(my_str, "You can't play!")
+        self.assertEqual(my_str, "The player already won")
 
     def test_wrong_letter(self):
         self.game.play("Z")
@@ -28,12 +28,16 @@ class TestAhorcado(unittest.TestCase):
     def test_right_letter_p(self):
         self.game.play('P')
         self.assertEqual(self.game.lifes, 6)
-        my_board = "Correct letter! Choose another\nP _ _ _ _ _ _ \nP \nLifes: 6"
+        my_board = "Correct letter! Choose another\nP _ _ _ _ _ _\nP \nLifes: 6"
         self.assertEqual(self.game.show_board(), my_board)
 
     def test_show_board(self):
-        my_board = "Welcome to the game! Please choose one letter\n_ _ _ _ _ _ _ \n\nLifes: 6"
+        my_board = "Welcome to the game! Please choose one letter\n_ _ _ _ _ _ _\n\nLifes: 6"
         self.assertEqual(self.game.show_board(), my_board)
+
+    def test_set_hiden_leters(self):
+        self.game.set_hidden_letters('P')
+        self.assertEqual(self.game.hidden_letters_message, "P _ _ _ _ _ _")
 
 
 if __name__ == "__main__":
