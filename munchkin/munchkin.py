@@ -1,5 +1,6 @@
 def __init__(self):
-#construye el juego
+    #construye el juego
+    
 
 def next_turn(self):
        #return -> lo que le debemos mostrar al usuario en su turno actual

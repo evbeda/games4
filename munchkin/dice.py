@@ -1,5 +1,5 @@
 import random as random
 
-class Dado :
+class Dice :
     def shuffle(self) :
         return random.randint(1,6)
