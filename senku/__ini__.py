@@ -2,5 +2,5 @@ from senku import Senku
 
 senku = Senku()
 
-senku.board()
+senku.show_board()
 

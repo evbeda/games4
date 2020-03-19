@@ -1,17 +1,19 @@
 class Senku(object):
     name = 'Senku'
     input_args = 1
-    tablero = []
+    board = []
 
     def __init__(self):
         self.is_playing = True
         x, y = 7, 7
-        self.tablero = [[0 for i in range(x)] for y in range(y)]
-        for i in range(x):
-            for j in range(y):
-        self.tablero[0][0] = 'x'
-        self.tablero[0][1] = 'x'
-        self.tablero[1][1] = 'x'
+        self.board = [['0' for i in range(7)] for y in range(7)]
+
+        for i in range(7):
+            if 2 > i or i > 4:
+                for j in range(7):
+                    if 2 > j or j > 4:
+                        self.board[i][j] = 'x'
+        self.board[3][3] = '-'
 
     def next_turn(self):
         if self.is_playing:
@@ -22,6 +24,5 @@ class Senku(object):
     def play(self, number):
         pass
 
-    def board(self):
-        for elem in self.tablero:
-            print elem
+    def show_board(self):
+        return '\n'.join(' '.join(elem) for elem in self.board)
