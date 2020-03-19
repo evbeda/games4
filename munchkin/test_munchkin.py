@@ -19,5 +19,11 @@ class TestMunchkin(unittest.TestCase) :
         result = monstruo.get_treasures
         self.assertGreaterEqual(result, 1)        
 
+    def test_monstruo_has_level_add_greater_or_equal_than_1(self):
+        monstruo = Monstruo()
+        result = monstruo.get_level
+        self.assertGreaterEqual(result, 1)
+
+
 if __name__ == "__main__" :
     unittest.main()

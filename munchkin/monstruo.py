@@ -4,6 +4,7 @@ class Monstruo :
     def __init__(self) :
         self._level = Monsters['level']
         self._treasures = Monsters['treasures']
+        self._level_add = Monsters ['level_add']
     
     @property
     def get_level(self):
@@ -11,4 +12,7 @@ class Monstruo :
     @property
     def get_treasures(self):
         return self._treasures
+    @property
+    def get_treasures(self):
+        return self._level_add
     
