@@ -2,6 +2,7 @@ space_free = '-'
 space_invalid = 'X'
 space_occupied = '0'
 
+
 ## indentar if
 class Senku(object):
     name = 'Senku'
@@ -36,8 +37,9 @@ class Senku(object):
         initial_x, initial_y, final_x, final_y = positions
 
         for pos in positions:
-            if (pos < 0 or pos > 6) or not self._board[initial_x][initial_y] == space_occupied or not \
-                    self._board[final_x][final_y] == space_free:
+            if ((pos < 0 or pos > 6)
+                    or not self._board[initial_x][initial_y] == space_occupied
+                    or not self._board[final_x][final_y] == space_free):
                 return False
 
         if initial_x == final_x and abs(initial_y - final_y) == 2:
@@ -62,5 +64,5 @@ class Senku(object):
     def get_board(self):
         return self._board
 
-    def set_boar(self, arr_board):
+    def set_board(self, arr_board):
         self._board = arr_board
