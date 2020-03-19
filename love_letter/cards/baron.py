@@ -1,8 +1,10 @@
 from love_letter.card import Card
 
 
-class Prince(Card):
+class Baron(Card):
 
+    name = "Baron"
+    score = 3
     def execute_action(self):
         pass
-        #Ya tu sabes...
+        ##implent Too!
