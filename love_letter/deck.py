@@ -7,7 +7,7 @@ from love_letter.cards.king import King
 from love_letter.cards.priest import Priest
 from love_letter.cards.prince import Prince
 from love_letter.cards.princess import Princess
-
+import random
 
 class Deck:
 
@@ -29,3 +29,17 @@ class Deck:
         self.cards.extend(princes)
         self.cards.extend(princess)
         self.cards.extend(priests)
+
+    def shuffle_cards(self):
+       random.shuffle(self.cards)
+       return self.cards
+
+    def remove_last(self):
+        self.cards.pop(-1)
+        return self.cards
+
+    def show_three(self):
+        card_showed = []
+        for index in range(3):
+            card_showed.append(self.cards.pop(index))
+        return card_showed
