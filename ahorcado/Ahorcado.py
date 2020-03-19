@@ -36,10 +36,8 @@ class Ahorcado:
 			self.next_turn()
 		elif letter in self.word:
 			self.status_message = "Correct letter! Choose another"
-            self.set_used_letters(letter)
 			self.set_hidden_letters(letter)
-			
-			
+			self.set_used_letters(letter)
 			self.next_turn()
 
 	def set_hidden_letters(self, letter):
