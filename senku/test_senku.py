@@ -1,5 +1,5 @@
 import unittest
-from senku import Senku
+from senku.senku import Senku
 
 
 class TestSenku(unittest.TestCase):

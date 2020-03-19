@@ -3,7 +3,6 @@ space_invalid = 'X'
 space_occupied = '0'
 
 
-## indentar if
 class Senku(object):
     name = 'Senku'
 
