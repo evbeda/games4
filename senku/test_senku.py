@@ -32,19 +32,19 @@ class TestSenku(unittest.TestCase):
         self.assertTrue(self.game.validate_move(3, 5, 3, 3))
 
     def test_validate_move_out_of_range_up(self):
-        self.assertFalse(self.game.validate_move(0, 0, -1, 0))
+        self.assertRaises(ValueError, self.game.validate_move, 0, 0, -1, 0)
 
     def test_validate_move_out_of_range_down(self):
-        self.assertFalse(self.game.validate_move(6, 6, 7, 6))
+        self.assertRaises(ValueError, self.game.validate_move, 6, 6, 7, 6)
 
     def test_validate_move_out_of_range_right(self):
-        self.assertFalse(self.game.validate_move(6, 6, 6, 7))
+        self.assertRaises(ValueError, self.game.validate_move, 6, 6, 6, 7)
 
     def test_validate_move_out_of_range_left(self):
-        self.assertFalse(self.game.validate_move(0, 0, 0, -1))
+        self.assertRaises(ValueError, self.game.validate_move, 0, 0, 0, -1)
 
     def test_validate_diagonal_move(self):
-        self.assertFalse(self.game.validate_move(3, 2, 4, 3))
+        self.assertRaises(ValueError, self.game.validate_move, 3, 2, 4, 3)
 
     def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)

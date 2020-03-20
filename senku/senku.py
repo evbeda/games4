@@ -21,7 +21,11 @@ class Senku(object):
         pass
 
     def play(self, initial_row, initial_col, final_row, final_col):
-        if self.validate_move(initial_row, initial_col, final_row, final_col):
+        try:
+            self.validate_move(initial_row, initial_col, final_row, final_col)
+        except ValueError:
+            pass
+        else:
             self.__move_piece(initial_row, initial_col, final_row, final_col)
 
     @property
@@ -36,7 +40,7 @@ class Senku(object):
             if ((pos < 0 or pos > 6)
                     or not self._board[initial_row][initial_col] == space_occupied
                     or not self._board[final_row][final_col] == space_free):
-                return False
+                raise ValueError('Value must be between 0 and 6')
 
         if initial_row == final_row and abs(initial_col - final_col) == 2:
             if self._board[initial_row][(initial_col + final_col) // 2] == space_occupied:
