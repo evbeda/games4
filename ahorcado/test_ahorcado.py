@@ -1,14 +1,12 @@
 import unittest
-from Ahorcado import Ahorcado
+from ahorcado.Ahorcado import Ahorcado
 
 
 class TestAhorcado(unittest.TestCase):
 
     def setUp(self):
-        self.game = Ahorcado()
-        self.game.word = "PALABRA"
+        self.game = Ahorcado('PALABRA')
 
-    """
     def test_next_turn_playing(self):
         self.assertEqual(self.game.next_turn(), "Please input a letter from A-Z")
 
@@ -127,19 +125,22 @@ class TestAhorcado(unittest.TestCase):
         self.game.play("W")
         self.assertEqual(self.game.board, "P A _ A _ _ A\nP A Z W\nLifes: 4")
 
+    @unittest.skip('api tests')
     def test_get_word_from_api_str(self):
         self.assertTrue(isinstance(self.game.get_word_from_api(), str))
 
+    @unittest.skip('api tests')
     def test_get_word_from_api_upper(self):
         self.assertTrue(self.game.get_word_from_api().isupper())
 
+    @unittest.skip('api tests')
     def test_get_word_from_api_no_mistakes(self):
         self.assertTrue(self.game.get_word_from_api().isalpha())
-    """
+
+    @unittest.skip('api tests')
     def test_prueba(self):
         self.assertEqual(self.game.play("@"), "Dont use Symbols!")
 
 
 if __name__ == "__main__":
-
     unittest.main()

@@ -13,8 +13,8 @@ class IsNotOneCharacter(Exception):
 
 class Ahorcado:
 
-	def __init__(self):
-		self.word = self.get_word_from_api()
+	def __init__(self, force_word=None):
+		self.word = force_word if force_word else self.get_word_from_api()
 		self.lifes = 6
 		self.used_letters = []
 
@@ -38,7 +38,7 @@ class Ahorcado:
 
 		if self.check_input_used_letters(letter):
 			return "Already tried that Letter! Try again"
-			
+
 		elif not self.check_input_word(letter):
 			self.lifes = self.lifes - 1
 			self.set_used_letters(letter)
@@ -67,7 +67,7 @@ class Ahorcado:
 			return True
 		else:
 			return False
-	
+
 	def check_input_word(self, letter):
 		if letter in self.word:
 			return True
@@ -109,6 +109,3 @@ class Ahorcado:
 	@property
 	def board(self):
 		return  self.hidden_letters_message() + '\n' + " ".join(self.used_letters) + '\n' + self.get_lifes()
-	
-	
-
