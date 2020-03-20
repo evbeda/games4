@@ -9,6 +9,7 @@ from love_letter.cards.prince import Prince
 from love_letter.cards.princess import Princess
 import random
 
+
 class Deck:
 
     def __init__(self):
@@ -46,3 +47,6 @@ class Deck:
         for index in range(3):
             card_showed.append(self.cards.pop(index))
         return card_showed
+
+    def __str__(self):
+        return "Deck : {} remaining cards".format(len(self.cards))

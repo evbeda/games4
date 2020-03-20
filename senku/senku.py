@@ -5,20 +5,20 @@ space_occupied = '0'
 
 class Senku(object):
     name = 'Senku'
+    row, col = 7, 7
 
     def __init__(self):
-        x, y = 7, 7
-        self._board = [[space_occupied for _ in range(x)] for _ in range(y)]
+        self._board = [[space_occupied for _ in range(self.row)] for _ in range(self.col)]
 
-        for i in range(7):
+        for i in range(self.row):
             if 2 > i or i > 4:
-                for j in range(7):
+                for j in range(self.col):
                     if 2 > j or j > 4:
                         self._board[i][j] = space_invalid
         self._board[3][3] = space_free
 
-    def next_turn(self):
-        pass
+    # def next_turn(self):
+    #     pass
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
@@ -30,7 +30,21 @@ class Senku(object):
 
     @property
     def board(self):
-        return '\n'.join(' '.join(elem) for elem in self._board)
+        head = [str(i) for i in range(self.col)]
+        horizontal_separator = ['=' for i in range(self.col)]
+        vertical_separator = '| '
+        body = ''
+
+        for index in range(len(self._board)):
+            line = str(index) + vertical_separator + ' '.join(elem for elem in self._board[index])
+            body += line + '\n'
+
+        return ' ' * len(vertical_separator)\
+               + ' '.join(head) \
+               + '\n' \
+               + ' + '\
+               + ' '.join(horizontal_separator) + '\n' \
+               + body
 
     def validate_move(self, *positions):
         initial_row, initial_col, final_row, final_col = positions

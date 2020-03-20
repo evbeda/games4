@@ -9,14 +9,16 @@ class TestSenku(unittest.TestCase):
 
     def test_get_board_initial(self):
         self.assertEqual(
-            self.game.board,
-            "X X 0 0 0 X X\n"
-            "X X 0 0 0 X X\n"
-            "0 0 0 0 0 0 0\n"
-            "0 0 0 - 0 0 0\n"
-            "0 0 0 0 0 0 0\n"
-            "X X 0 0 0 X X\n"
-            "X X 0 0 0 X X"
+            self.game.get_board(),
+            [
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['0', '0', '0', '0', '0', '0', '0'],
+                ['0', '0', '0', '-', '0', '0', '0'],
+                ['0', '0', '0', '0', '0', '0', '0'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+            ]
         )
 
     def test_validate_move_up(self):
@@ -65,27 +67,31 @@ class TestSenku(unittest.TestCase):
     def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)
         self.assertEqual(
-            self.game.board,
-            "X X 0 0 0 X X\n"
-            "X X 0 0 0 X X\n"
-            "0 0 0 0 0 0 0\n"
-            "0 - - 0 0 0 0\n"
-            "0 0 0 0 0 0 0\n"
-            "X X 0 0 0 X X\n"
-            "X X 0 0 0 X X"
+            self.game.get_board(),
+            [
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['0', '0', '0', '0', '0', '0', '0'],
+                ['0', '-', '-', '0', '0', '0', '0'],
+                ['0', '0', '0', '0', '0', '0', '0'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+            ]
         )
 
     def test_move_piece_row(self):
         self.game.play(1, 3, 3, 3)
         self.assertEqual(
-            self.game.board,
-            "X X 0 0 0 X X\n"
-            "X X 0 - 0 X X\n"
-            "0 0 0 - 0 0 0\n"
-            "0 0 0 0 0 0 0\n"
-            "0 0 0 0 0 0 0\n"
-            "X X 0 0 0 X X\n"
-            "X X 0 0 0 X X"
+            self.game.get_board(),
+            [
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['X', 'X', '0', '-', '0', 'X', 'X'],
+                ['0', '0', '0', '-', '0', '0', '0'],
+                ['0', '0', '0', '0', '0', '0', '0'],
+                ['0', '0', '0', '0', '0', '0', '0'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+                ['X', 'X', '0', '0', '0', 'X', 'X'],
+            ]
         )
 
     def test_get_board(self):
