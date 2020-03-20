@@ -5,6 +5,4 @@ class Priest(Card):
 
     name = "Priest"
     score = 2
-    def execute_action(self):
-        pass
-        ##implement too!
+    description = "Player is allowed to see another player's hand."
