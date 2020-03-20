@@ -46,6 +46,22 @@ class TestSenku(unittest.TestCase):
     def test_validate_diagonal_move(self):
         self.assertRaises(ValueError, self.game.validate_move, 3, 2, 4, 3)
 
+    def test_validate_move_right_with_free_space_between(self):
+        self.game.set_board([['0', '-', '-'], ['0', '0', '0']])
+        self.assertRaises(ValueError, self.game.validate_move, 0, 0, 0, 2)
+
+    def test_validate_move_left_with_free_space_between(self):
+        self.game.set_board([['-', '-', '0'], ['0', '0', '0']])
+        self.assertRaises(ValueError, self.game.validate_move, 0, 2, 0, 0)
+
+    def test_validate_move_up_with_free_space_between(self):
+        self.game.set_board([['-', '0', '0'], ['-', '0', '0'], ['0', '0', '0']])
+        self.assertRaises(ValueError, self.game.validate_move, 2, 0, 0, 0)
+
+    def test_validate_move_down_with_free_space_between(self):
+        self.game.set_board([['0', '0', '0'], ['-', '0', '0'], ['-', '0', '0']])
+        self.assertRaises(ValueError, self.game.validate_move, 0, 0, 2, 0)
+
     def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)
         self.assertEqual(self.game.board,
