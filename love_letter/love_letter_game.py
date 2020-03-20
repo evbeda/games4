@@ -1,12 +1,11 @@
-from love_letter.card import Card
-from love_letter.cards.baron import Baron
+from love_letter.deck import Deck
 
 
 class LoveLetterGame:
 
 
     def __init__(self):
-        self.cards = self.initDeck(self)
+        self.deck = Deck()
 
 
     def next_turn(self):
