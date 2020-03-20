@@ -1,4 +1,6 @@
 import unittest
+
+from .Player import Player
 from .deck import Deck
 
 
@@ -81,3 +83,25 @@ class TestDeck(unittest.TestCase):
         self.deck.remove_last()
         self.deck.show_three()
         self.assertEqual(12,len(self.deck.cards))
+
+    def test_get_one_card(self):
+        card = self.deck.get_one_card()
+        self.assertEqual(card.__class__.__name__,"Guard")
+
+class TestPlayer(unittest.TestCase):
+
+    def setUp(self):
+       self.player = Player()
+
+    def test_player_name_not_empty(self):
+        name = self.player.name
+        self.assertTrue(name is not None)
+
+    def test_player_cards_empty(self):
+        cards = self.player.cards
+        self.assertEquals(cards, [] )
+
+    def test_player_piece_of_heart_empty(self):
+        hearts = self.player.hearts
+        self.assertEquals(hearts,0)
+

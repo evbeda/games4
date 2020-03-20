@@ -38,6 +38,9 @@ class Deck:
         self.cards.pop(-1)
         return self.cards
 
+    def get_one_card(self):
+        return self.cards.pop(0)
+
     def show_three(self):
         card_showed = []
         for index in range(3):
