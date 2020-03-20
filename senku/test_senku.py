@@ -55,6 +55,28 @@ class TestSenku(unittest.TestCase):
                          "X X 0 0 0 X X"
                          )
 
+    def test_move_piece_row(self):
+        self.game.play(1, 3, 3, 3)
+        self.assertEqual(self.game.board,
+                         "X X 0 0 0 X X\n"
+                         "X X 0 - 0 X X\n"
+                         "0 0 0 - 0 0 0\n"
+                         "0 0 0 0 0 0 0\n"
+                         "0 0 0 0 0 0 0\n"
+                         "X X 0 0 0 X X\n"
+                         "X X 0 0 0 X X"
+                         )
+
+    def test_get_board(self):
+        test_array = [1, 2, 3, 4]
+        self.game.set_board(test_array)
+        self.assertEqual(self.game._board, self.game.get_board())
+
+    def test_set_board(self):
+        test_array = [1, 2, 3, 4]
+        self.game.set_board(test_array)
+        self.assertEqual(test_array, self.game.get_board())
+
 
 if __name__ == "__main__":
     unittest.main()
