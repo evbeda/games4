@@ -65,3 +65,6 @@ class Senku(object):
 
     def set_board(self, arr_board):
         self._board = arr_board
+
+
+##crear nuestra propia jerarquia de errores
