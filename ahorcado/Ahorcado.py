@@ -1,3 +1,16 @@
+import requests
+
+class IsNotAlphaException(Exception):
+	def get_message(self):
+		return "Dont use Symbols!"
+
+
+class IsNotOneCharacter(Exception):
+	def get_message(self):
+		return "Only one Letter at a time!"
+
+
+
 class Ahorcado:
 
 	def __init__(self):
@@ -14,6 +27,15 @@ class Ahorcado:
 			return "Please input a letter from A-Z"
 
 	def play(self, letter):
+		try:
+			self.validate_letter(letter)
+		except IsNotAlphaException:
+			pass
+		except IsNotOneCharacter:
+			pass
+		except AttributeError:
+			pass
+
 		if self.check_input_used_letters(letter):
 			return "Already tried that Letter! Try again"
 			
@@ -30,7 +52,9 @@ class Ahorcado:
 		return "Lifes: {}".format(self.lifes)
 
 	def get_word_from_api(self):
-		return "palabra"
+		url = "http://random-word-api.herokuapp.com/word?number=1"
+		api_word = requests.get(url)
+		return api_word.text[2:-2].upper()
 
 	def set_used_letters(self, letter):
 		if letter not in self.used_letters:
@@ -67,9 +91,16 @@ class Ahorcado:
 				new_hidden_letters.append("_")
 		return " ".join(new_hidden_letters)
 
+	def validate_letter(self, letter):
+		if not letter.isalpha():
+			raise IsNotAlphaException
+		if len(letter) > 1:
+			raise IsNotOneCharacter
+
+
 	@property
 	def board(self):
 		return  self.hidden_letters_message() + '\n' + " ".join(self.used_letters) + '\n' + self.get_lifes()
 	
-	# Api
+	
 
