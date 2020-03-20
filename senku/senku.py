@@ -4,15 +4,16 @@ space_occupied = '0'
 
 
 class Senku(object):
-    name = 'Senku'
-    row, col = 7, 7
+    name = "Senku"
+    __row = 7
+    __col = 7
 
     def __init__(self):
-        self._board = [[space_occupied for _ in range(self.row)] for _ in range(self.col)]
+        self._board = [[space_occupied for _ in range(self.__row)] for _ in range(self.__col)]
 
-        for i in range(self.row):
+        for i in range(self.__row):
             if 2 > i or i > 4:
-                for j in range(self.col):
+                for j in range(self.__col):
                     if 2 > j or j > 4:
                         self._board[i][j] = space_invalid
         self._board[3][3] = space_free
@@ -30,8 +31,8 @@ class Senku(object):
 
     @property
     def board(self):
-        head = [str(i) for i in range(self.col)]
-        horizontal_separator = ['=' for i in range(self.col)]
+        head = [str(i) for i in range(self.__col)]
+        horizontal_separator = ['=' for i in range(self.__col)]
         vertical_separator = '| '
         body = ''
 
@@ -39,10 +40,10 @@ class Senku(object):
             line = str(index) + vertical_separator + ' '.join(elem for elem in self._board[index])
             body += line + '\n'
 
-        return ' ' * len(vertical_separator)\
+        return ' ' * len(vertical_separator) \
                + ' '.join(head) \
                + '\n' \
-               + ' + '\
+               + ' + ' \
                + ' '.join(horizontal_separator) + '\n' \
                + body
 
@@ -51,10 +52,10 @@ class Senku(object):
 
         for pos in positions:
             if (
-                pos < 0 or
-                pos > 6 or
-                not self._board[initial_row][initial_col] == space_occupied or
-                not self._board[final_row][final_col] == space_free
+                    pos < 0 or
+                    pos > 6 or
+                    not self._board[initial_row][initial_col] == space_occupied or
+                    not self._board[final_row][final_col] == space_free
             ):
                 raise SenkuMovementOutOfRangeException('Value must be between 0 and 6')
 

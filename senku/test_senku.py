@@ -21,6 +21,20 @@ class TestSenku(unittest.TestCase):
             ]
         )
 
+    def test_validate_print_board(self):
+        self.assertEqual(
+            self.game.board,
+            "  0 1 2 3 4 5 6\n"
+            " + = = = = = = =\n"
+            "0| X X 0 0 0 X X\n"
+            "1| X X 0 0 0 X X\n"
+            "2| 0 0 0 0 0 0 0\n"
+            "3| 0 0 0 - 0 0 0\n"
+            "4| 0 0 0 0 0 0 0\n"
+            "5| X X 0 0 0 X X\n"
+            "6| X X 0 0 0 X X\n"
+        )
+
     def test_validate_move_up(self):
         self.assertTrue(SenkuMovementOutOfRangeException, self.game.validate_move(5, 3, 3, 3))
 
@@ -46,7 +60,7 @@ class TestSenku(unittest.TestCase):
         self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 0, 0, 0, -1)
 
     def test_validate_diagonal_move(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 3, 2, 4, 3)
+        self.assertRaises(SenkuInvalidMovementException, self.game.validate_move, 2, 2, 3, 3)
 
     def test_validate_move_right_with_free_space_between(self):
         self.game.set_board([['0', '-', '-'], ['0', '0', '0']])
