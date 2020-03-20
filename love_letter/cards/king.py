@@ -5,5 +5,4 @@ class King(Card):
 
     name = "King"
     score = 6
-    def execute_action(self):
-        pass
+    description = "Player trades hands with any other player."

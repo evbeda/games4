@@ -5,5 +5,4 @@ class Countess(Card):
 
     name = "Countess"
     score = 7
-    def execute_action(self):
-        pass
+    description = "If a player holds both this card and either the King or Prince card, this card must be played immediately."

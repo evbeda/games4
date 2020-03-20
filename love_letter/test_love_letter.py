@@ -1,6 +1,11 @@
 import unittest
 
-from .Player import Player
+from .cards.guard import Guard
+from .cards.priest import Priest
+from .human_player import HumanPlayer
+from .love_letter_game import LoveLetterGame
+from .pc_player import PcPlayer
+from .player import Player
 from .deck import Deck
 
 
@@ -92,16 +97,56 @@ class TestPlayer(unittest.TestCase):
 
     def setUp(self):
        self.player = Player()
+       self.human = HumanPlayer("Human Player")
+       self.pc_player = PcPlayer()
+       self.deck = Deck()
 
-    def test_player_name_not_empty(self):
+    def test_player_name_empty(self):
         name = self.player.name
-        self.assertTrue(name is not None)
+        self.assertTrue(name is None)
 
     def test_player_cards_empty(self):
         cards = self.player.cards
-        self.assertEquals(cards, [] )
+        self.assertEquals(cards, [])
 
     def test_player_piece_of_heart_empty(self):
         hearts = self.player.hearts
         self.assertEquals(hearts,0)
+
+    def test_human_player_name(self):
+        name = self.human.name
+        self.assertEqual(name, "Human Player")
+
+    def test_pc_player_name(self):
+        name = self.pc_player.name
+        self.assertEqual(name, "Ninja in Pijama!")
+
+    def test_play_set_a_card(self):
+        self.player.set_a_card(self.deck.get_one_card())
+        self.assertEqual(len(self.player.cards), 1)
+
+
+class TestCard(unittest.TestCase):
+
+    def setUp(self):
+        self.card = Priest()
+
+    def test_card_print(self):
+        self.assertEqual(
+            self.card.__str__(),
+            "Name: Priest  " \
+            "Strength: 2 " \
+            "Description Player is allowed to see another player's hand."
+             )
+
+
+class TestLoveLetterGame(unittest.TestCase):
+
+    def setUp(self):
+        self.game = LoveLetterGame("Me")
+
+    def test_player_exsistence(self):
+
+        self.assertTrue(self.game.human_player is not None)
+        self.assertTrue(self.game.pc_player is not None)
 
