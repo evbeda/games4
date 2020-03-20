@@ -42,13 +42,13 @@ class Senku(object):
                 not self._board[initial_row][initial_col] == space_occupied or
                 not self._board[final_row][final_col] == space_free
             ):
-                raise ValueError('Value must be between 0 and 6')
+                raise SenkuMovementOutOfRangeException('Value must be between 0 and 6')
 
         if initial_row == final_row and abs(initial_col - final_col) == 2:
             if self._board[initial_row][(initial_col + final_col) // 2] == space_occupied:
                 return True
             else:
-                raise ValueError(
+                raise SenkuInvalidMovementException(
                     "The position [{}, {}] must have a '0', but it has '{}'".format(
                         initial_row,
                         (initial_col + final_col) // 2,
@@ -60,7 +60,7 @@ class Senku(object):
             if self._board[(initial_row + final_row) // 2][initial_col] == space_occupied:
                 return True
             else:
-                raise ValueError(
+                raise SenkuInvalidMovementException(
                     "The position [{}, {}] must have a '0', but it has '{}'".format(
                         initial_row,
                         (initial_col + final_col) // 2,
@@ -68,7 +68,7 @@ class Senku(object):
                     )
                 )
 
-        raise ValueError(
+        raise SenkuInvalidMovementException(
             "Only horizontal or vertical movements are allow"
         )
 
@@ -87,3 +87,18 @@ class Senku(object):
 
     def set_board(self, arr_board):
         self._board = arr_board
+
+
+class SenkuException(Exception):
+    pass
+
+
+class SenkuMovementOutOfRangeException(SenkuException):
+    pass
+
+
+class SenkuInvalidMovementException(SenkuException):
+    pass
+
+
+
