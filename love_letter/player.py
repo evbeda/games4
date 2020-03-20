@@ -1,4 +1,4 @@
-class Player:
+class Player(object):
 
     def __init__(self):
         self.name = None
@@ -7,3 +7,8 @@ class Player:
 
     def set_a_card(self, card):
         self.cards.append(card)
+
+
+    def __str__(self):
+        return "Player: {}, " \
+               "Hearts: {}".format(self.name, self.hearts)

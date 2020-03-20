@@ -8,10 +8,12 @@ class LoveLetterGame:
     def __init__(self, name):
         self.human_player = HumanPlayer(name)
         self.pc_player = PcPlayer()
+        self.players = [self.human_player, self.pc_player]
         self.deck = Deck()
         self.deck.shuffle_cards()
         self.deck.remove_last()
         cards_to_show = self.deck.show_three()
+        #move this print to method next turn(only first turn)
         print("This cards must show to you")
         for card in cards_to_show:
             print(card)
@@ -24,9 +26,8 @@ class LoveLetterGame:
     def play(self, number):
        #lo que ingreso el usuario por input (puede ser mas de un valor)
        return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
+
     @property
     def board(self):
-       return #-> muestra al usuario el estado actual del juego (no del feedback de lo que acaba de hacer)
-
-    def initDeck(self):
-        pass
+        text_to_show = "{}\n{}\n{}".format(self.deck.__str__(), self.human_player.__str__(), self.pc_player.__str__())
+        return text_to_show #-> muestra al usuario el estado actual del juego (no del feedback de lo que acaba de hacer)

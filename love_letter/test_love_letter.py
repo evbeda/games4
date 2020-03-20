@@ -66,7 +66,6 @@ class TestDeck(unittest.TestCase):
                 result += 1
         self.assertEqual(result, 1)
 
-
     def test_init_one_princess(self):
         result = 0
         for card in self.deck.cards:
@@ -92,6 +91,10 @@ class TestDeck(unittest.TestCase):
     def test_get_one_card(self):
         card = self.deck.get_one_card()
         self.assertEqual(card.__class__.__name__,"Guard")
+
+    def test_str(self):
+        text = self.deck.__str__()
+        self.assertEqual("Deck : 16 remaining cards", text)
 
 class TestPlayer(unittest.TestCase):
 
@@ -119,12 +122,21 @@ class TestPlayer(unittest.TestCase):
 
     def test_pc_player_name(self):
         name = self.pc_player.name
-        self.assertEqual(name, "Ninja in Pijama!")
+        self.assertEqual(name, "PC Player")
 
     def test_play_set_a_card(self):
         self.player.set_a_card(self.deck.get_one_card())
         self.assertEqual(len(self.player.cards), 1)
 
+    def test_str_human(self):
+        text = self.human.__str__()
+        self.assertEquals(text, "Player: Human Player,"\
+               " Hearts: 0")
+
+    def test_str_human(self):
+        text = self.pc_player.__str__()
+        self.assertEquals(text, "Player: PC Player,"\
+               " Hearts: 0")
 
 class TestCard(unittest.TestCase):
 
@@ -135,22 +147,27 @@ class TestCard(unittest.TestCase):
     def test_card_print(self):
         self.assertEqual(
             self.card.__str__(),
-            "Name: Priest  " \
-            "Strength: 2 " \
-            "Description Player is allowed to see another player's hand."
+            "Name: Priest, " \
+            "Strength: 2, " \
+            "Description: Player is allowed to see another player's hand."
              )
 
     def test_generic_exception(self):
         self.assertRaises(Exception, lambda:(self.genericCard.execute_action()))
-
 
 class TestLoveLetterGame(unittest.TestCase):
 
     def setUp(self):
         self.game = LoveLetterGame("Me")
 
-    def test_player_exsistence(self):
+    def test_player_exsistence_when_init(self):
 
         self.assertTrue(self.game.human_player is not None)
         self.assertTrue(self.game.pc_player is not None)
 
+    def test_board_with_initial_situation(self):
+        expected_text = "Deck : 10 remaining cards\n"\
+                        "Player: Me, Hearts: 0\n"\
+                        "Player: PC Player, Hearts: 0"
+        result_text = self.game.board
+        self.assertEquals(expected_text, result_text)
