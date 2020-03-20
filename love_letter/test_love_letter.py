@@ -1,6 +1,6 @@
 import unittest
 
-from .cards.guard import Guard
+from .card import Card
 from .cards.priest import Priest
 from .human_player import HumanPlayer
 from .love_letter_game import LoveLetterGame
@@ -130,6 +130,7 @@ class TestCard(unittest.TestCase):
 
     def setUp(self):
         self.card = Priest()
+        self.genericCard = Card()
 
     def test_card_print(self):
         self.assertEqual(
@@ -138,6 +139,9 @@ class TestCard(unittest.TestCase):
             "Strength: 2 " \
             "Description Player is allowed to see another player's hand."
              )
+
+    def test_generic_exception(self):
+        self.assertRaises(Exception, lambda:(self.genericCard.execute_action()))
 
 
 class TestLoveLetterGame(unittest.TestCase):
