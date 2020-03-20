@@ -8,6 +8,7 @@ class TestAhorcado(unittest.TestCase):
     def setUp(self):
         self.game = Ahorcado()
         self.game.word = "PALABRA"
+
     
     def test_next_turn_playing(self):
         self.assertEqual(self.game.next_turn(), "Please input a letter from A-Z")

@@ -5,6 +5,7 @@ class Ahorcado:
 		self.lifes = 6
 		self.is_win = False
 		self.is_lose = False
+
 		self.used_letters = []
 
 	def get_lifes(self):
@@ -24,8 +25,11 @@ class Ahorcado:
 
 	def next_turn(self):
 		if self.is_win:
+
 			return "The player already won"
+		
 		elif self.is_lose:
+			
 			return "The player already lost"
 		return "Please input a letter from A-Z"
 
@@ -42,6 +46,7 @@ class Ahorcado:
 			self.set_used_letters(letter)
 			return "Correct letter! Choose another"
 
+	
 	def check_input_used_letters(self, letter):
 		if letter in self.used_letters:
 			return True
@@ -64,3 +69,4 @@ class Ahorcado:
 	@property
 	def board(self):
 		return  self.hidden_letters_message() + '\n' + " ".join(self.used_letters) + '\n' + self.get_lifes()
+
