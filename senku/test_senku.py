@@ -1,5 +1,6 @@
 import unittest
-from senku.senku import Senku
+# from senku.senku import Senku
+from senku import Senku
 
 
 class TestSenku(unittest.TestCase):
@@ -42,8 +43,10 @@ class TestSenku(unittest.TestCase):
     def test_validate_move_out_of_range_left(self):
         self.assertFalse(self.game.validate_move(0, 0, 0, -1))
 
+    def test_validate_diagonal_move(self):
+        self.assertFalse(self.game.validate_move(3, 2, 4, 3))
 
-    def test_move_piece(self):
+    def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)
         self.assertEqual(self.game.board,
                          "X X 0 0 0 X X\n"
