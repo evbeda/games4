@@ -10,15 +10,15 @@ class Senku(object):
     def __init__(self):
         self._board = [[space_occupied for _ in range(self.row)] for _ in range(self.col)]
 
-        for i in range(7):
+        for i in range(self.row):
             if 2 > i or i > 4:
-                for j in range(7):
+                for j in range(self.col):
                     if 2 > j or j > 4:
                         self._board[i][j] = space_invalid
         self._board[3][3] = space_free
 
-    def next_turn(self):
-        pass
+    # def next_turn(self):
+    #     pass
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
