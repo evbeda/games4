@@ -5,6 +5,4 @@ class Princess(Card):
 
     name = "Princess"
     score = 8
-
-    def execute_action(self):
-        pass
+    description = "If a player plays this card for any reason, they are eliminated from the round."

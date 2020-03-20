@@ -97,6 +97,14 @@ class Ahorcado:
 		if len(letter) > 1:
 			raise IsNotOneCharacter
 
+	def hidden_letters_message(self):
+		new_hidden_letters = []
+		for character in self.word:
+			if character in self.used_letters:
+				new_hidden_letters.append(character)
+			elif character not in self.used_letters:
+				new_hidden_letters.append("_")
+		return " ".join(new_hidden_letters)
 
 	@property
 	def board(self):

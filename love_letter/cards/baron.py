@@ -5,6 +5,4 @@ class Baron(Card):
 
     name = "Baron"
     score = 3
-    def execute_action(self):
-        pass
-        ##implent Too!
+    description = "Player will choose another player and privately compare hands. The player with the lower-strength hand is eliminated from the round."

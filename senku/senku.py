@@ -33,24 +33,26 @@ class Senku(object):
         return '\n'.join(' '.join(elem) for elem in self._board)
 
     def validate_move(self, *positions):
-        ## como mejora, deberiamos manejar excepciones para devolver un status y un msg
         initial_row, initial_col, final_row, final_col = positions
 
         for pos in positions:
-            if ((pos < 0 or pos > 6) ## separar en 3 para mayor detalle de errores
-                    or not self._board[initial_row][initial_col] == space_occupied
-                    or not self._board[final_row][final_col] == space_free):
-                raise ValueError('Value must be between 0 and 6')
+            if (
+                pos < 0 or
+                pos > 6 or
+                not self._board[initial_row][initial_col] == space_occupied or
+                not self._board[final_row][final_col] == space_free
+            ):
+                raise SenkuMovementOutOfRangeException('Value must be between 0 and 6')
 
         if initial_row == final_row and abs(initial_col - final_col) == 2:
             if self._board[initial_row][(initial_col + final_col) // 2] == space_occupied:
                 return True
             else:
-                raise ValueError(
+                raise SenkuInvalidMovementException(
                     "The position [{}, {}] must have a '0', but it has '{}'".format(
                         initial_row,
                         (initial_col + final_col) // 2,
-                        self._board[initial_row][(initial_col + final_col) // 2]
+                        self._board[initial_row][(initial_col + final_col) // 2],
                     )
                 )
 
@@ -58,18 +60,17 @@ class Senku(object):
             if self._board[(initial_row + final_row) // 2][initial_col] == space_occupied:
                 return True
             else:
-                raise ValueError(
+                raise SenkuInvalidMovementException(
                     "The position [{}, {}] must have a '0', but it has '{}'".format(
                         initial_row,
                         (initial_col + final_col) // 2,
-                        self._board[(initial_row + final_row) // 2][initial_col]
+                        self._board[(initial_row + final_row) // 2][initial_col],
                     )
                 )
 
-        raise ValueError(
+        raise SenkuInvalidMovementException(
             "Only horizontal or vertical movements are allow"
         )
-
 
     def __move_piece(self, initial_row, initial_col, final_row, final_col):
         self._board[initial_row][initial_col] = space_free
@@ -88,4 +89,16 @@ class Senku(object):
         self._board = arr_board
 
 
-##crear nuestra propia jerarquia de errores
+class SenkuException(Exception):
+    pass
+
+
+class SenkuMovementOutOfRangeException(SenkuException):
+    pass
+
+
+class SenkuInvalidMovementException(SenkuException):
+    pass
+
+
+
