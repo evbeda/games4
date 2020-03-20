@@ -8,15 +8,16 @@ class TestSenku(unittest.TestCase):
         self.game = Senku()
 
     def test_get_board_initial(self):
-        self.assertEqual(self.game.board,
-                         "X X 0 0 0 X X\n"
-                         "X X 0 0 0 X X\n"
-                         "0 0 0 0 0 0 0\n"
-                         "0 0 0 - 0 0 0\n"
-                         "0 0 0 0 0 0 0\n"
-                         "X X 0 0 0 X X\n"
-                         "X X 0 0 0 X X"
-                         )
+        self.assertEqual(
+            self.game.board,
+            "X X 0 0 0 X X\n"
+            "X X 0 0 0 X X\n"
+            "0 0 0 0 0 0 0\n"
+            "0 0 0 - 0 0 0\n"
+            "0 0 0 0 0 0 0\n"
+            "X X 0 0 0 X X\n"
+            "X X 0 0 0 X X"
+        )
 
     def test_validate_move_up(self):
         self.assertTrue(self.game.validate_move(5, 3, 3, 3))
@@ -63,27 +64,29 @@ class TestSenku(unittest.TestCase):
 
     def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)
-        self.assertEqual(self.game.board,
-                         "X X 0 0 0 X X\n"
-                         "X X 0 0 0 X X\n"
-                         "0 0 0 0 0 0 0\n"
-                         "0 - - 0 0 0 0\n"
-                         "0 0 0 0 0 0 0\n"
-                         "X X 0 0 0 X X\n"
-                         "X X 0 0 0 X X"
-                         )
+        self.assertEqual(
+            self.game.board,
+            "X X 0 0 0 X X\n"
+            "X X 0 0 0 X X\n"
+            "0 0 0 0 0 0 0\n"
+            "0 - - 0 0 0 0\n"
+            "0 0 0 0 0 0 0\n"
+            "X X 0 0 0 X X\n"
+            "X X 0 0 0 X X"
+        )
 
     def test_move_piece_row(self):
         self.game.play(1, 3, 3, 3)
-        self.assertEqual(self.game.board,
-                         "X X 0 0 0 X X\n"
-                         "X X 0 - 0 X X\n"
-                         "0 0 0 - 0 0 0\n"
-                         "0 0 0 0 0 0 0\n"
-                         "0 0 0 0 0 0 0\n"
-                         "X X 0 0 0 X X\n"
-                         "X X 0 0 0 X X"
-                         )
+        self.assertEqual(
+            self.game.board,
+            "X X 0 0 0 X X\n"
+            "X X 0 - 0 X X\n"
+            "0 0 0 - 0 0 0\n"
+            "0 0 0 0 0 0 0\n"
+            "0 0 0 0 0 0 0\n"
+            "X X 0 0 0 X X\n"
+            "X X 0 0 0 X X"
+        )
 
     def test_get_board(self):
         test_array = [1, 2, 3, 4]
