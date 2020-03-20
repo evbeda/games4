@@ -125,6 +125,8 @@ class TestAhorcado(unittest.TestCase):
         self.game.play("Z")
         self.game.play("W")
         self.assertEqual(self.game.board, "P A _ A _ _ A\nP A Z W\nLifes: 4")
+    
+    #APi
 
 
 if __name__ == "__main__":

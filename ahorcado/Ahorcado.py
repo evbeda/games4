@@ -70,4 +70,6 @@ class Ahorcado:
 	@property
 	def board(self):
 		return  self.hidden_letters_message() + '\n' + " ".join(self.used_letters) + '\n' + self.get_lifes()
+	
+	# Api
 
