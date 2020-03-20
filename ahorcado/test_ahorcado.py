@@ -8,38 +8,84 @@ class TestAhorcado(unittest.TestCase):
     def setUp(self):
         self.game = Ahorcado()
         self.game.word = "PALABRA"
-    """
-    @unittest.mock.patch("builtins.input", side_effect=["P", "A", "L", "B", "R"])
-    def test_force_win(self):
-        self.game.next_turn()
-        self.assertTrue(self.game.is_win)
-
+    
+    def test_next_turn_playing(self):
+        self.assertEqual(self.game.next_turn(), "Please input a letter from A-Z")
+    
     def test_next_turn_win(self):
-        for letter in "PALABRA":
-            self.game.play(letter)
-        my_str = self.game.next_turn()
-        self.assertEqual(my_str, "The player already won")
-    """
+        self.game.is_win = True
+        self.assertEqual(self.game.next_turn(), "The player already won")
+    
+    def test_next_turn_lose(self):
+        self.game.is_lose = True
+        self.assertEqual(self.game.next_turn(), "The player already lost")
+    
+    def test_play_correct(self):
+        self.assertEqual(self.game.play("P"), "Correct letter! Choose another")
+    
+    def test_play_repeat(self):
+        self.game.play("P")
+        self.assertEqual(self.game.play("P"), "Already tried that Letter! Try again")
+    
+    def test_play_wrong(self):
+        self.assertEqual(self.game.play("Z"), "Wrong letter, you lose one life")
+        self.assertEqual(self.game.lifes, 5)
+    
+    def test_get_lifes_changes(self):
+        self.assertEqual(self.game.get_lifes(), "Lifes: 6")
+        self.game.play("Z")
+        self.assertEqual(self.game.get_lifes(), "Lifes: 5")
 
-    def test_wrong_letter(self):
-        self.game.check_input_word("Z")
-        my_board = "Wrong letter, you lose one life\n_ _ _ _ _ _ _\nZ \nLifes: 6"
-        self.assertEqual(self.game.board, my_board)
-    """
-    def test_right_letter_p(self):
-        self.game.play('P')
-        self.assertEqual(self.game.lifes, 6)
-        my_board = "Correct letter! Choose another\nP _ _ _ _ _ _\nP \nLifes: 6"
-        self.assertEqual(self.game.board, my_board)
+    def test_get_lifes_no_change_on_correct(self):
+        self.assertEqual(self.game.get_lifes(), "Lifes: 6")
+        self.game.play("P")
+        self.assertEqual(self.game.get_lifes(), "Lifes: 6")
+    
+    def test_get_lifes_no_change_on_repeat(self):
+        self.assertEqual(self.game.get_lifes(), "Lifes: 6")
+        self.game.play("P")
+        self.game.play("P")
+        self.assertEqual(self.game.get_lifes(), "Lifes: 6")
+    
+    def test_hidden_letters_message(self):
+        self.assertEqual(self.game.hidden_letters_message(), "_ _ _ _ _ _ _")
+    
+    def test_hidden_letters_message_P(self):
+        self.game.play("P")
+        self.assertEqual(self.game.hidden_letters_message(), "P _ _ _ _ _ _")
+    
+    def test_hidden_letters_message_P_A(self):
+        self.game.play("P")
+        self.game.play("A")
+        self.assertEqual(self.game.hidden_letters_message(), "P A _ A _ _ A")
+    
+    def test_hidden_letters_message_P_A_A(self):
+        self.game.play("P")
+        self.game.play("A")
+        self.game.play("A")
+        self.assertEqual(self.game.hidden_letters_message(), "P A _ A _ _ A")
+    
+    def test_hidden_letters_message_P_Z(self):
+        self.game.play("P")
+        self.game.play("Z")
+        self.assertEqual(self.game.hidden_letters_message(), "P _ _ _ _ _ _")
+    
+    def test_hidden_letters_message_PALABRA(self):
+        self.game.play("P")
+        self.game.play("A")
+        self.game.play("L")
+        self.game.play("B")
+        self.game.play("R")
+        self.assertEqual(self.game.hidden_letters_message(), "P A L A B R A")
+    
+    def test_hidden_letters_message_all_wrong(self):
+        self.game.play("Z")
+        self.game.play("Q")
+        self.game.play("U")
+        self.game.play("K")
+        self.game.play("V")
+        self.assertEqual(self.game.hidden_letters_message(), "_ _ _ _ _ _ _")
 
-    def test_show_board(self):
-        my_board = "Welcome to the game! Please choose one letter\n_ _ _ _ _ _ _\n\nLifes: 6"
-        self.assertEqual(self.game.board, my_board)
-
-    def test_set_hiden_leters(self):
-        self.game.set_hidden_letters('P')
-        self.assertEqual(self.game.hidden_letters_message, "P _ _ _ _ _ _")
-    """
 
 if __name__ == "__main__":
 
