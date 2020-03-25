@@ -1,4 +1,5 @@
 
+
 class Player:
 
     def __init__(self, name):
@@ -16,6 +17,7 @@ class Player:
         self.max_race_cards = 1
         self.max_class_cards = 1
         self.fleeing_chance = -4
+
     
     def level_up(self): # Suma mas 1 al nivel
         self.level += 1
@@ -26,4 +28,5 @@ class Player:
 
     def win(self):
         pass # Gana si el nivel es 10
+
 
