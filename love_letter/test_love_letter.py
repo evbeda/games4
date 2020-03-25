@@ -177,6 +177,15 @@ class TestCard(unittest.TestCase):
     def test_generic_exception(self):
         self.assertRaises(Exception, lambda:(self.genericCard.execute_action()))
 
+class TestPrincess(unittest.TestCase):
+
+    def setUp(self):
+        self.princess = Princess()
+        self.player = Player()
+
+    def test_execute_action_knocks_out_player(self):
+        self.princess.execute_action(self.player)
+        self.assertFalse(self.player.is_active)
 
 class TestLoveLetterGame(unittest.TestCase):
 
