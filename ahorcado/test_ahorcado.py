@@ -135,17 +135,19 @@ class TestAhorcado(unittest.TestCase):
         mock_get.return_value = response
         self.assertTrue(isinstance(self.game.get_word_from_api(), str))
 
-    @unittest.skip('api tests')
     def test_get_word_from_api_upper(self):
+        response = MagicMock()
+        response.json = MagicMock(return_value=["PALABRA"])
+        with patch ('ahorcado.ahorcado.requests.get') as mock_get:
+            mock_get.return_value =response
         self.assertTrue(self.game.get_word_from_api().isupper())
 
-    @unittest.skip('api tests')
     def test_get_word_from_api_no_mistakes(self):
+        response = MagicMock()
+        response.json = MagicMock(return_value=["ALGO"])
+        with patch ('ahorcado.ahorcado.requests.get') as mock_get:
+            mock_get.return_value =response
         self.assertTrue(self.game.get_word_from_api().isalpha())
-
-    @unittest.skip('api tests')
-    def test_prueba(self):
-        self.assertEqual(self.game.play("@"), "Dont use Symbols!")
 
     def test_no_alpha(self):
         self.assertRaises(IsNotAlphaException, self.game.validate_letter, '[')
