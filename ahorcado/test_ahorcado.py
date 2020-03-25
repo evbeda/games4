@@ -1,5 +1,5 @@
 import unittest
-from ahorcado.Ahorcado import Ahorcado
+from .ahorcado import Ahorcado
 
 
 class TestAhorcado(unittest.TestCase):
