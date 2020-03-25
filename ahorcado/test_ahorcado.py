@@ -1,6 +1,6 @@
 import unittest
 from .ahorcado import Ahorcado, IsNotAlphaException, IsNotOneCharacter
-from mock import patch
+from mock import patch, MagicMock
 
 
 class TestAhorcado(unittest.TestCase):
@@ -126,9 +126,13 @@ class TestAhorcado(unittest.TestCase):
         self.game.play("W")
         self.assertEqual(self.game.board, "P A _ A _ _ A\nP A Z W\nLifes: 4")
 
-    @patch('ahorcado.ahorcado.requests.get', return_value='{ Gato }')
-    def test_get_word_from_api_str(self):
-        # print(self.game.get_word_from_api())
+    @patch(
+        'ahorcado.ahorcado.requests.get',
+    )
+    def test_get_word_from_api_str(self, mock_get):
+        response = MagicMock()
+        response.json = MagicMock(return_value=["hola"])
+        mock_get.return_value = response
         self.assertTrue(isinstance(self.game.get_word_from_api(), str))
 
     @unittest.skip('api tests')

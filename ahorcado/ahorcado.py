@@ -53,7 +53,7 @@ class Ahorcado(object):
     def get_word_from_api(self):
         url = "http://random-word-api.herokuapp.com/word?number=1"
         api_word = requests.get(url)
-        return api_word.text[2:-2].upper()
+        return api_word.json()[0].upper()
 
     def set_used_letters(self, letter):
         if letter not in self.used_letters:
