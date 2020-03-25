@@ -119,6 +119,17 @@ class TestSenku(unittest.TestCase):
         self.game.set_board(test_array)
         self.assertEqual(test_array, self.game.get_board())
 
+    def check_lose_game(self):
+        self.game.set_board([
+            ['X', 'X', '0', '-', '0', 'X', 'X'],
+            ['X', 'X', '-', '-', '-', 'X', 'X'],
+            ['-', '-', '-', '-', '-', '-', '-'],
+            ['-', '-', '-', '0', '-', '0', '-'],
+            ['-', '-', '-', '-', '-', '-', '-'],
+            ['X', 'X', '-', '-', '-', 'X', 'X'],
+            ['X', 'X', '-', '-', '-', 'X', 'X'],
+        ])
+        self.assertEqual(self.game.check_loose(), True)
 
 if __name__ == "__main__":
     unittest.main()
