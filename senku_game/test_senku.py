@@ -1,6 +1,6 @@
 import unittest
 
-from senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
+from senku_game.senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
 
 
 class TestSenku(unittest.TestCase):
@@ -119,8 +119,7 @@ class TestSenku(unittest.TestCase):
         self.game.set_board(test_array)
         self.assertEqual(test_array, self.game.get_board())
 
-<<<<<<< Updated upstream
-    def check_lose_game(self):
+    def test_check_lose_game(self):
         self.game.set_board([
             ['X', 'X', '0', '-', '0', 'X', 'X'],
             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -131,7 +130,7 @@ class TestSenku(unittest.TestCase):
             ['X', 'X', '-', '-', '-', 'X', 'X'],
         ])
         self.assertEqual(self.game.check_loose(), True)
-=======
+
     def test_next_turn_win(self):
         self.game.set_board([
                             ['X', 'X', '-', '-', '-', 'X', 'X'],
@@ -155,7 +154,7 @@ class TestSenku(unittest.TestCase):
                             ['X', 'X', '-', '-', '-', 'X', 'X'],
                             ['X', 'X', '-', '-', '-', 'X', 'X'],
                             ])
-        self.assertEqual(self.game.check_loose(), "You loose")
+        self.assertEqual(self.game.next_turn(), "You loose")
         self.assertTrue(self.game.check_loose())
         self.assertFalse(self.game.is_playing)
 
@@ -336,7 +335,6 @@ class TestSenku(unittest.TestCase):
         self.assertEqual(self.game.next_turn(), "Please, make a move")
         self.assertTrue(self.game.is_playing)
 
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     unittest.main()
