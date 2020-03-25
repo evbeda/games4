@@ -105,7 +105,7 @@ class TestPlayer(unittest.TestCase):
         self.pc_player = PcPlayer()
         self.deck = Deck()
         
-        self.human.set_a_card(self.deck.get_one_card())
+        self.player.set_a_card(self.deck.get_one_card())
         self.pc_player.set_a_card(self.deck.get_one_card())
 
     def test_player_name_empty(self):
@@ -118,7 +118,7 @@ class TestPlayer(unittest.TestCase):
 
     def test_player_has_1_card(self):
         cards = self.player.cards
-        self.assertEquals(cards, 1)
+        self.assertEquals(len(cards), 1)
 
     def test_player_piece_of_heart_empty(self):
         hearts = self.player.hearts
@@ -150,14 +150,14 @@ class TestPlayer(unittest.TestCase):
                " Hearts: 0")
 
     def test_discard_card_removes_1_card_from_hand(self):
-        previous_length = len(self.human.cards)
-        self.human.discard_card(self.human.cards[0])
-        self.assertEquals(len(self.human.cards), previous_length-1)
+        previous_length = len(self.player.cards)
+        self.player.discard_card(self.player.cards[0])
+        self.assertEquals(len(self.player.cards), previous_length-1)
 
     def test_discard_card_adds_score_to_player(self):
-        score = self.human.cards[0].score
-        self.human.discard_card(self.human.cards[0])
-        self.assertEquals(self.human.score, score)
+        score = self.player.cards[0].score
+        self.player.discard_card(self.player.cards[0])
+        self.assertEquals(self.player.score, score)
 
 class TestCard(unittest.TestCase):
 
