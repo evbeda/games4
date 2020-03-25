@@ -2,16 +2,15 @@ import requests
 
 
 class IsNotAlphaException(Exception):
-    def get_message(self):
-        return "Dont use Symbols!"
-
+    pass
 
 class IsNotOneCharacter(Exception):
-    def get_message(self):
-        return "Only one Letter at a time!"
+    pass
 
 
-class Ahorcado:
+class Ahorcado(object):
+
+    name = "Ahorcado"
 
     def __init__(self, force_word=None):
         self.word = force_word if force_word else self.get_word_from_api()
@@ -92,10 +91,10 @@ class Ahorcado:
         return " ".join(new_hidden_letters)
 
     def validate_letter(self, letter):
-        if not letter.isalpha():
-            raise IsNotAlphaException
         if len(letter) > 1:
-            raise IsNotOneCharacter
+            raise IsNotOneCharacter("Only one letter is expected, you are introducing {} character".format(len(letter)))
+        if not letter.isalpha():
+            raise IsNotAlphaException("The value {} is not a letter".format(letter))
 
     def hidden_letters_message(self):
         new_hidden_letters = []
