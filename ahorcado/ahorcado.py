@@ -4,12 +4,12 @@ import requests
 class IsNotAlphaException(Exception):
     pass
 
+
 class IsNotOneCharacter(Exception):
     pass
 
 
 class Ahorcado(object):
-
     name = "Ahorcado"
 
     def __init__(self, force_word=None):

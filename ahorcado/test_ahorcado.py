@@ -1,9 +1,7 @@
 import unittest
 from .ahorcado import Ahorcado, IsNotAlphaException, IsNotOneCharacter
-from mock import Mock, patch
-import requests
+from mock import patch
 
-requests= Mock()
 
 class TestAhorcado(unittest.TestCase):
 
@@ -127,22 +125,11 @@ class TestAhorcado(unittest.TestCase):
         self.game.play("Z")
         self.game.play("W")
         self.assertEqual(self.game.board, "P A _ A _ _ A\nP A Z W\nLifes: 4")
-    
-    
-    def log_request(self, url):
-        # Create a new Mock to imitate a Response
-        response_mock = Mock()
-        response_mock.status_code = 200
-        response_mock.json.return_value = {
-            '12/25': 'Christmas',
-            '7/4': 'Independence Day',
-        }
-        return response_mock
+
+    @patch('ahorcado.ahorcado.requests.get', return_value='{ Gato }')
     def test_get_word_from_api_str(self):
-        requests.get.side_effect = self.log_request
-        print(self.game.get_word_from_api())
-        #assert self.game.get_word_from_api()['12/25'] == 'Christmas'
-        #self.assertTrue(isinstance(self.game.get_word_from_api(), str))
+        # print(self.game.get_word_from_api())
+        self.assertTrue(isinstance(self.game.get_word_from_api(), str))
 
     @unittest.skip('api tests')
     def test_get_word_from_api_upper(self):
@@ -161,6 +148,7 @@ class TestAhorcado(unittest.TestCase):
 
     def test_no_one_character(self):
         self.assertRaises(IsNotOneCharacter, self.game.validate_letter, 'asdsda0321')
+
 
 if __name__ == "__main__":
     unittest.main()
