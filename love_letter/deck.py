@@ -30,6 +30,7 @@ class Deck:
         self.cards.extend(princes)
         self.cards.extend(princess)
         self.cards.extend(priests)
+        self.players = []
 
     def shuffle_cards(self):
        random.shuffle(self.cards)

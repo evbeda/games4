@@ -205,6 +205,24 @@ class TestCountess(unittest.TestCase):
         self.player.cards.append(Baron())
         self.assertFalse(self.countess.must_discard(self.player))
 
+class TestKing(unittest.TestCase):
+
+    def setUp(self):
+        self.king = King()
+        self.player = Player()
+        self.player.cards.append(self.king)
+
+        self.player_1 = Player()
+        self.player_1.discarded.append(Guard())
+        self.player_2 = Player()
+        self.player_2.discarded.append(Handmaid())
+
+        self.deck = Deck()
+        self.deck.players.extend([self.player, self.player_1, self.player_2])
+
+    def test_looking_for_handmaid(self):
+        self.assertEqual(len(self.king.look_for_handmaid(self.deck.players, self.player)), 1)
+
 class TestLoveLetterGame(unittest.TestCase):
 
     def setUp(self):
