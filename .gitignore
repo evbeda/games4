@@ -131,6 +131,6 @@ dmypy.json
 .DS_Store
 
 #.idea
-senku/.idea/
+senku_game/.idea/
 .idea/
 

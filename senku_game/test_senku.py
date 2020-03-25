@@ -1,11 +1,12 @@
 import unittest
-from senku.senku import Senku, SenkuInvalidMovementException, SenkuMovementOutOfRangeException
+
+from senku_game.senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
 
 
 class TestSenku(unittest.TestCase):
 
     def setUp(self):
-        self.game = Senku()
+        self.game = SenkuGame()
 
     def test_get_board_initial(self):
         self.assertEqual(

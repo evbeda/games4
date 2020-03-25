@@ -3,7 +3,7 @@ space_invalid = 'X'
 space_occupied = '0'
 
 
-class Senku(object):
+class SenkuGame(object):
     name = "Senku"
     __row = 7
     __col = 7
