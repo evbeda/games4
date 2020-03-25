@@ -159,8 +159,6 @@ class TestPlayer(unittest.TestCase):
         self.human.discard_card(self.human.cards[0])
         self.assertEquals(self.human.score, score)
 
-
-
 class TestCard(unittest.TestCase):
 
     def setUp(self):
