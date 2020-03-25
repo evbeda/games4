@@ -1,5 +1,5 @@
 import unittest
-from .ahorcado import Ahorcado
+from .ahorcado import Ahorcado, IsNotAlphaException, IsNotOneCharacter
 
 
 class TestAhorcado(unittest.TestCase):
@@ -140,6 +140,12 @@ class TestAhorcado(unittest.TestCase):
     @unittest.skip('api tests')
     def test_prueba(self):
         self.assertEqual(self.game.play("@"), "Dont use Symbols!")
+
+    def test_no_alpha(self):
+        self.assertRaises(IsNotAlphaException, self.game.validate_letter, '[')
+
+    def test_no_one_character(self):
+        self.assertRaises(IsNotOneCharacter, self.game.validate_letter, 'asdsda0321')
 
 
 if __name__ == "__main__":
