@@ -6,6 +6,7 @@ from ahorcado.test_ahorcado import TestAhorcado
 from munchkin.test_dice import TestDice
 from munchkin.test_monster import TestMonster
 from munchkin.test_race import TestRace
+from munchkin.test_player import TestMunchkinPlayer
 
 
 def suite():
@@ -17,6 +18,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestDice))
     test_suite.addTest(unittest.makeSuite(TestMonster))
     test_suite.addTest(unittest.makeSuite(TestRace))
+    test_suite.addTest(unittest.makeSuite(TestMunchkinPlayer))
     #Love Letter Game
     test_suite.addTest(unittest.makeSuite(TestDeck))
     test_suite.addTest(unittest.makeSuite(TestPlayer))
