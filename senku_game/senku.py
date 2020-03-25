@@ -21,9 +21,10 @@ class SenkuGame(object):
 
     def next_turn(self):
         cont_ocupied = 0
-        for position in self.get_board:
-            if position == '0':
-                cont_ocupied += 1
+        for index_row in range(7):
+            for index_col in range(7):
+                if self.get_board()[index_row][index_col] == '0':
+                    cont_ocupied += 1
         if cont_ocupied == 1:
             self.is_playing = False
             return "You won"
