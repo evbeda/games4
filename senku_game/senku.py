@@ -49,15 +49,14 @@ class SenkuGame(object):
 
     def validate_move(self, *positions):
         initial_row, initial_col, final_row, final_col = positions
-
         for pos in positions:
+            if pos < 0 or pos > 6:
+                raise SenkuMovementOutOfRangeException("Value must be between 0 and 6")
             if (
-                    pos < 0 or
-                    pos > 6 or
                     not self._board[initial_row][initial_col] == space_occupied or
                     not self._board[final_row][final_col] == space_free
             ):
-                raise SenkuMovementOutOfRangeException('Value must be between 0 and 6')
+                raise SenkuMovementOutOfRangeException('The space you try to move is not available')
 
         if initial_row == final_row and abs(initial_col - final_col) == 2:
             if self._board[initial_row][(initial_col + final_col) // 2] == space_occupied:
