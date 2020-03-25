@@ -115,7 +115,30 @@ class SenkuGame(object):
         self._board = arr_board
 
     def check_loose(self):
-        pass
+        for row in range(7):
+            for col in range(7):
+                value = self.get_board()[row][col]
+                if value == "0":
+                    try:
+                        up = self.validate_move(row, col, row-2, col)
+                    except:
+                        up = False
+                    try:
+                        down = self.validate_move(row, col, row+2, col)
+                    except:
+                        down = False
+                    try:
+                        left = self.validate_move(row, col, row, col-2)
+                    except:
+                        left = False
+                    try:
+                        right = self.validate_move(row, col, row, col+2)
+                    except:
+                        right = False
+                    if up or down or left or right:
+                        return False
+
+        return True
 
 
 class SenkuException(Exception):
