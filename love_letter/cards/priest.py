@@ -2,7 +2,7 @@ from love_letter.card import Card
 
 
 class Priest(Card):
-
-    name = "Priest"
-    score = 2
-    description = "Player is allowed to see another player's hand."
+    def __init__(self):
+        self.name = "Priest"
+        self.score = 2
+        self.description = "Player is allowed to see another player's hand."

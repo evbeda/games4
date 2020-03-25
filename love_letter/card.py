@@ -1,7 +1,9 @@
 class Card:
-    score = None
-    name = None
-    description = None
+
+    def __init__(self):
+        self.score = None
+        self.name = None
+        self.description = None
 
     def execute_action(self):
         raise Exception("Not implemented action!")

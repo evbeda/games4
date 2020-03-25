@@ -14,9 +14,8 @@ class LoveLetterGame:
         self.deck.remove_last()
         cards_to_show = self.deck.show_three()
         #move this print to method next turn(only first turn)
-        print("This cards must show to you")
         for card in cards_to_show:
-            print(card)
+            pass
         self.human_player.set_a_card(self.deck.get_one_card())
         self.pc_player.set_a_card(self.deck.get_one_card())
 
