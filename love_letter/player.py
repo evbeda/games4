@@ -5,6 +5,7 @@ class Player(object):
         self.hearts = 0
         self.score = 0
         self.cards = []
+        self.is_active = True
 
     def set_a_card(self, card):
         self.cards.append(card)
