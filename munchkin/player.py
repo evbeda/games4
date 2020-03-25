@@ -5,8 +5,8 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.level = 1
-        self.onHand = []
-        self.onBoard = []
+        self.cards_on_hand = []
+        self.cards_on_boards = []
         self.max_race_cards = 1
         self.max_class_cards = 1
         self.max_cards_on_hand = 5
@@ -29,4 +29,10 @@ class Player:
     def win(self):
         pass # Gana si el nivel es 10
 
+    def can_draw_cards(self):
+        return len(self.cards_on_hand) < self.max_cards_on_hand
 
+    def draw_card(self, card):
+
+        if self.can_draw_cards():
+            self.cards_on_hand.append(card)

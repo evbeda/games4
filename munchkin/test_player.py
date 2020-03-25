@@ -9,8 +9,8 @@ class TestMunchkinPlayer(unittest.TestCase):
     def test_player_initialization(self):
         self.assertEqual(self.player.name, "person")
         self.assertEqual(self.player.level, 1)
-        self.assertEqual(self.player.onHand, [])
-        self.assertEqual(self.player.onBoard, [])
+        self.assertEqual(self.player.cards_on_hand, [])
+        self.assertEqual(self.player.cards_on_boards, [])
         self.assertEqual(self.player.max_race_cards, 1)
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
@@ -19,8 +19,8 @@ class TestMunchkinPlayer(unittest.TestCase):
     def test_set_default_status(self):
         self.player.name = "changed"
         self.player.level = 4
-        self.player.onHand = ["card"]
-        self.player.onBoard = ["card"]
+        self.player.cards_on_hand = ["card"]
+        self.player.cards_on_boards = ["card"]
         self.player.max_class_cards = 2
         self.player.fleeing_chance = -2
         self.player.max_race_cards = 2
@@ -28,8 +28,8 @@ class TestMunchkinPlayer(unittest.TestCase):
         self.player.set_default_status()
         self.assertEqual(self.player.name, "changed")
         self.assertEqual(self.player.level, 4)
-        self.assertEqual(self.player.onHand, ["card"])
-        self.assertEqual(self.player.onBoard, ["card"])
+        self.assertEqual(self.player.cards_on_hand, ["card"])
+        self.assertEqual(self.player.cards_on_boards, ["card"])
         self.assertEqual(self.player.max_race_cards, 1)
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
