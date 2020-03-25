@@ -3,6 +3,9 @@ import unittest
 from .card import Card
 from .cards.priest import Priest
 from .cards.princess import Princess
+from .cards.countess import Countess
+from .cards.king import King
+from .cards.baron import Baron
 from .human_player import HumanPlayer
 from .love_letter_game import LoveLetterGame
 from .pc_player import PcPlayer
@@ -186,6 +189,21 @@ class TestPrincess(unittest.TestCase):
     def test_execute_action_knocks_out_player(self):
         self.princess.execute_action(self.player)
         self.assertFalse(self.player.is_active)
+
+class TestCountess(unittest.TestCase):
+
+    def setUp(self):
+        self.countess = Countess()
+        self.player = Player()
+        self.player.cards.append(self.countess)
+
+    def test_must_discard_card_with_king(self):
+        self.player.cards.append(King())
+        self.assertTrue(self.countess.must_discard(self.player))
+
+    def test_must_discard_card_without_king(self):
+        self.player.cards.append(Baron())
+        self.assertFalse(self.countess.must_discard(self.player))
 
 class TestLoveLetterGame(unittest.TestCase):
 
