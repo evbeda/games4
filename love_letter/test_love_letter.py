@@ -132,7 +132,10 @@ class TestPlayer(unittest.TestCase):
         name = self.pc_player.name
         self.assertEqual(name, "PC Player")
 
-    def test_play_set_a_card(self):
+    def test_player_is_active(self):
+        self.assertTrue(self.player.is_active)
+
+    def test_player_set_a_card(self):
         self.player.set_a_card(self.deck.get_one_card())
         self.assertEqual(len(self.player.cards), 2)
 
@@ -156,6 +159,8 @@ class TestPlayer(unittest.TestCase):
         self.human.discard_card(self.human.cards[0])
         self.assertEquals(self.human.score, score)
 
+
+
 class TestCard(unittest.TestCase):
 
     def setUp(self):
@@ -172,6 +177,7 @@ class TestCard(unittest.TestCase):
 
     def test_generic_exception(self):
         self.assertRaises(Exception, lambda:(self.genericCard.execute_action()))
+
 
 class TestLoveLetterGame(unittest.TestCase):
 
