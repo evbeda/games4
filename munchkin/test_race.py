@@ -1,5 +1,5 @@
 import unittest
-from race import Race
+from .race import Race
 
 class TestRace(unittest.TestCase):
     def test_race_has_5_cards_on_init(self):
