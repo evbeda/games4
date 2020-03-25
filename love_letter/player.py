@@ -6,6 +6,7 @@ class Player(object):
         self.score = 0
         self.cards = []
         self.is_active = True
+        self.discarded = []
 
     def set_a_card(self, card):
         self.cards.append(card)
@@ -19,3 +20,4 @@ class Player(object):
     def discard_card(self, card):
         self.cards.remove(card)
         self.score += card.score
+        self.discarded.insert(0, card)
