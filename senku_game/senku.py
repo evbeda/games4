@@ -9,6 +9,7 @@ class SenkuGame(object):
     __col = 7
 
     def __init__(self):
+        self.is_playing = True
         self._board = [[space_occupied for _ in range(self.__row)] for _ in range(self.__col)]
 
         for i in range(self.__row):
@@ -18,8 +19,19 @@ class SenkuGame(object):
                         self._board[i][j] = space_invalid
         self._board[3][3] = space_free
 
-    # def next_turn(self):
-    #     pass
+    def next_turn(self):
+        cont_ocupied = 0
+        for position in self.get_board:
+            if position == '0':
+                cont_ocupied += 1
+        if cont_ocupied == 1:
+            self.is_playing = False
+            return "You won"
+        if self.check_loose():
+            self.is_playing = False
+            return "You loose"
+        if cont_ocupied > 1:
+            return "Please, make a move"
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
@@ -103,6 +115,9 @@ class SenkuGame(object):
     def set_board(self, arr_board):
         self._board = arr_board
 
+    def check_loose(self):
+        pass
+
 
 class SenkuException(Exception):
     pass
@@ -114,6 +129,4 @@ class SenkuMovementOutOfRangeException(SenkuException):
 
 class SenkuInvalidMovementException(SenkuException):
     pass
-
-
 
