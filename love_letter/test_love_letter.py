@@ -99,18 +99,26 @@ class TestDeck(unittest.TestCase):
 class TestPlayer(unittest.TestCase):
 
     def setUp(self):
-       self.player = Player()
-       self.human = HumanPlayer("Human Player")
-       self.pc_player = PcPlayer()
-       self.deck = Deck()
+        self.player = Player()
+        self.human = HumanPlayer("Human Player")
+
+        self.pc_player = PcPlayer()
+        self.deck = Deck()
+        
+        self.human.set_a_card(self.deck.get_one_card())
+        self.pc_player.set_a_card(self.deck.get_one_card())
 
     def test_player_name_empty(self):
         name = self.player.name
         self.assertTrue(name is None)
 
-    def test_player_cards_empty(self):
+    def test_player_score_0(self):
+        score = self.player.score
+        self.assertEqual(score, 0)
+
+    def test_player_has_1_card(self):
         cards = self.player.cards
-        self.assertEquals(cards, [])
+        self.assertEquals(cards, 1)
 
     def test_player_piece_of_heart_empty(self):
         hearts = self.player.hearts
@@ -126,17 +134,27 @@ class TestPlayer(unittest.TestCase):
 
     def test_play_set_a_card(self):
         self.player.set_a_card(self.deck.get_one_card())
-        self.assertEqual(len(self.player.cards), 1)
+        self.assertEqual(len(self.player.cards), 2)
 
     def test_str_human(self):
         text = self.human.__str__()
         self.assertEquals(text, "Player: Human Player,"\
                " Hearts: 0")
 
-    def test_str_human(self):
+    def test_str_pc(self):
         text = self.pc_player.__str__()
         self.assertEquals(text, "Player: PC Player,"\
                " Hearts: 0")
+
+    def test_discard_card_removes_1_card_from_hand(self):
+        previous_length = len(self.human.cards)
+        self.human.discard_card(self.human.cards[0])
+        self.assertEquals(len(self.human.cards), previous_length-1)
+
+    def test_discard_card_adds_score_to_player(self):
+        score = self.human.cards[0].score
+        self.human.discard_card(self.human.cards[0])
+        self.assertEquals(self.human.score, score)
 
 class TestCard(unittest.TestCase):
 
