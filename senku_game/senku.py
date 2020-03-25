@@ -3,12 +3,13 @@ space_invalid = 'X'
 space_occupied = '0'
 
 
-class Senku(object):
+class SenkuGame(object):
     name = "Senku"
     __row = 7
     __col = 7
 
     def __init__(self):
+        self.is_playing = True
         self._board = [[space_occupied for _ in range(self.__row)] for _ in range(self.__col)]
 
         for i in range(self.__row):
@@ -18,8 +19,20 @@ class Senku(object):
                         self._board[i][j] = space_invalid
         self._board[3][3] = space_free
 
-    # def next_turn(self):
-    #     pass
+    def next_turn(self):
+        cont_ocupied = 0
+        for index_row in range(7):
+            for index_col in range(7):
+                if self.get_board()[index_row][index_col] == '0':
+                    cont_ocupied += 1
+        if cont_ocupied == 1:
+            self.is_playing = False
+            return "You won"
+        if self.check_loose():
+            self.is_playing = False
+            return "You loose"
+        if cont_ocupied > 1:
+            return "Please, make a move"
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
@@ -49,15 +62,14 @@ class Senku(object):
 
     def validate_move(self, *positions):
         initial_row, initial_col, final_row, final_col = positions
-
         for pos in positions:
+            if pos < 0 or pos > 6:
+                raise SenkuMovementOutOfRangeException("Value must be between 0 and 6")
             if (
-                    pos < 0 or
-                    pos > 6 or
                     not self._board[initial_row][initial_col] == space_occupied or
                     not self._board[final_row][final_col] == space_free
             ):
-                raise SenkuMovementOutOfRangeException('Value must be between 0 and 6')
+                raise SenkuMovementOutOfRangeException('The space you try to move is not available')
 
         if initial_row == final_row and abs(initial_col - final_col) == 2:
             if self._board[initial_row][(initial_col + final_col) // 2] == space_occupied:
@@ -103,6 +115,32 @@ class Senku(object):
     def set_board(self, arr_board):
         self._board = arr_board
 
+    def check_loose(self):
+        for row in range(7):
+            for col in range(7):
+                value = self.get_board()[row][col]
+                if value == "0":
+                    try:
+                        up = self.validate_move(row, col, row-2, col)
+                    except:
+                        up = False
+                    try:
+                        down = self.validate_move(row, col, row+2, col)
+                    except:
+                        down = False
+                    try:
+                        left = self.validate_move(row, col, row, col-2)
+                    except:
+                        left = False
+                    try:
+                        right = self.validate_move(row, col, row, col+2)
+                    except:
+                        right = False
+                    if up or down or left or right:
+                        return False
+
+        return True
+
 
 class SenkuException(Exception):
     pass
@@ -114,6 +152,4 @@ class SenkuMovementOutOfRangeException(SenkuException):
 
 class SenkuInvalidMovementException(SenkuException):
     pass
-
-
 
