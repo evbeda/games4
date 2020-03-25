@@ -21,9 +21,9 @@ class SenkuGame(object):
 
     def next_turn(self):
         cont_ocupied = 0
-        for index_row in range(7):
-            for index_col in range(7):
-                if self.get_board()[index_row][index_col] == '0':
+        for index_row in range(self.__row):
+            for index_col in range(self.__col):
+                if self.get_board()[index_row][index_col] == space_occupied:
                     cont_ocupied += 1
         if cont_ocupied == 1:
             self.is_playing = False
@@ -116,25 +116,25 @@ class SenkuGame(object):
         self._board = arr_board
 
     def check_loose(self):
-        for row in range(7):
-            for col in range(7):
+        for row in range(self.__row):
+            for col in range(self.__col):
                 value = self.get_board()[row][col]
-                if value == "0":
+                if value == space_occupied:
                     try:
-                        up = self.validate_move(row, col, row-2, col)
-                    except:
+                        up = self.validate_move(row, col, row - 2, col)
+                    except Exception:
                         up = False
                     try:
-                        down = self.validate_move(row, col, row+2, col)
-                    except:
+                        down = self.validate_move(row, col, row + 2, col)
+                    except Exception:
                         down = False
                     try:
-                        left = self.validate_move(row, col, row, col-2)
-                    except:
+                        left = self.validate_move(row, col, row, col - 2)
+                    except Exception:
                         left = False
                     try:
-                        right = self.validate_move(row, col, row, col+2)
-                    except:
+                        right = self.validate_move(row, col, row, col + 2)
+                    except Exception:
                         right = False
                     if up or down or left or right:
                         return False
