@@ -334,7 +334,3 @@ class TestSenku(unittest.TestCase):
                             ])
         self.assertEqual(self.game.next_turn(), "Please, make a move")
         self.assertTrue(self.game.is_playing)
-
-
-if __name__ == "__main__":
-    unittest.main()

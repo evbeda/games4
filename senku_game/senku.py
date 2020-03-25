@@ -37,10 +37,12 @@ class SenkuGame(object):
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
             self.validate_move(initial_row, initial_col, final_row, final_col)
-        except ValueError:
-            pass
-        else:
             self.__move_piece(initial_row, initial_col, final_row, final_col)
+            return "Right move"
+        except SenkuInvalidMovementException:
+            return "Error move, invalid Movement"
+        except SenkuMovementOutOfRangeException:
+            return "Error move, out of range Movement"
 
     @property
     def board(self):
