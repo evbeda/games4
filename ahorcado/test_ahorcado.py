@@ -6,7 +6,7 @@ from unittest.mock import patch, MagicMock
 class TestAhorcado(unittest.TestCase):
 
     def setUp(self):
-        self.game = Ahorcado('PALABRA')
+        self.game = Ahorcado(force_word='PALABRA')
 
     def test_next_turn_playing(self):
         self.assertEqual(self.game.next_turn(), "Please input a letter from A-Z")
@@ -47,7 +47,8 @@ class TestAhorcado(unittest.TestCase):
         self.assertEqual(self.game.get_lifes(), "Lifes: 6")
 
     def test_hidden_letters_message(self):
-        self.assertEqual(self.game.hidden_letters_message(), "_ _ _ _ _ _ _")
+        result = self.game.hidden_letters_message()
+        self.assertEqual(result, "_ _ _ _ _ _ _")
 
     def test_hidden_letters_message_P(self):
         self.game.play("P")
