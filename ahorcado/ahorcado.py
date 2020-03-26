@@ -18,9 +18,9 @@ class Ahorcado(object):
         self.used_letters = []
 
     def next_turn(self):
-        if not self.check_is_playing() and self.lifes > 0:
+        if not self.is_playing and self.lifes > 0:
             return "The player already won"
-        elif not self.check_is_playing() and self.lifes == 0:
+        elif not self.is_playing and self.lifes <= 0:
             return "The player already lost"
         else:
             return "Please input a letter from A-Z"
@@ -71,13 +71,14 @@ class Ahorcado(object):
         else:
             return False
 
-    def check_is_playing(self):
+    @property
+    def is_playing(self):
+        if self.lifes <= 0:
+            return False
         if self.lifes > 0 and "_" not in self.hidden_letters_message():
             return False
         if self.lifes > 0:
             return True
-        elif self.lifes == 0:
-            return False
 
     def hidden_letters_message(self):
         new_hidden_letters = []
