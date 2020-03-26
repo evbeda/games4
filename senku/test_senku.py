@@ -1,6 +1,6 @@
 import unittest
 
-from senku_game.senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
+from senku.senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
 
 
 class TestSenku(unittest.TestCase):
