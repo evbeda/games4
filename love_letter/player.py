@@ -1,6 +1,3 @@
-from .deck import Deck
-
-
 class Player(object):
 
     def __init__(self, deck=None):

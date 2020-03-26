@@ -107,9 +107,9 @@ class TestPlayer(unittest.TestCase):
         self.human_player = self.game.human_player
         self.pc_player = self.game.pc_player
 
-    # def test_player_name_empty(self):
-    #     name = self.player_with_no_name.name
-    #     self.assertTrue(name is None)
+    def test_player_name_empty(self):
+        name = self.player_with_no_name.name
+        self.assertTrue(name is None)
 
     def test_player_score_0(self):
         score = self.human_player.score
