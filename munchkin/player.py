@@ -3,8 +3,8 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.level = 1
-        self.onHand = []
-        self.onBoard = []
+        self.__on_hand = []
+        self.__on_board = []
         self.max_race_cards = 1
         self.max_class_cards = 1
         self.max_cards_on_hand = 5
@@ -25,3 +25,19 @@ class Player:
 
     def win(self):
         pass  # Gana si el nivel es 10
+
+    @property
+    def on_board(self):
+        return self.__on_board
+
+    @on_board.setter
+    def on_board(self, on_board):
+        self.__on_board = on_board
+
+    @property
+    def on_hand(self):
+        return self.__on_hand
+
+    @on_hand.setter
+    def on_hand(self, on_hand):
+        self.__on_hand = on_hand
