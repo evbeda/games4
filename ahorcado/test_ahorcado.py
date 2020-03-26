@@ -134,28 +134,19 @@ class TestAhorcado(unittest.TestCase):
         response = MagicMock()
         response.json = MagicMock(return_value=["hola"])
         mock_get.return_value = response
-        self.assertTrue(isinstance(self.game.get_word_from_api(), str))
-
-    def test_get_word_from_api_upper(self):
-        response = MagicMock()
-        response.json = MagicMock(return_value=["PALABRA"])
-        with patch('ahorcado.ahorcado.requests.get') as mock_get:
-            mock_get.return_value = response
-        self.assertTrue(self.game.get_word_from_api().isupper())
-
-    def test_get_word_from_api_no_mistakes(self):
-        response = MagicMock()
-        response.json = MagicMock(return_value=["ALGO"])
-        with patch('ahorcado.ahorcado.requests.get') as mock_get:
-            mock_get.return_value = response
-        self.assertTrue(self.game.get_word_from_api().isalpha())
+        self.assertEqual(self.game.get_word_from_api(), "HOLA")
 
     def test_no_alpha(self):
-        self.assertRaises(IsNotAlphaException, self.game.validate_letter, '[')
+        with self.assertRaises(IsNotAlphaException):
+            self.game.validate_letter('[')
 
     def test_no_one_character(self):
-        self.assertRaises(IsNotOneCharacter, self.game.validate_letter, 'asdsda0321')
+        with self.assertRaises(IsNotOneCharacter):
+            self.game.validate_letter("asdsda0321")
 
+    def test_no_alpha_play(self):
+        self.assertEqual("[ is not a character, use a letter", self.game.play("["))
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_IsNotOneCharacter_play(self):
+        self.assertEqual("asdsda0321 is not a single word, put one letter!", self.game.play("asdsda0321"))
+

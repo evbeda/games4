@@ -29,11 +29,9 @@ class Ahorcado(object):
         try:
             self.validate_letter(letter)
         except IsNotAlphaException:
-            pass
+            return "{} is not a character, use a letter".format(letter)
         except IsNotOneCharacter:
-            pass
-        except AttributeError:
-            pass
+            return "{} is not a single word, put one letter!".format(letter)
 
         if self.check_input_used_letters(letter):
             return "Already tried that Letter! Try again"
