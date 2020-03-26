@@ -37,16 +37,16 @@ class TestSenku(unittest.TestCase):
         )
 
     def test_validate_move_up(self):
-        self.assertTrue(SenkuMovementOutOfRangeException, self.game.validate_move(5, 3, 3, 3))
+        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,5, 3, 3, -3)
 
     def test_validate_move_down(self):
-        self.assertTrue(SenkuMovementOutOfRangeException, self.game.validate_move(1, 3, 3, 3))
+        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,1, 3, 7, 3)
 
     def test_validate_move_right(self):
-        self.assertTrue(SenkuMovementOutOfRangeException, self.game.validate_move(3, 1, 3, 3))
+        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,3, -1, 3, 3)
 
     def test_validate_move_left(self):
-        self.assertTrue(SenkuMovementOutOfRangeException, self.game.validate_move(3, 5, 3, 3))
+        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,8, 5, 3, 3)
 
     def test_validate_move_out_of_range_up(self):
         self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 0, 0, -1, 0)
@@ -334,3 +334,6 @@ class TestSenku(unittest.TestCase):
                             ])
         self.assertEqual(self.game.next_turn(), "Please, make a move")
         self.assertTrue(self.game.is_playing)
+    
+    
+
