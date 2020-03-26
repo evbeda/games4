@@ -334,6 +334,20 @@ class TestSenku(unittest.TestCase):
                             ])
         self.assertEqual(self.game.next_turn(), "Please, make a move")
         self.assertTrue(self.game.is_playing)
-    
+
+    def test_play_out_of_range(self):
+        result = self.game.play(2, 3, 3, -3)
+        return_str = "Error move, out of range Movement"
+        self.assertEqual(return_str, result)
+
+    def test_play_invalid_movement(self):
+        result = self.game.play(2, 2, 3, 3)
+        return_str = "Error move, invalid Movement"
+        self.assertEqual(return_str, result)
+
+    def test_play_right_move(self):
+        result = self.game.play(1, 3, 3, 3)
+        return_str = "Right move"
+        self.assertEqual(return_str, result)
     
 

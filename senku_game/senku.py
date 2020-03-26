@@ -36,7 +36,6 @@ class SenkuGame(object):
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
-            #self.validate_integer(initial_row, initial_col, final_row, final_col)
             self.validate_move(initial_row, initial_col, final_row, final_col)
             self.__move_piece(initial_row, initial_col, final_row, final_col)
             return "Right move"
@@ -44,8 +43,6 @@ class SenkuGame(object):
             return "Error move, invalid Movement"
         except SenkuMovementOutOfRangeException:
             return "Error move, out of range Movement"
-        except SenkuTypeException:
-            return "Type error, please enter only integers"
 
     @property
     def board(self):
