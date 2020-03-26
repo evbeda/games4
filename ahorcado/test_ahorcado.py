@@ -134,28 +134,46 @@ class TestAhorcado(unittest.TestCase):
         response = MagicMock()
         response.json = MagicMock(return_value=["hola"])
         mock_get.return_value = response
-        self.assertTrue(isinstance(self.game.get_word_from_api(), str))
-
-    def test_get_word_from_api_upper(self):
-        response = MagicMock()
-        response.json = MagicMock(return_value=["PALABRA"])
-        with patch('ahorcado.ahorcado.requests.get') as mock_get:
-            mock_get.return_value = response
-        self.assertTrue(self.game.get_word_from_api().isupper())
-
-    def test_get_word_from_api_no_mistakes(self):
-        response = MagicMock()
-        response.json = MagicMock(return_value=["ALGO"])
-        with patch('ahorcado.ahorcado.requests.get') as mock_get:
-            mock_get.return_value = response
-        self.assertTrue(self.game.get_word_from_api().isalpha())
+        self.assertEqual(self.game.get_word_from_api(), "HOLA")
 
     def test_no_alpha(self):
-        self.assertRaises(IsNotAlphaException, self.game.validate_letter, '[')
+        with self.assertRaises(IsNotAlphaException):
+            self.game.validate_letter('[')
 
     def test_no_one_character(self):
-        self.assertRaises(IsNotOneCharacter, self.game.validate_letter, 'asdsda0321')
+        with self.assertRaises(IsNotOneCharacter):
+            self.game.validate_letter("asdsda0321")
 
+    def test_no_alpha_play(self):
+        self.assertEqual("[ is not a character, use a letter", self.game.play("["))
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_IsNotOneCharacter_play(self):
+        self.assertEqual("ASDSDA0321 is not a single word, put one letter!", self.game.play("asdsda0321"))
+
+    def test_to_upper(self):
+        self.game.play("p")
+        self.assertEqual("Already tried that Letter! Try again", self.game.play("P"))
+
+    def test_is_not_playing_when_player_wins(self):
+        self.game.play("P")
+        self.game.play("A")
+        self.game.play("L")
+        self.game.play("B")
+        self.game.play("R")
+        self.assertTrue(not self.game.is_playing)
+
+    def test_is_not_playing_when_player_loses(self):
+        self.game.play("Z")
+        self.game.play("Q")
+        self.game.play("U")
+        self.game.play("K")
+        self.game.play("V")
+        self.game.play("G")
+        self.assertTrue(not self.game.is_playing)
+
+    def test_is_not_playing_when_player_is_alive(self):
+        self.game.play("Z")
+        self.game.play("Q")
+        self.game.play("U")
+        self.game.play("K")
+        self.assertTrue(self.game.is_playing)

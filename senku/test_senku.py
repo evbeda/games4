@@ -1,6 +1,6 @@
 import unittest
 
-from senku_game.senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
+from senku.senku import SenkuGame, SenkuMovementOutOfRangeException, SenkuInvalidMovementException
 
 
 class TestSenku(unittest.TestCase):
@@ -37,47 +37,60 @@ class TestSenku(unittest.TestCase):
         )
 
     def test_validate_move_up(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,5, 3, 3, -3)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(5, 3, 3, -3)
 
     def test_validate_move_down(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,1, 3, 7, 3)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(1,3,7,3)
 
     def test_validate_move_right(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,3, -1, 3, 3)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(3, -1, 3, 3)
 
     def test_validate_move_left(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move,8, 5, 3, 3)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(8, 5, 3, 3)
 
     def test_validate_move_out_of_range_up(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 0, 0, -1, 0)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(0, 0, -1, 0)
 
     def test_validate_move_out_of_range_down(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 6, 6, 7, 6)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(6, 6, 7, 6)
 
     def test_validate_move_out_of_range_right(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 6, 6, 6, 7)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(6, 6, 6, 7)
 
     def test_validate_move_out_of_range_left(self):
-        self.assertRaises(SenkuMovementOutOfRangeException, self.game.validate_move, 0, 0, 0, -1)
+        with self.assertRaises(SenkuMovementOutOfRangeException):
+            self.game.validate_move(0, 0, 0, -1)
 
     def test_validate_diagonal_move(self):
-        self.assertRaises(SenkuInvalidMovementException, self.game.validate_move, 2, 2, 3, 3)
+        with self.assertRaises(SenkuInvalidMovementException):
+            self.game.validate_move(2, 2, 3, 3)
 
     def test_validate_move_right_with_free_space_between(self):
         self.game.set_board([['0', '-', '-'], ['0', '0', '0']])
-        self.assertRaises(SenkuInvalidMovementException, self.game.validate_move, 0, 0, 0, 2)
+        with self.assertRaises(SenkuInvalidMovementException):
+            self.game.validate_move(0, 0, 0, 2)
 
     def test_validate_move_left_with_free_space_between(self):
         self.game.set_board([['-', '-', '0'], ['0', '0', '0']])
-        self.assertRaises(SenkuInvalidMovementException, self.game.validate_move, 0, 2, 0, 0)
+        with self.assertRaises(SenkuInvalidMovementException):
+            self.game.validate_move(0, 2, 0, 0)
 
     def test_validate_move_up_with_free_space_between(self):
         self.game.set_board([['-', '0', '0'], ['-', '0', '0'], ['0', '0', '0']])
-        self.assertRaises(SenkuInvalidMovementException, self.game.validate_move, 2, 0, 0, 0)
+        with self.assertRaises(SenkuInvalidMovementException):
+            self.game.validate_move(2, 0, 0, 0)
 
     def test_validate_move_down_with_free_space_between(self):
         self.game.set_board([['0', '0', '0'], ['-', '0', '0'], ['-', '0', '0']])
-        self.assertRaises(SenkuInvalidMovementException, self.game.validate_move, 0, 0, 2, 0)
+        with self.assertRaises(SenkuInvalidMovementException):
+            self.game.validate_move(0, 0, 2, 0)
 
     def test_move_piece_col(self):
         self.game.play(3, 1, 3, 3)
@@ -350,4 +363,11 @@ class TestSenku(unittest.TestCase):
         return_str = "Right move"
         self.assertEqual(return_str, result)
     
+    def test_validate_type(self):
+        with self.assertRaises(TypeError):
+            self.game.validate_move('a',3,4,2)
 
+    def test_play_type(self):
+        result = self.game.play('a', 3, 3, 3)
+        return_str = "Error type, please enter only integers"
+        self.assertEqual(return_str, result)

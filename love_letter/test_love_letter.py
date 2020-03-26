@@ -1,13 +1,14 @@
 import unittest
 
 from .card import Card
-from .cards.priest import Priest
-from .cards.princess import Princess
-from .cards.countess import Countess
-from .cards.king import King
-from .cards.baron import Baron
 from .cards.guard import Guard
+from .cards.priest import Priest
+from .cards.baron import Baron
 from .cards.handmaid import Handmaid
+from .cards.prince import Prince
+from .cards.king import King
+from .cards.countess import Countess
+from .cards.princess import Princess
 from .human_player import HumanPlayer
 from .love_letter_game import LoveLetterGame
 from .pc_player import PcPlayer
@@ -92,11 +93,7 @@ class TestDeck(unittest.TestCase):
     def test_len_after_all_discarted(self):
         self.deck.remove_last()
         self.deck.show_three()
-        self.assertEqual(12,len(self.deck.cards))
-
-    def test_get_one_card(self):
-        card = self.deck.get_one_card()
-        self.assertEqual(card.__class__.__name__,"Guard")
+        self.assertEqual(12, len(self.deck.cards))
 
     def test_str(self):
         text = self.deck.__str__()
@@ -106,33 +103,28 @@ class TestDeck(unittest.TestCase):
 class TestPlayer(unittest.TestCase):
 
     def setUp(self):
-        self.player = Player()
-        self.human = HumanPlayer("Human Player")
-
-        self.pc_player = PcPlayer()
-        self.deck = Deck()
-        
-        self.player.set_a_card(self.deck.get_one_card())
-        self.pc_player.set_a_card(self.deck.get_one_card())
+        self.game = LoveLetterGame("Human Player")
+        self.human_player = self.game.human_player
+        self.pc_player = self.game.pc_player
 
     def test_player_name_empty(self):
-        name = self.player.name
+        name = self.player_with_no_name.name
         self.assertTrue(name is None)
 
     def test_player_score_0(self):
-        score = self.player.score
+        score = self.human_player.score
         self.assertEqual(score, 0)
 
     def test_player_has_1_card(self):
-        cards = self.player.cards
+        cards = self.human_player.cards
         self.assertEquals(len(cards), 1)
 
     def test_player_piece_of_heart_empty(self):
-        hearts = self.player.hearts
-        self.assertEquals(hearts,0)
+        hearts = self.human_player.hearts
+        self.assertEquals(hearts, 0)
 
     def test_human_player_name(self):
-        name = self.human.name
+        name = self.human_player.name
         self.assertEqual(name, "Human Player")
 
     def test_pc_player_name(self):
@@ -140,31 +132,40 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(name, "PC Player")
 
     def test_player_is_active(self):
-        self.assertTrue(self.player.is_active)
+        self.assertTrue(self.human_player.is_active)
 
     def test_player_set_a_card(self):
-        self.player.set_a_card(self.deck.get_one_card())
-        self.assertEqual(len(self.player.cards), 2)
+        self.player.draw_card(self.human_player.draw_card())
+        self.assertEqual(len(self.human_player.cards), 2)
 
     def test_str_human(self):
-        text = self.human.__str__()
+        text = self.human_player.__str__()
         self.assertEquals(text, "Player: Human Player,"\
-               " Hearts: 0")
+                                " Hearts: 0")
 
     def test_str_pc(self):
         text = self.pc_player.__str__()
         self.assertEquals(text, "Player: PC Player,"\
-               " Hearts: 0")
+                                " Hearts: 0")
 
     def test_discard_card_removes_1_card_from_hand(self):
-        previous_length = len(self.player.cards)
-        self.player.discard_card(self.player.cards[0])
-        self.assertEquals(len(self.player.cards), previous_length-1)
+        previous_length = len(self.human_player.cards)
+        self.human_player.discard_card(self.human_player.cards[0])
+        self.assertEquals(len(self.human_player.cards), previous_length-1)
 
     def test_discard_card_adds_score_to_player(self):
-        score = self.player.cards[0].score
-        self.player.discard_card(self.player.cards[0])
-        self.assertEquals(self.player.score, score)
+        score = self.human_player.cards[0].score
+        self.human_player.discard_card(self.human_player.cards[0])
+        self.assertEquals(self.human_player.score, score)
+
+    def test_end_of_round_player(self):
+        self.human_player.end_of_round()
+        discarded_cards = []
+        score = 0
+        cards = []
+        attributes = [discarded_cards, score, cards]
+        player_attributes = [self.human_player.discarded, self.human_player.score, self.human_player.cards]
+        self.assertEqual(attributes, player_attributes)
 
 
 class TestCard(unittest.TestCase):
@@ -172,6 +173,15 @@ class TestCard(unittest.TestCase):
     def setUp(self):
         self.card = Priest()
         self.genericCard = Card()
+        self.player = Player()
+        self.player.cards.append(King())
+        self.player_1 = Player()
+        self.player_1.discarded.append(Guard())
+        self.player_2 = Player()
+        self.player_2.discarded.append(Handmaid())
+
+        self.deck = Deck()
+        self.deck.players.extend([self.player, self.player_1, self.player_2])
 
     def test_card_print(self):
         self.assertEqual(
@@ -182,7 +192,12 @@ class TestCard(unittest.TestCase):
              )
 
     def test_generic_exception(self):
-        self.assertRaises(Exception, lambda: (self.genericCard.execute_action()))
+        self.assertRaises(Exception, lambda: (self.genericCard.execute_action("player")))
+
+    def test_looking_for_handmaid(self):
+        self.assertEqual(len(self.genericCard.look_for_handmaid(self.deck.players, self.player)), 1)
+        self.assertTrue(self.player_2 in self.genericCard.look_for_handmaid(self.deck.players, self.player))
+        self.assertFalse(self.player_1 in self.genericCard.look_for_handmaid(self.deck.players, self.player))
 
 
 class TestPrincess(unittest.TestCase):
@@ -216,19 +231,18 @@ class TestKing(unittest.TestCase):
 
     def setUp(self):
         self.king = King()
-        self.player = Player()
-        self.player.cards.append(self.king)
-
         self.player_1 = Player()
-        self.player_1.discarded.append(Guard())
+        self.player_1.cards.append(Countess())
         self.player_2 = Player()
-        self.player_2.discarded.append(Handmaid())
+        self.player_2.cards.append(Guard())
+        
 
-        self.deck = Deck()
-        self.deck.players.extend([self.player, self.player_1, self.player_2])
-
-    def test_looking_for_handmaid(self):
-        self.assertEqual(len(self.king.look_for_handmaid(self.deck.players, self.player)), 1)
+    def test_switch_cards(self):
+        self.king.execute_action(self.player_1, self.player_2)
+        self.assertEqual(len(self.player_1.cards), 1)
+        self.assertEqual(self.player_1.cards[0].name, "Guard")
+        self.assertEqual(len(self.player_2.cards), 1)
+        self.assertEqual(self.player_2.cards[0].name, "Countess")
 
 
 class TestLoveLetterGame(unittest.TestCase):
@@ -247,3 +261,28 @@ class TestLoveLetterGame(unittest.TestCase):
                         "Player: PC Player, Hearts: 0"
         result_text = self.game.board
         self.assertEquals(expected_text, result_text)
+
+    def test_check_winner_false(self):
+        self.assertFalse(self.game.check_winner())
+
+    def test_check_winner_true(self):
+        self.game.pc_player.hearts = 7
+        self.assertTrue(self.game.check_winner())
+
+    def test_end_of_round(self):
+        for player in self.game.players:
+            player.end_of_round()
+        discarded_cards = []
+        score = 0
+        cards = []
+        attributes = [discarded_cards, score, cards]
+        player_attributes = [self.game.human_player.discarded,
+                             self.game.human_player.score,
+                             self.game.human_player.cards]
+        pc_player_attributes = [self.game.pc_player.discarded,
+                                self.game.pc_player.score,
+                                self.game.pc_player.cards]
+
+        self.assertEqual(attributes, player_attributes)
+        self.assertEqual(attributes, pc_player_attributes)
+

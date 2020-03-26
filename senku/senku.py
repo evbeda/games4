@@ -7,7 +7,8 @@ class SenkuGame(object):
     name = "Senku"
     __row = 7
     __col = 7
-
+    input_args = 4
+    
     def __init__(self):
         self.is_playing = True
         self._board = [[space_occupied for _ in range(self.__row)] for _ in range(self.__col)]
@@ -36,6 +37,10 @@ class SenkuGame(object):
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
+            initial_row = int(initial_row)
+            initial_col = int(initial_col)
+            final_row = int(final_row)
+            final_col = int(final_col)
             self.validate_move(initial_row, initial_col, final_row, final_col)
             self.__move_piece(initial_row, initial_col, final_row, final_col)
             return "Right move"
@@ -43,6 +48,9 @@ class SenkuGame(object):
             return "Error move, invalid Movement"
         except SenkuMovementOutOfRangeException:
             return "Error move, out of range Movement"
+        except TypeError:
+            return "Error type, please enter only integers"
+        
 
     @property
     def board(self):
@@ -62,9 +70,10 @@ class SenkuGame(object):
                + ' '.join(horizontal_separator) + '\n' \
                + body
 
-    def validate_move(self, *positions):
-        initial_row, initial_col, final_row, final_col = positions
+    def validate_move(self, initial_row, initial_col, final_row, final_col ):
         
+
+        positions = [initial_row, initial_col, final_row, final_col]
         if max(positions)>6 or min(positions)<0:
             raise SenkuMovementOutOfRangeException("Value must be between 0 and 6")
 
@@ -144,9 +153,6 @@ class SenkuGame(object):
 
         return True
 
-   
-
-
 
 class SenkuException(Exception):
     pass
@@ -158,5 +164,4 @@ class SenkuMovementOutOfRangeException(SenkuException):
 
 class SenkuInvalidMovementException(SenkuException):
     pass
-
 

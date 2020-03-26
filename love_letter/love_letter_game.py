@@ -6,18 +6,14 @@ from love_letter.pc_player import PcPlayer
 class LoveLetterGame:
 
     def __init__(self, name):
-        self.human_player = HumanPlayer(name)
-        self.pc_player = PcPlayer()
-        self.players = [self.human_player, self.pc_player]
         self.deck = Deck()
-        self.deck.shuffle_cards()
-        self.deck.remove_last()
-        cards_to_show = self.deck.show_three()
+        self.human_player = HumanPlayer(name, self.deck)
+        self.pc_player = PcPlayer(self.deck)
+        self.players = [self.human_player, self.pc_player]
+        cards_to_show = self.deck.three_cards_to_show
         #move this print to method next turn(only first turn)
         for card in cards_to_show:
             pass
-        self.human_player.set_a_card(self.deck.get_one_card())
-        self.pc_player.set_a_card(self.deck.get_one_card())
 
     def next_turn(self):
        return #-> lo que le debemos mostrar al usuario en su turno actual
@@ -30,3 +26,13 @@ class LoveLetterGame:
     def board(self):
         text_to_show = "{}\n{}\n{}".format(self.deck.__str__(), self.human_player.__str__(), self.pc_player.__str__())
         return text_to_show #-> muestra al usuario el estado actual del juego (no del feedback de lo que acaba de hacer)
+
+    def end_of_round(self):
+        self.human_player.end_of_round()
+        self.pc_player.end_of_round()
+
+    def check_winner(self):
+        if self.human_player.hearts == 7 or self.pc_player.hearts == 7:
+            return True
+        else:
+            return False

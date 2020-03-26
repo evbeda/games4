@@ -8,3 +8,10 @@ class Prince(Card):
         self.description = "Player can choose any player (including themselves)" \
                            " to discard their hand and draw a new one. " \
                            "If the discarded card is the Princess, the discarding player is eliminated."
+
+    def execute_action(self, player, target):
+        if target.cards[0].name == "Princess":
+            target.is_active = False
+        target.discarded.append(target.cards.pop())
+        target.draw_card()
+
