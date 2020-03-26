@@ -1,4 +1,7 @@
-class Race:
+from munchkin.doors.door import Door
+
+
+class Race(Door):
 
     def __init__(self):
 

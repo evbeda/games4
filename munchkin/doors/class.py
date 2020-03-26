@@ -1,5 +1,5 @@
-from munchkin.door import Door
-
-
-class Class(Door):
-    pass
+# from munchkin.doors.door import Door
+#
+#
+# class Class(Door):
+#     pass

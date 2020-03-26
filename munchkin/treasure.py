@@ -1,2 +1,0 @@
-class Treasure:
-    pass
