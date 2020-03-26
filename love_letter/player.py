@@ -1,6 +1,9 @@
+from .deck import Deck
+
+
 class Player(object):
 
-    def __init__(self, deck = None):
+    def __init__(self, deck=None):
         self.name = None
         self.hearts = 0
         self.score = 0
@@ -11,7 +14,8 @@ class Player(object):
         self.draw_card()
 
     def draw_card(self):
-        self.cards.append(self.deck.pop())
+        if self.deck is not None:
+            self.cards.append(self.deck.pop())
 
     def __str__(self):
         return "Player: {}, " \
