@@ -11,8 +11,7 @@ class Player(object):
         self.draw_card()
 
     def draw_card(self):
-        if self.deck is not None:
-            self.cards.append(self.deck.pop())
+        self.cards.append(self.deck.cards.pop())
 
     def __str__(self):
         return "Player: {}, " \
