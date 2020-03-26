@@ -27,6 +27,7 @@ class Ahorcado(object):
             return "Please input a letter from A-Z"
 
     def play(self, letter):
+        letter = letter.upper()
         try:
             self.validate_letter(letter)
         except IsNotAlphaException:

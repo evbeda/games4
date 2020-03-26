@@ -148,7 +148,11 @@ class TestAhorcado(unittest.TestCase):
         self.assertEqual("[ is not a character, use a letter", self.game.play("["))
 
     def test_IsNotOneCharacter_play(self):
-        self.assertEqual("asdsda0321 is not a single word, put one letter!", self.game.play("asdsda0321"))
+        self.assertEqual("ASDSDA0321 is not a single word, put one letter!", self.game.play("asdsda0321"))
+
+    def test_to_upper(self):
+        self.game.play("p")
+        self.assertEqual("Already tried that Letter! Try again", self.game.play("P"))
 
     def test_is_not_playing_when_player_wins(self):
         self.game.play("P")

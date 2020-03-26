@@ -1,3 +1,4 @@
+from ahorcado.ahorcado import Ahorcado
 from guess_number_game.guess_number_game import GuessNumberGame
 
 
@@ -7,6 +8,7 @@ class Game(object):
         super(Game, self).__init__()
         self.games = [
             GuessNumberGame,
+            Ahorcado,
         ]
 
     def output(self, text):
