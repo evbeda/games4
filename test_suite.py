@@ -7,6 +7,7 @@ from munchkin.test_dice import TestDice
 from munchkin.test_monster import TestMonster
 from munchkin.test_race import TestRace
 from munchkin.test_player import TestMunchkinPlayer
+from test_game import TestGame
 
 
 def suite():
@@ -29,6 +30,8 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestKing))
     # Ahorcado game
     test_suite.addTest(unittest.makeSuite(TestAhorcado))
+    # GAME MACHINE
+    test_suite.addTest(unittest.makeSuite(TestGame))
 
     return test_suite
 
