@@ -71,6 +71,7 @@ class TestGame(unittest.TestCase):
             ['[]', 'you win', '[50]'],
         )
 
+
     def test_play_ahorcado(self):
 
         class ControlInputValues(object):
@@ -101,6 +102,7 @@ class TestGame(unittest.TestCase):
             self.output_collector.output_collector,
             ['_\n\nLifes: 6', 'Game Finished', 'T\nT\nLifes: 6'],
         )
+
 
 if __name__ == "__main__":
     unittest.main()

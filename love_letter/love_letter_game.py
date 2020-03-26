@@ -10,15 +10,10 @@ class LoveLetterGame:
         self.human_player = HumanPlayer(name, self.deck)
         self.pc_player = PcPlayer(self.deck)
         self.players = [self.human_player, self.pc_player]
-        
-        # self.deck.shuffle_cards()
-        self.deck.remove_last()
-        cards_to_show = self.deck.show_three()
+        cards_to_show = self.deck.three_cards_to_show
         #move this print to method next turn(only first turn)
         for card in cards_to_show:
             pass
-        self.human_player.set_a_card(self.deck.get_one_card())
-        self.pc_player.set_a_card(self.deck.get_one_card())
 
     def next_turn(self):
        return #-> lo que le debemos mostrar al usuario en su turno actual
