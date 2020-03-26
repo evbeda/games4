@@ -2,6 +2,8 @@ import unittest
 from test_dice import TestDice
 from test_monster import TestMonster
 from test_race import TestRace
+
+
 # from dice import Dice
 # from monster import Monster
 
@@ -13,7 +15,7 @@ def suite():
     return test_suite
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     alltests = unittest.TestSuite()
     alltests.addTest(suite())
     unittest.TextTestRunner().run(alltests)
