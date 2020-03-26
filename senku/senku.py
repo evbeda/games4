@@ -48,7 +48,7 @@ class SenkuGame(object):
             return "Error move, invalid Movement"
         except SenkuMovementOutOfRangeException:
             return "Error move, out of range Movement"
-        except TypeError:
+        except ValueError:
             return "Error type, please enter only integers"
         
 

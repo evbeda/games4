@@ -363,10 +363,6 @@ class TestSenku(unittest.TestCase):
         return_str = "Right move"
         self.assertEqual(return_str, result)
     
-    def test_validate_type(self):
-        with self.assertRaises(TypeError):
-            self.game.validate_move('a',3,4,2)
-
     def test_play_type(self):
         result = self.game.play('a', 3, 3, 3)
         return_str = "Error type, please enter only integers"
