@@ -96,15 +96,6 @@ class Ahorcado(object):
         if not letter.isalpha():
             raise IsNotAlphaException("The value {} is not a letter".format(letter))
 
-    def hidden_letters_message(self):
-        new_hidden_letters = []
-        for character in self.word:
-            if character in self.used_letters:
-                new_hidden_letters.append(character)
-            elif character not in self.used_letters:
-                new_hidden_letters.append("_")
-        return " ".join(new_hidden_letters)
-
     @property
     def board(self):
         return self.hidden_letters_message() + '\n' + " ".join(self.used_letters) + '\n' + self.get_lifes()
