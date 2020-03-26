@@ -35,7 +35,8 @@ class TestGame(unittest.TestCase):
             self.game.game_inputs(),
             'Select Game\n'
             '0: Guess Number Game\n'
-            '1: Ahorcado\n'
+            '1: Senku\n'
+            '2: Ahorcado\n'
             '9: to quit\n'
         )
 
@@ -82,7 +83,7 @@ class TestGame(unittest.TestCase):
                     if self.played:
                         return '9'
                     self.played = True
-                    return '1'
+                    return '2'
                 if 'Please input a letter from A-Z' in console_output:
                     return 'T'
 
