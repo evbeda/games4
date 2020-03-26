@@ -8,6 +8,7 @@ class Player(object):
         self.is_active = True
         self.discarded = []
         self.deck = deck
+        self.draw_card()
 
     def draw_card(self):
         self.cards.append(self.deck.pop())
