@@ -32,6 +32,10 @@ class LoveLetterGame:
         text_to_show = "{}\n{}\n{}".format(self.deck.__str__(), self.human_player.__str__(), self.pc_player.__str__())
         return text_to_show #-> muestra al usuario el estado actual del juego (no del feedback de lo que acaba de hacer)
 
+    def end_of_round(self):
+        self.human_player.end_of_round()
+        self.pc_player.end_of_round()
+
     def check_winner(self):
         if self.human_player.hearts == 7 or self.pc_player.hearts == 7:
             return True
