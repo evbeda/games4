@@ -6,6 +6,8 @@ from .cards.princess import Princess
 from .cards.countess import Countess
 from .cards.king import King
 from .cards.baron import Baron
+from .cards.guard import Guard
+from .cards.handmaid import Handmaid
 from .human_player import HumanPlayer
 from .love_letter_game import LoveLetterGame
 from .pc_player import PcPlayer

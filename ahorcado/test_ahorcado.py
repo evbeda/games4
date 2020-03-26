@@ -1,6 +1,6 @@
 import unittest
 from .ahorcado import Ahorcado, IsNotAlphaException, IsNotOneCharacter
-from mock import patch, MagicMock
+from unittest.mock import patch, MagicMock
 
 
 class TestAhorcado(unittest.TestCase):
