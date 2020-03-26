@@ -1,4 +1,5 @@
 from guess_number_game.guess_number_game import GuessNumberGame
+from senku.senku import SenkuGame
 
 
 class Game(object):
@@ -7,6 +8,7 @@ class Game(object):
         super(Game, self).__init__()
         self.games = [
             GuessNumberGame,
+            SenkuGame,
         ]
 
     def output(self, text):
