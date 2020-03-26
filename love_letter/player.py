@@ -19,3 +19,8 @@ class Player(object):
         self.cards.remove(card)
         self.score += card.score
         self.discarded.insert(0, card)
+
+    def end_of_round(self):
+        self.score = 0
+        self.cards = []
+        self.discarded = []
