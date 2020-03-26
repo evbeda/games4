@@ -32,7 +32,8 @@ class TestGame(unittest.TestCase):
             self.game.game_inputs(),
             'Select Game\n'
             '0: Guess Number Game\n'
-            '1: Ahorcado\n'
+            '1: Senku Game\n'
+            '2: Ahorcado\n'
             '9: to quit\n'
         )
 
@@ -66,6 +67,8 @@ class TestGame(unittest.TestCase):
             self.output_collector.output_collector,
             ['[]', 'you win', '[50]'],
         )
+
+            
 
 
 if __name__ == "__main__":
