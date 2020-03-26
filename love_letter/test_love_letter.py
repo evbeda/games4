@@ -247,3 +247,10 @@ class TestLoveLetterGame(unittest.TestCase):
                         "Player: PC Player, Hearts: 0"
         result_text = self.game.board
         self.assertEquals(expected_text, result_text)
+
+    def test_check_winner_false(self):
+        self.assertFalse(self.game.check_winner())
+
+    def test_check_winner_true(self):
+        self.game.pc_player.hearts = 7
+        self.assertTrue(self.game.check_winner())
