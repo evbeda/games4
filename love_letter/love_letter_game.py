@@ -7,10 +7,12 @@ class LoveLetterGame:
 
     def __init__(self, name):
         self.deck = Deck()
-        self.human_player = HumanPlayer(name, self.deck)
-        self.pc_player = PcPlayer(self.deck)
+        self.deck.shuffle_cards()
+        self.human_player = HumanPlayer(name, deck=self.deck)
+        self.pc_player = PcPlayer(deck=self.deck)
         self.players = [self.human_player, self.pc_player]
-        cards_to_show = self.deck.three_cards_to_show
+        self.deck.remove_last()
+        cards_to_show = self.deck.show_three()
         #move this print to method next turn(only first turn)
         for card in cards_to_show:
             pass
