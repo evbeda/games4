@@ -133,4 +133,5 @@ dmypy.json
 #.idea
 senku_game/.idea/
 .idea/
-
+#vsCode
+.vscode/

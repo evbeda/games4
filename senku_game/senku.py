@@ -36,6 +36,7 @@ class SenkuGame(object):
 
     def play(self, initial_row, initial_col, final_row, final_col):
         try:
+            #self.validate_integer(initial_row, initial_col, final_row, final_col)
             self.validate_move(initial_row, initial_col, final_row, final_col)
             self.__move_piece(initial_row, initial_col, final_row, final_col)
             return "Right move"
@@ -43,6 +44,8 @@ class SenkuGame(object):
             return "Error move, invalid Movement"
         except SenkuMovementOutOfRangeException:
             return "Error move, out of range Movement"
+        except SenkuTypeException:
+            return "Type error, please enter only integers"
 
     @property
     def board(self):
@@ -64,14 +67,15 @@ class SenkuGame(object):
 
     def validate_move(self, *positions):
         initial_row, initial_col, final_row, final_col = positions
-        for pos in positions:
-            if pos < 0 or pos > 6:
-                raise SenkuMovementOutOfRangeException("Value must be between 0 and 6")
-            if (
-                    not self._board[initial_row][initial_col] == space_occupied or
-                    not self._board[final_row][final_col] == space_free
-            ):
-                raise SenkuMovementOutOfRangeException('The space you try to move is not available')
+        
+        if max(positions)>6 or min(positions)<0:
+            raise SenkuMovementOutOfRangeException("Value must be between 0 and 6")
+
+        if (
+                not self._board[initial_row][initial_col] == space_occupied or
+                not self._board[final_row][final_col] == space_free
+        ):
+            raise SenkuMovementOutOfRangeException('The space you try to move is not available')
 
         if initial_row == final_row and abs(initial_col - final_col) == 2:
             if self._board[initial_row][(initial_col + final_col) // 2] == space_occupied:
@@ -143,6 +147,9 @@ class SenkuGame(object):
 
         return True
 
+   
+
+
 
 class SenkuException(Exception):
     pass
@@ -154,4 +161,5 @@ class SenkuMovementOutOfRangeException(SenkuException):
 
 class SenkuInvalidMovementException(SenkuException):
     pass
+
 
