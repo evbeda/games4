@@ -11,6 +11,7 @@ class IsNotOneCharacter(Exception):
 
 class Ahorcado(object):
     name = "Ahorcado"
+    input_args = 1
 
     def __init__(self, force_word=None):
         self.word = force_word if force_word else self.get_word_from_api()
