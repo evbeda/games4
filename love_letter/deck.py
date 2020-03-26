@@ -1,4 +1,3 @@
-from love_letter.card import Card
 from love_letter.cards.baron import Baron
 from love_letter.cards.countess import Countess
 from love_letter.cards.guard import Guard
@@ -33,8 +32,8 @@ class Deck:
         self.players = []
 
     def shuffle_cards(self):
-       random.shuffle(self.cards)
-       return self.cards
+        random.shuffle(self.cards)
+        return self.cards
 
     def remove_last(self):
         self.cards.pop(-1)

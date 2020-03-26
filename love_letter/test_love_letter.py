@@ -100,6 +100,7 @@ class TestDeck(unittest.TestCase):
         text = self.deck.__str__()
         self.assertEqual("Deck : 16 remaining cards", text)
 
+
 class TestPlayer(unittest.TestCase):
 
     def setUp(self):
@@ -163,6 +164,7 @@ class TestPlayer(unittest.TestCase):
         self.player.discard_card(self.player.cards[0])
         self.assertEquals(self.player.score, score)
 
+
 class TestCard(unittest.TestCase):
 
     def setUp(self):
@@ -178,7 +180,8 @@ class TestCard(unittest.TestCase):
              )
 
     def test_generic_exception(self):
-        self.assertRaises(Exception, lambda:(self.genericCard.execute_action()))
+        self.assertRaises(Exception, lambda: (self.genericCard.execute_action()))
+
 
 class TestPrincess(unittest.TestCase):
 
@@ -189,6 +192,7 @@ class TestPrincess(unittest.TestCase):
     def test_execute_action_knocks_out_player(self):
         self.princess.execute_action(self.player)
         self.assertFalse(self.player.is_active)
+
 
 class TestCountess(unittest.TestCase):
 
@@ -204,6 +208,7 @@ class TestCountess(unittest.TestCase):
     def test_must_discard_card_without_king(self):
         self.player.cards.append(Baron())
         self.assertFalse(self.countess.must_discard(self.player))
+
 
 class TestKing(unittest.TestCase):
 
@@ -222,6 +227,7 @@ class TestKing(unittest.TestCase):
 
     def test_looking_for_handmaid(self):
         self.assertEqual(len(self.king.look_for_handmaid(self.deck.players, self.player)), 1)
+
 
 class TestLoveLetterGame(unittest.TestCase):
 

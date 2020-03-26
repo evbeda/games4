@@ -1,5 +1,5 @@
 from love_letter.card import Card
-from love_letter.player import Player
+
 
 class Princess(Card):
 
@@ -10,4 +10,3 @@ class Princess(Card):
 
     def execute_action(self, player):
         player.is_active = False
-        
