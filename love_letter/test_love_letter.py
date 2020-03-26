@@ -1,13 +1,14 @@
 import unittest
 
 from .card import Card
-from .cards.priest import Priest
-from .cards.princess import Princess
-from .cards.countess import Countess
-from .cards.king import King
-from .cards.baron import Baron
 from .cards.guard import Guard
+from .cards.priest import Priest
+from .cards.baron import Baron
 from .cards.handmaid import Handmaid
+from .cards.prince import Prince
+from .cards.king import King
+from .cards.countess import Countess
+from .cards.princess import Princess
 from .human_player import HumanPlayer
 from .love_letter_game import LoveLetterGame
 from .pc_player import PcPlayer
@@ -180,6 +181,15 @@ class TestCard(unittest.TestCase):
     def setUp(self):
         self.card = Priest()
         self.genericCard = Card()
+        self.player = Player()
+        self.player.cards.append(King())
+        self.player_1 = Player()
+        self.player_1.discarded.append(Guard())
+        self.player_2 = Player()
+        self.player_2.discarded.append(Handmaid())
+
+        self.deck = Deck()
+        self.deck.players.extend([self.player, self.player_1, self.player_2])
 
     def test_card_print(self):
         self.assertEqual(
@@ -190,8 +200,12 @@ class TestCard(unittest.TestCase):
              )
 
     def test_generic_exception(self):
-        self.assertRaises(Exception, lambda: (self.genericCard.execute_action()))
+        self.assertRaises(Exception, lambda: (self.genericCard.execute_action("player")))
 
+    def test_looking_for_handmaid(self):
+        self.assertEqual(len(self.genericCard.look_for_handmaid(self.deck.players, self.player)), 1)
+        self.assertTrue(self.player_2 in self.genericCard.look_for_handmaid(self.deck.players, self.player))
+        self.assertFalse(self.player_1 in self.genericCard.look_for_handmaid(self.deck.players, self.player))
 
 class TestPrincess(unittest.TestCase):
 
@@ -224,19 +238,18 @@ class TestKing(unittest.TestCase):
 
     def setUp(self):
         self.king = King()
-        self.player = Player()
-        self.player.cards.append(self.king)
-
         self.player_1 = Player()
-        self.player_1.discarded.append(Guard())
+        self.player_1.cards.append(Countess())
         self.player_2 = Player()
-        self.player_2.discarded.append(Handmaid())
+        self.player_2.cards.append(Guard())
+        
 
-        self.deck = Deck()
-        self.deck.players.extend([self.player, self.player_1, self.player_2])
-
-    def test_looking_for_handmaid(self):
-        self.assertEqual(len(self.king.look_for_handmaid(self.deck.players, self.player)), 1)
+    def test_switch_cards(self):
+        self.king.execute_action(self.player_1, self.player_2)
+        self.assertEqual(len(self.player_1.cards), 1)
+        self.assertEqual(self.player_1.cards[0].name, "Guard")
+        self.assertEqual(len(self.player_2.cards), 1)
+        self.assertEqual(self.player_2.cards[0].name, "Countess")
 
 
 class TestLoveLetterGame(unittest.TestCase):
