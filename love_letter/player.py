@@ -1,15 +1,16 @@
 class Player(object):
 
-    def __init__(self):
+    def __init__(self, deck = None):
         self.name = None
         self.hearts = 0
         self.score = 0
         self.cards = []
         self.is_active = True
         self.discarded = []
+        self.deck = deck
 
-    def set_a_card(self, card):
-        self.cards.append(card)
+    def draw_card(self):
+        self.cards.append(self.deck.pop())
 
     def __str__(self):
         return "Player: {}, " \

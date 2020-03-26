@@ -6,11 +6,12 @@ from love_letter.pc_player import PcPlayer
 class LoveLetterGame:
 
     def __init__(self, name):
-        self.human_player = HumanPlayer(name)
-        self.pc_player = PcPlayer()
-        self.players = [self.human_player, self.pc_player]
         self.deck = Deck()
-        self.deck.shuffle_cards()
+        self.human_player = HumanPlayer(name, self.deck)
+        self.pc_player = PcPlayer(self.deck)
+        self.players = [self.human_player, self.pc_player]
+        
+        # self.deck.shuffle_cards()
         self.deck.remove_last()
         cards_to_show = self.deck.show_three()
         #move this print to method next turn(only first turn)
