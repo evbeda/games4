@@ -1,5 +1,5 @@
 import unittest
-from .race import Race
+from munchkin.doors.races.race import Race
 
 
 class TestRace(unittest.TestCase):
