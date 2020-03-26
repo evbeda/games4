@@ -166,6 +166,14 @@ class TestPlayer(unittest.TestCase):
         self.player.discard_card(self.player.cards[0])
         self.assertEquals(self.player.score, score)
 
+    def test_end_of_round_player(self):
+        self.player.end_of_round()
+        discarded_cards = []
+        score = 0
+        cards = []
+        attributes = [discarded_cards, score, cards]
+        player_attributes = [self.player.discarded, self.player.score, self.player.cards]
+        self.assertEqual(attributes, player_attributes)
 
 class TestCard(unittest.TestCase):
 
