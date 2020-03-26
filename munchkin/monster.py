@@ -1,7 +1,7 @@
-
 Monsters = {'name':'Chupacabras','power':8,'level_add':1,'treasures':2,}
+
 class Monster:
-    def __init__(self,name,power,treasures,level_add):
+    def __init__(self, name, power, treasures, level_add):
         self._name = name
         self._power = power
         self._treasures = treasures

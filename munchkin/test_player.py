@@ -1,6 +1,7 @@
 import unittest
 from .player import Player
 
+
 class TestMunchkinPlayer(unittest.TestCase):
 
     def setUp(self):
@@ -34,11 +35,11 @@ class TestMunchkinPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
-    
+
     def test_level_up(self):
         self.player.level_up()
         self.assertEqual(self.player.level, 2)
-    
+
     def test_level_down(self):
         self.player.level = 5
         self.player.level_down()
