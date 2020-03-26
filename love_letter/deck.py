@@ -29,6 +29,9 @@ class Deck:
         self.cards.extend(princes)
         self.cards.extend(princess)
         self.cards.extend(priests)
+        self.shuffle_cards()
+        self.remove_last()
+        self.three_cards_to_show = self.show_three()
         self.players = []
 
     def shuffle_cards(self):
@@ -38,9 +41,6 @@ class Deck:
     def remove_last(self):
         self.cards.pop(-1)
         return self.cards
-
-    def get_one_card(self):
-        return self.cards.pop(0)
 
     def show_three(self):
         card_showed = []

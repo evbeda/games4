@@ -33,6 +33,7 @@ class TestGame(unittest.TestCase):
             'Select Game\n'
             '0: Guess Number Game\n'
             '1: Senku Game\n'
+            '2: Ahorcado\n'
             '9: to quit\n'
         )
 

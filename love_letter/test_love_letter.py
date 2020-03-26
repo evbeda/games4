@@ -275,3 +275,21 @@ class TestLoveLetterGame(unittest.TestCase):
     def test_check_winner_true(self):
         self.game.pc_player.hearts = 7
         self.assertTrue(self.game.check_winner())
+
+    def test_end_of_round(self):
+        for player in self.game.players:
+            player.end_of_round()
+        discarded_cards = []
+        score = 0
+        cards = []
+        attributes = [discarded_cards, score, cards]
+        player_attributes = [self.game.human_player.discarded,
+                             self.game.human_player.score,
+                             self.game.human_player.cards]
+        pc_player_attributes = [self.game.pc_player.discarded,
+                                self.game.pc_player.score,
+                                self.game.pc_player.cards]
+
+        self.assertEqual(attributes, player_attributes)
+        self.assertEqual(attributes, pc_player_attributes)
+

@@ -1,3 +1,4 @@
+from ahorcado.ahorcado import Ahorcado
 from guess_number_game.guess_number_game import GuessNumberGame
 from senku.senku import SenkuGame
 
@@ -9,6 +10,7 @@ class Game(object):
         self.games = [
             GuessNumberGame,
             SenkuGame,
+            Ahorcado,
         ]
 
     def output(self, text):
