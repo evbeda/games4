@@ -150,3 +150,26 @@ class TestAhorcado(unittest.TestCase):
     def test_IsNotOneCharacter_play(self):
         self.assertEqual("asdsda0321 is not a single word, put one letter!", self.game.play("asdsda0321"))
 
+    def test_is_not_playing_when_player_wins(self):
+        self.game.play("P")
+        self.game.play("A")
+        self.game.play("L")
+        self.game.play("B")
+        self.game.play("R")
+        self.assertTrue(not self.game.is_playing)
+
+    def test_is_not_playing_when_player_loses(self):
+        self.game.play("Z")
+        self.game.play("Q")
+        self.game.play("U")
+        self.game.play("K")
+        self.game.play("V")
+        self.game.play("G")
+        self.assertTrue(not self.game.is_playing)
+
+    def test_is_not_playing_when_player_is_alive(self):
+        self.game.play("Z")
+        self.game.play("Q")
+        self.game.play("U")
+        self.game.play("K")
+        self.assertTrue(self.game.is_playing)
