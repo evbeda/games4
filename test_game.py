@@ -1,5 +1,7 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
+
+from ahorcado.ahorcado import Ahorcado
 from game import Game
 
 
@@ -26,6 +28,7 @@ class TestGame(unittest.TestCase):
             self.output_collector.output_collector,
             [],
         )
+
 
     def test_game_selection(self):
         self.assertEqual(
@@ -67,6 +70,36 @@ class TestGame(unittest.TestCase):
             ['[]', 'you win', '[50]'],
         )
 
+    def test_play_ahorcado(self):
+
+        class ControlInputValues(object):
+            def __init__(self, *args, **kwargs):
+                self.played = False
+                self.play_count = 0
+
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '1'
+                if 'Please input a letter from A-Z' in console_output:
+                    return 'T'
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues()), \
+                patch(
+                    'game.Game.output', side_effect=self.output_collector), \
+                patch.object(
+                    Ahorcado, 'get_word_from_api',return_value='T'
+                    ):
+            self.game.play()
+
+        self.assertEqual(
+            self.output_collector.output_collector,
+            ['_\n\nLifes: 6', 'Game Finished', 'T\nT\nLifes: 6'],
+        )
 
 if __name__ == "__main__":
     unittest.main()

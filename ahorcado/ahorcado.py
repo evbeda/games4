@@ -43,9 +43,12 @@ class Ahorcado(object):
             self.set_used_letters(letter)
             return "Wrong letter, you lose one life"
 
-        elif self.check_input_word(letter):
+        elif self.check_input_word(letter) and self.is_playing:
             self.set_used_letters(letter)
+            if not self.is_playing:
+                return "Game Finished"
             return "Correct letter! Choose another"
+
 
     def get_lifes(self):
         return "Lifes: {}".format(self.lifes)
