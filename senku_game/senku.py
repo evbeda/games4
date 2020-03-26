@@ -43,6 +43,9 @@ class SenkuGame(object):
             return "Error move, invalid Movement"
         except SenkuMovementOutOfRangeException:
             return "Error move, out of range Movement"
+        except TypeError:
+            return "Error type, please enter only integers"
+        
 
     @property
     def board(self):
@@ -144,9 +147,6 @@ class SenkuGame(object):
 
         return True
 
-   
-
-
 
 class SenkuException(Exception):
     pass
@@ -158,5 +158,4 @@ class SenkuMovementOutOfRangeException(SenkuException):
 
 class SenkuInvalidMovementException(SenkuException):
     pass
-
 
