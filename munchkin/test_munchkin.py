@@ -8,6 +8,7 @@ from .deck import TreasureDeck
 from .deck import DoorDeck
 from .treasures.treasure import Treasure
 from .treasures.weapon_card import Weapon
+from .treasures.armor_card import Armor
 from mock import patch
 
 
@@ -116,8 +117,8 @@ class TestTreasureDeck(unittest.TestCase):
         self.my_t_deck = TreasureDeck()
 
     def test_cards(self):
-        # Increment this number if you create new Weapons Card!
-        self.assertEqual(len(self.my_t_deck.cards), 5)
+        # Increment this number if you create new Treasures Card!
+        self.assertEqual(len(self.my_t_deck.cards), 10)
 
     def test_discards_cards(self):
         self.assertEqual(self.my_t_deck.discard_cards, [])
@@ -128,7 +129,7 @@ class TestTreasureDeck(unittest.TestCase):
 
     def test_add_cards(self):
         self.my_t_deck.add_cards(["ADDED1", "ADDED2"])
-        self.assertEqual(len(self.my_t_deck.cards), 7)
+        self.assertEqual(len(self.my_t_deck.cards), 12)
 
     def test_shuffle_cards(self):
         shuffle_my_t_deck = self.my_t_deck
@@ -172,7 +173,8 @@ class TestDoorDeck(unittest.TestCase):
 class TestCardMunchkin(unittest.TestCase):
     def setUp(self):
         self.treasure = Treasure()
-        self. weapon = Weapon("Axe", 2, 1, 600, "Human")
+        self.weapon = Weapon("Axe", 2, 1, 600, "Human")
+        self.armor = Armor("Armadura de cuero", 1, "Armadura", 200, "Male")
 
     def test_abstract_Card(self):
         self.assertIsNone(self.treasure.type_treasure)
@@ -193,4 +195,19 @@ class TestCardMunchkin(unittest.TestCase):
         self.assertEqual(self.weapon.value, 600)
 
         # Some Weapons can be used by some Races, or some class, when get "All" means what it can use for everyone
-        self.assertEqual(self.weapon.use_by, "Human")
+        self.assertEqual(self.weapon.used_by, "Human")
+    
+    def test_armor_card(self):
+        self.assertEqual(self.armor.type, "Treasure")
+        self.assertEqual(self.armor.type_treasure, "Armor")
+        self.assertEqual(self.armor.name, "Armadura de cuero")
+
+        # Level to fight against the monster
+        self.assertEqual(self.armor.bonus, 1)
+
+        # Value to sell the armor, if the player get 1000 in two armors, he can sell it for +1 Level!
+        self.assertEqual(self.armor.value, 200)
+        # Part of armor, use armadura, armadura grande, calzado , etc
+        self.assertEqual(self.armor.part, "Armadura")
+        # Some armors can be used by some Races, or some class, when get "All" means what it can use for everyone
+        self.assertEqual(self.armor.used_by, "Male")
