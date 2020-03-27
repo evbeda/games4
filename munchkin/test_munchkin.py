@@ -4,6 +4,9 @@ from .player import Player
 from .doors.monster import Monster
 from .doors.races.race import Race
 from .munchkin import Munchkin
+from .deck import TreasureDeck
+from .deck import DoorDeck
+
 
 class TestDice(unittest.TestCase):
 
@@ -12,6 +15,7 @@ class TestDice(unittest.TestCase):
         result = dice.shuffle()
         self.assertGreaterEqual(result, 1)
         self.assertLessEqual(result, 6)
+
 
 class TestMonster(unittest.TestCase):
 
@@ -30,6 +34,7 @@ class TestMonster(unittest.TestCase):
         result = monster.level_add
         self.assertGreaterEqual(result, 1)
         self.assertLessEqual(result, 9)
+
 
 class TestPlayer(unittest.TestCase):
 
@@ -80,6 +85,7 @@ class TestPlayer(unittest.TestCase):
         self.player.level_down()
         self.assertEqual(self.player.level, 1)
 
+
 class TestRace(unittest.TestCase):
     def test_race_has_5_cards_on_init(self):
         race = Race()
@@ -91,6 +97,7 @@ class TestRace(unittest.TestCase):
         result = race.carry_objects
         self.assertFalse(result)
 
+
 class TestMunchkin(unittest.TestCase):
     def test_initial_board(self):
         self.muchkin = Munchkin()
@@ -98,3 +105,44 @@ class TestMunchkin(unittest.TestCase):
                         "Player: name, On Hand: []"
         result_text = self.muchkin.board
         self.assertEquals(expected_text, result_text)
+
+
+class TestDeck(unittest.TestCase):
+
+    def setUp(self):
+        self.my_t_deck = TreasureDeck()
+        self.my_d_deck = DoorDeck()
+
+    def test_cards(self):
+        self.assertEqual(self.my_t_deck.cards, ["treasurecard1", "treasurecard2", "treasurecard3", "treasurecard4"])
+        self.assertEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4"])
+
+    def test_discards_cards(self):
+        self.assertEqual(self.my_t_deck.discard_cards, [])
+        self.assertEqual(self.my_d_deck.discard_cards, [])
+
+    def test_add_discard(self):
+        self.my_d_deck.add_discard("ADDED")
+        self.my_t_deck.add_discard("ADDED")
+        self.assertEqual(self.my_d_deck.discard_cards, ["ADDED"])
+        self.assertEqual(self.my_t_deck.discard_cards, ["ADDED"])
+
+    def test_add_cards(self):
+        self.my_d_deck.add_cards(["ADDED1E", "ADDED2E"])
+        self.my_t_deck.add_cards(["ADDED1", "ADDED2"])
+        self.assertEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4", "ADDED1E", "ADDED2E"])
+        self.assertEqual(self.my_t_deck.cards, ["treasurecard1", "treasurecard2", "treasurecard3", "treasurecard4", "ADDED1", "ADDED2"])
+
+    def test_shuffle_cards(self):
+        self.my_d_deck.shuffle_deck()
+        self.my_t_deck.shuffle_deck()
+        self.assertNotEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4"])
+        self.assertNotEqual(self.my_t_deck.cards, ["treasurecard1", "treasurecard2", "treasurecard3", "treasurecard4"])
+
+    def test_reset_cards(self):
+        self.my_d_deck.add_discard("ADDED1")
+        self.my_d_deck.reset_cards()
+        self.my_t_deck.add_discard("ADDED1E")
+        self.my_t_deck.reset_cards()
+        self.assertEqual(self.my_d_deck.cards, ["ADDED1"])
+        self.assertEqual(self.my_t_deck.cards, ["ADDED1E"])

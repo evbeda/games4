@@ -4,6 +4,7 @@ class Card:
         self.score = None
         self.name = None
         self.description = None
+        self.player = None
 
     def execute_action(self, player, target = None):
         raise Exception("Not implemented action!")
