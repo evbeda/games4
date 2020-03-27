@@ -9,6 +9,6 @@ class Priest(Card):
         self.score = 2
         self.description = "Player is allowed to see another player's hand."
 
-    def execute_action(self, player, target=None):
+    def execute_action(self, target):
         card_to_show = target.show_card()
         return card_to_show.__str__()

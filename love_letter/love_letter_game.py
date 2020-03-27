@@ -7,12 +7,16 @@ class TargetMyselfException(Exception):
     pass
 
 
+
+
 hearts_to_win = {
-    #number_of_players: hearts_to_win
+    # number_of_players: hearts_to_win
+
     2: 7,
     3: 5,
     4: 4,
 }
+
 
 
 class LoveLetterGame:
@@ -21,7 +25,7 @@ class LoveLetterGame:
         self.deck = Deck()
         self.deck.shuffle_cards()
         self.players = [HumanPlayer(name, self), PcPlayer(self)]
-        #Logica de sacar cartas (regla del juego para 2 jugadores)
+        # Logica de sacar cartas (regla del juego para 2 jugadores)
         if len(self.players) == 2:
             self.deck.remove_last()
             self.deck.show_three()
