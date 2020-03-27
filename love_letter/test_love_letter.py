@@ -273,44 +273,20 @@ class TestBaron(unittest.TestCase):
         self.player_2 = self.game.pc_player
         self.player_2.cards = []
         self.player_2.cards.append(self.guard)
-        
-        self.player_3 = Player(self.deck)
-        self.player_3.cards = []
-        self.player_3.cards.append(self.princess)
-        
 
     def test_compare_hands_and_knock_out_opponent(self):
         self.baron.execute_action(self.player_1, self.player_2)
-
-        shown_card = self.player_1.show_card(self.player_2)
-        viewed_card = self.player_2.show_card(self.player_1)
-        self.assertEqual(self.countess, shown_card)
-        self.assertEqual(self.guard, viewed_card)
-
         self.assertFalse(self.player_2.is_active)
 
     def test_compare_hands_and_knock_out_himself(self):
-        self.baron.execute_action(self.player_1, self.player_3)
-
-        shown_card = self.player_1.show_card(self.player_3)
-        viewed_card = self.player_3.show_card(self.player_1)
-        self.assertEqual(self.countess, shown_card)
-        self.assertEqual(self.princess, viewed_card)
-
-        self.assertFalse(self.player_1.is_active)
+        self.baron.execute_action(self.player_2, self.player_1)
+        self.assertFalse(self.player_2.is_active)
 
     def test_compare_hands_and_tie(self):
-        self.player_1.cards = []
         self.guard2 = Guard()
-        self.player_1.cards.append(self.guard2)
+        self.player_1.cards[0] = self.guard2
 
         self.baron.execute_action(self.player_1, self.player_2)
-
-        shown_card = self.player_1.show_card(self.player_2)
-        viewed_card = self.player_2.show_card(self.player_1)
-        self.assertEqual(self.guard2, shown_card)
-        self.assertEqual(self.guard, viewed_card)
-
         self.assertTrue(self.player_1.is_active)
         self.assertTrue(self.player_2.is_active)
 
