@@ -2,6 +2,7 @@ class Player:
 
     def __init__(self, name):
         self.name = name
+        self.isTurn= False
         self.level = 1
         self.__on_hand = []
         self.__on_board = []
@@ -27,6 +28,10 @@ class Player:
 
     def win(self):
         pass  # Gana si el nivel es 10
+
+    def __str__(self):
+        return "Player: {}, " \
+               "On Hand: {}".format(self.name, self.__on_hand)
 
     @property
     def on_board(self):

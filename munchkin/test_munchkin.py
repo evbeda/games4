@@ -3,6 +3,7 @@ from .dice import Dice
 from .player import Player
 from .doors.monster import Monster
 from .doors.races.race import Race
+from .munchkin import Munchkin
 
 class TestDice(unittest.TestCase):
 
@@ -44,6 +45,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
+        self.assertEqual(self.player.isTurn, False)
 
     def test_set_default_status(self):
         self.player.name = "changed"
@@ -54,6 +56,7 @@ class TestPlayer(unittest.TestCase):
         self.player.fleeing_chance = -2
         self.player.max_race_cards = 2
         self.player.max_cards_on_hand = 7
+        self.player.isTurn = True
         self.player.set_default_status()
         self.assertEqual(self.player.name, "changed")
         self.assertEqual(self.player.level, 4)
@@ -63,6 +66,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
+        self.assertEqual(self.player.isTurn, True)
 
     def test_level_up(self):
         self.player.level_up()
@@ -86,3 +90,11 @@ class TestRace(unittest.TestCase):
         race = Race()
         result = race.carry_objects
         self.assertFalse(result)
+
+class TestMunchkin(unittest.TestCase):
+    def test_initial_board(self):
+        self.muchkin = Munchkin()
+        expected_text = "['card1', 'card2']\n"\
+                        "Player: name, On Hand: []"
+        result_text = self.muchkin.board
+        self.assertEquals(expected_text, result_text)
