@@ -7,6 +7,12 @@ class TargetMyselfException(Exception):
     pass
 
 
+hearts_to_win = {
+    #number_of_players: hearts_to_win
+    2: 7,
+    3: 5,
+    4: 4,
+}
 
 
 class LoveLetterGame:
@@ -43,14 +49,11 @@ class LoveLetterGame:
         return text_to_show #-> muestra al usuario el estado actual del juego (no del feedback de lo que acaba de hacer)
 
     def end_of_round(self):
-        self.human_player.end_of_round()
-        self.pc_player.end_of_round()
+        for player in self.players:
+            player.end_of_round()
 
     def check_winner(self):
-        if self.human_player.hearts == 7 or self.pc_player.hearts == 7:
-            return True
-        else:
-            return False
+        return len([player for player in self.players if player.hearts == hearts_to_win[len(self.players)]]) > 0
 
     def get_opponents(self):
         players_duplicate = self.players.copy()
