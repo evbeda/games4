@@ -26,3 +26,6 @@ class Player(object):
         self.score = 0
         self.cards = []
         self.discarded = []
+
+    def show_card(self, target):
+        return self.cards[0]
