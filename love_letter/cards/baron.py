@@ -3,6 +3,7 @@ from love_letter.card import Card
 
 class Baron(Card):
     def __init__(self):
+        super().__init__()
         self.name = "Baron"
         self.score = 3
         self.description = "Player will choose another player and privately compare hands." \
