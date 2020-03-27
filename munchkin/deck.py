@@ -2,6 +2,7 @@ import random
 
 from munchkin.treasures import TREASURE_CARDS
 from munchkin.treasures.weapon_card import Weapon
+from munchkin.treasures.armor_card import Armor
 
 
 class Deck:
@@ -46,4 +47,7 @@ class TreasureDeck(Deck):
         card = []
         for arm_card_config in TREASURE_CARDS['weapons']:
             card.append(Weapon(**arm_card_config))
+        for armor_card_config in TREASURE_CARDS['armor']:
+            card.append(Armor(**armor_card_config))
         self.add_cards(card)
+
