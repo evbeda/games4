@@ -6,7 +6,7 @@ class Card:
         self.description = None
         self.player = None
 
-    def execute_action(self, player, target = None):
+    def execute_action(self, target=None):
         raise Exception("Not implemented action!")
 
     def must_discard(self, player):
