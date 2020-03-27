@@ -314,7 +314,22 @@ class TestBaron(unittest.TestCase):
         self.assertTrue(self.player_1.is_active)
         self.assertTrue(self.player_2.is_active)
 
-    
+
+class TestPriest(unittest.TestCase):
+
+    def setUp(self):
+        self.player_1 = Player()
+        self.player_2 = Player()
+        self.priest = Priest()
+        self.card_1 = King()
+        self.player_2.cards.append(self.card_1)
+
+    def test_execute_action(self):
+        text_to_show = self.card_1.__str__()
+        result = self.priest.execute_action(self.player_2)
+        self.assertEqual(text_to_show, result)
+
+
 class TestPrince(unittest.TestCase):
 
     def setUp(self):
