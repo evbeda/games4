@@ -21,6 +21,25 @@ class SenkuGame(object):
         self._board[3][3] = space_free
 
     def next_turn(self):
+        return "Please, make a move"
+
+    def play(self, initial_row, initial_col, final_row, final_col):
+        try:
+            initial_row = int(initial_row)
+            initial_col = int(initial_col)
+            final_row = int(final_row)
+            final_col = int(final_col)
+            self.validate_move(initial_row, initial_col, final_row, final_col)
+            self.__move_piece(initial_row, initial_col, final_row, final_col)
+            return self.check_finish()
+        except SenkuInvalidMovementException:
+            return "Error move, invalid Movement"
+        except SenkuMovementOutOfRangeException:
+            return "Error move, out of range Movement"
+        except ValueError:
+            return "Error type, please enter only integers"
+        
+    def check_finish(self):
         cont_ocupied = 0
         for index_row in range(self.__row):
             for index_col in range(self.__col):
@@ -32,25 +51,7 @@ class SenkuGame(object):
         if self.check_loose():
             self.is_playing = False
             return "You loose"
-        if cont_ocupied > 1:
-            return "Please, make a move"
-
-    def play(self, initial_row, initial_col, final_row, final_col):
-        try:
-            initial_row = int(initial_row)
-            initial_col = int(initial_col)
-            final_row = int(final_row)
-            final_col = int(final_col)
-            self.validate_move(initial_row, initial_col, final_row, final_col)
-            self.__move_piece(initial_row, initial_col, final_row, final_col)
-            return "Right move"
-        except SenkuInvalidMovementException:
-            return "Error move, invalid Movement"
-        except SenkuMovementOutOfRangeException:
-            return "Error move, out of range Movement"
-        except ValueError:
-            return "Error type, please enter only integers"
-        
+        return "Right move"
 
     @property
     def board(self):
