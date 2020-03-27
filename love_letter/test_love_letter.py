@@ -186,8 +186,6 @@ class TestCard(unittest.TestCase):
         self.card = Priest()
         self.genericCard = Card()
         self.game = LoveLetterGame("me")
-
-
         self.king = King()
         self.player_1 = self.game.players[0]
         self.player_1.cards.append(self.king)

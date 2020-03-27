@@ -7,12 +7,15 @@ class TargetMyselfException(Exception):
     pass
 
 
+<<<<<<< HEAD
 hearts_to_win = {
     #number_of_players: hearts_to_win
     2: 7,
     3: 5,
     4: 4,
 }
+=======
+>>>>>>> Love letter: modifying draw card workflow
 
 
 class LoveLetterGame:
