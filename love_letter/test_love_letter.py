@@ -104,8 +104,8 @@ class TestPlayer(unittest.TestCase):
 
     def setUp(self):
         self.game = LoveLetterGame("Human Player")
-        self.human_player = self.game.human_player
-        self.pc_player = self.game.pc_player
+        self.human_player = self.game.players[0]
+        self.pc_player = self.game.players[1]
 
     def test_player_name_empty(self):
         name = self.human_player.name = None
@@ -135,7 +135,7 @@ class TestPlayer(unittest.TestCase):
         self.assertTrue(self.human_player.is_active)
 
     def test_player_set_a_card(self):
-        self.human_player.draw_card()
+        self.human_player.draw_card(Card())
         self.assertEqual(len(self.human_player.cards), 2)
 
     def test_str_human(self):
@@ -172,6 +172,7 @@ class TestPlayer(unittest.TestCase):
         result = self.human_player.show_card()
         self.assertEqual(card_to_show, result)
 
+
 class TestCard(unittest.TestCase):
 
     def setUp(self):
@@ -179,10 +180,10 @@ class TestCard(unittest.TestCase):
         self.genericCard = Card()
         self.game = LoveLetterGame("me")
 
-        self.player_1 = self.game.human_player
+        self.player_1 = self.game.players[0]
         self.player_1.cards.append(King())
         self.player_1.discarded.append(Guard())
-        self.player_2 = self.game.pc_player
+        self.player_2 = self.game.players[1]
         self.player_2.discarded.append(Handmaid())
 
         self.deck = Deck()
@@ -205,9 +206,9 @@ class TestCard(unittest.TestCase):
         self.assertFalse(self.player_1 in self.genericCard.look_for_handmaid(self.deck.players, self.player_1))
 
     def test_card_drawn_has_a_player(self):
-        self.player_1.draw_card()
-        self.card_to_draw = self.player_1.cards[-1]
-        self.assertEqual(self.card_to_draw.player, self.player_1)
+        card_to_draw = Guard()
+        self.player_1.draw_card(card_to_draw)
+        self.assertEqual(card_to_draw.player, self.player_1)
 
 
 class TestPrincess(unittest.TestCase):
@@ -215,7 +216,7 @@ class TestPrincess(unittest.TestCase):
     def setUp(self):
         self.princess = Princess()
         self.game = LoveLetterGame("me")
-        self.player = self.game.human_player
+        self.player = self.game.players[0]
 
     def test_execute_action_knocks_out_player(self):
         self.princess.execute_action(self.player)
@@ -227,7 +228,7 @@ class TestCountess(unittest.TestCase):
     def setUp(self):
         self.countess = Countess()
         self.game = LoveLetterGame("me")
-        self.player = self.game.human_player
+        self.player = self.game.players[0]
         self.player.cards = []
         self.player.cards.append(self.countess)
 
@@ -246,9 +247,9 @@ class TestKing(unittest.TestCase):
     def setUp(self):
         self.king = King()
         self.game = LoveLetterGame("me")
-        self.player_1 = self.game.human_player
+        self.player_1 = self.game.players[0]
         self.player_1.cards.append(Countess())
-        self.player_2 = self.game.pc_player
+        self.player_2 = self.game.players[1]
         self.player_2.cards.append(Guard())
         
 
@@ -270,27 +271,32 @@ class TestBaron(unittest.TestCase):
         self.deck = Deck()
 
         self.game = LoveLetterGame("me")
-        self.player_1 = self.game.human_player
+        self.player_1 = self.game.players[0]
         self.player_1.cards = []
         self.player_1.cards.append(self.countess)
-        
-        self.player_2 = self.game.pc_player
+        self.baron.player = self.player_1
+
+        self.player_2 = self.game.players[1]
         self.player_2.cards = []
         self.player_2.cards.append(self.guard)
 
     def test_compare_hands_and_knock_out_opponent(self):
-        self.baron.execute_action(self.player_1, self.player_2)
+        self.baron.player = self.player_1
+        self.baron.execute_action(self.player_2)
         self.assertFalse(self.player_2.is_active)
 
     def test_compare_hands_and_knock_out_himself(self):
-        self.baron.execute_action(self.player_2, self.player_1)
+        self.baron.player = self.player_2
+        self.baron.execute_action(self.player_1)
         self.assertFalse(self.player_2.is_active)
 
     def test_compare_hands_and_tie(self):
         self.guard2 = Guard()
         self.player_1.cards[0] = self.guard2
-
-        self.baron.execute_action(self.player_1, self.player_2)
+        self.player_2.cards[0] = self.guard
+        self.guard2.player = self.player_1
+        self.guard.player = self.player_2
+        self.baron.execute_action(self.player_2)
         self.assertTrue(self.player_1.is_active)
         self.assertTrue(self.player_2.is_active)
 
@@ -303,23 +309,24 @@ class TestPrince(unittest.TestCase):
         self.priest = Priest()
         self.princess = Princess()
         self.game = LoveLetterGame("me")
-        self.player_1 = self.game.human_player
+        self.player_1 = self.game.players[0]
         self.player_1.cards[0] = self.guard
-        self.player_2 = self.game.pc_player
+        self.player_2 = self.game.players[1]
         self.player_2.cards[0] = self.priest
+        self.prince.player = self.player_1
 
     def test_prince_action_on_enemy(self):
-        self.prince.execute_action(self.player_1, self.player_2)
+        self.prince.execute_action(self.player_2)
         self.assertIsNot(self.player_2.cards[0], self.priest)
         self.assertEqual(len(self.player_1.cards), 1)
     
     def test_prince_action_on_self(self):
-        self.prince.execute_action(self.player_1, self.player_1)
+        self.prince.execute_action(self.player_1)
         self.assertIsNot(self.player_1.cards[0], self.guard)
 
     def test_prince_action_on_princess(self):
         self.player_2.cards[0] = self.princess
-        self.prince.execute_action(self.player_1, self.player_2)
+        self.prince.execute_action(self.player_2)
         self.assertIsNot(self.player_2.cards[0], self.princess)
         self.assertEqual(len(self.player_1.cards), 1)
         self.assertFalse(self.player_2.is_active)
@@ -331,9 +338,9 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game = LoveLetterGame("Me")
 
     def test_player_exsistence_when_init(self):
-
-        self.assertTrue(self.game.human_player is not None)
-        self.assertTrue(self.game.pc_player is not None)
+        number_of_players = 2
+        result = len(self.game.players)
+        self.assertEquals(number_of_players, result)
 
     def test_board_with_initial_situation(self):
         expected_text = "Deck : 10 remaining cards\n"\
@@ -346,7 +353,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertFalse(self.game.check_winner())
 
     def test_check_winner_true(self):
-        self.game.pc_player.hearts = 7
+        self.game.players[1].hearts = 7
         self.assertTrue(self.game.check_winner())
 
     def test_end_of_round(self):
@@ -356,12 +363,12 @@ class TestLoveLetterGame(unittest.TestCase):
         score = 0
         cards = []
         attributes = [discarded_cards, score, cards]
-        player_attributes = [self.game.human_player.discarded,
-                             self.game.human_player.score,
-                             self.game.human_player.cards]
-        pc_player_attributes = [self.game.pc_player.discarded,
-                                self.game.pc_player.score,
-                                self.game.pc_player.cards]
+        player_attributes = [self.game.players[0].discarded,
+                             self.game.players[0].score,
+                             self.game.players[0].cards]
+        pc_player_attributes = [self.game.players[1].discarded,
+                                self.game.players[1].score,
+                                self.game.players[1].cards]
 
         self.assertEqual(attributes, player_attributes)
         self.assertEqual(attributes, pc_player_attributes)

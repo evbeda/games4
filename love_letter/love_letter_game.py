@@ -7,20 +7,32 @@ class TargetMyselfException(Exception):
     pass
 
 
+hearts_to_win = {
+    #number_of_players: hearts_to_win
+    2: 7,
+    3: 5,
+    4: 4,
+}
+
+
 class LoveLetterGame:
 
     def __init__(self, name):
         self.deck = Deck()
         self.deck.shuffle_cards()
-        self.human_player = HumanPlayer(name, deck=self.deck)
-        self.pc_player = PcPlayer(deck=self.deck)
-        self.players = [self.human_player, self.pc_player]
-        self.deck.remove_last()
+        self.players = [HumanPlayer(name, self), PcPlayer(self)]
+        #Logica de sacar cartas (regla del juego para 2 jugadores)
+        if len(self.players) == 2:
+            self.deck.remove_last()
+            self.deck.show_three()
+
+        for player in self.players:
+            card = self.deck.draw_card()
+            player.draw_card(card)
+
         self.current_player = self.players[0]
-        cards_to_show = self.deck.show_three()
-        #move this print to method next turn(only first turn)
-        for card in cards_to_show:
-            pass
+
+
 
     def next_turn(self):
        return #-> lo que le debemos mostrar al usuario en su turno actual
@@ -31,18 +43,17 @@ class LoveLetterGame:
 
     @property
     def board(self):
-        text_to_show = "{}\n{}\n{}".format(self.deck.__str__(), self.human_player.__str__(), self.pc_player.__str__())
+        text_to_show = "{}".format(self.deck.__str__())
+        for player in self.players:
+            text_to_show+="\n{}".format(player.__str__())
         return text_to_show #-> muestra al usuario el estado actual del juego (no del feedback de lo que acaba de hacer)
 
     def end_of_round(self):
-        self.human_player.end_of_round()
-        self.pc_player.end_of_round()
+        for player in self.players:
+            player.end_of_round()
 
     def check_winner(self):
-        if self.human_player.hearts == 7 or self.pc_player.hearts == 7:
-            return True
-        else:
-            return False
+        return len([player for player in self.players if player.hearts == hearts_to_win[len(self.players)]]) > 0
 
     def get_opponents(self):
         players_duplicate = self.players.copy()
@@ -55,3 +66,6 @@ class LoveLetterGame:
         for player in self.players:
             if player.name == player_name:
                 return player
+
+    def get_deck_card(self):
+        return self.deck.draw_card()

@@ -48,3 +48,6 @@ class Deck:
 
     def __str__(self):
         return "Deck : {} remaining cards".format(len(self.cards))
+
+    def draw_card(self):
+        return self.cards.pop(0)

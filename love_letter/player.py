@@ -1,18 +1,15 @@
 class Player(object):
 
-    def __init__(self, deck=None, game=None):
+    def __init__(self, game=None):
         self.name = None
         self.hearts = 0
         self.score = 0
         self.cards = []
         self.is_active = True
         self.discarded = []
-        self.deck = deck
-        self.draw_card()
         self.game = game
 
-    def draw_card(self):
-        card = self.deck.cards.pop(0)
+    def draw_card(self, card):
         card.player = self
         self.cards.append(card)
 
@@ -33,3 +30,6 @@ class Player(object):
 
     def show_card(self):
         return self.cards[0]
+
+    def ask_card(self):
+        return self.game.get_deck_card()
