@@ -12,7 +12,9 @@ from munchkin.test_munchkin import (
     TestPlayer as MunchkinTestPlayer,
     TestRace,
     TestMunchkin,
-    TestDeck
+    TestTreasureDeck,
+    TestCardMunchkin,
+    TestDoorDeck
 )
 from test_game import TestGame
 
@@ -28,7 +30,9 @@ def suite():
     test_suite.addTest(unittest.makeSuite(MunchkinTestPlayer))
     test_suite.addTest(unittest.makeSuite(TestRace))
     test_suite.addTest(unittest.makeSuite(TestMunchkin))
-    test_suite.addTest(unittest.makeSuite(TestDeck))
+    test_suite.addTest(unittest.makeSuite(TestTreasureDeck))
+    test_suite.addTest(unittest.makeSuite(TestDoorDeck))
+    test_suite.addTest(unittest.makeSuite(TestCardMunchkin))
     #Love Letter Game
     test_suite.addTest(unittest.makeSuite(TestDeck))
     test_suite.addTest(unittest.makeSuite(TestPlayer))
