@@ -103,6 +103,79 @@ class TestGame(unittest.TestCase):
             ['_\n\nLifes: 6', 'Game Finished', 'T\nT\nLifes: 6'],
         )
 
+    def test_play_senku(self):
+        
+        class ControlInputValues(object):
+            def __init__(self, game, *args, **kwargs):
+                self.game = game
+                self.played = False
+                self.play_count = 0
 
+            def __call__(self, console_output):
+                if 'Select Game' in console_output:
+                    if self.played:
+                        return '9'
+                    self.played = True
+                    return '1'
+                if "Please, make a move" in console_output:
+                    game_moves = (
+                        "5 3 3 3",
+                        "4 5 4 3",
+                        "6 4 4 4",
+                        "6 2 6 4",
+                        "3 4 5 4",
+                        "6 4 4 4",
+                        "4 3 4 5",
+                        "4 6 4 4",
+                        "4 1 4 3",
+                        "4 3 4 5",
+                        "2 6 4 6",
+                        "4 6 4 4",
+                        "2 5 4 5",
+                        "4 5 4 3",
+                        "2 2 4 2",
+                        "5 2 3 2",
+                        "2 1 4 1",
+                        "4 0 4 2",
+                        "4 3 4 1",
+                        "2 0 4 0",
+                        "4 0 4 2",
+                        "4 2 2 2",
+                        "2 3 2 5",
+                        "0 4 2 4",
+                        "2 5 2 3",
+                        "2 3 2 1",
+                        "0 3 2 3",
+                        "3 3 1 3",
+                        "0 2 2 2",
+                        "2 1 2 3",
+                        "1 3 3 3",
+                    )
+                    play = game_moves[self.play_count]
+                    self.play_count += 1
+                    return play
+
+        with \
+                patch(
+                    'game.Game.get_input', side_effect=ControlInputValues(self.game)), \
+                patch(
+                    'game.Game.output', side_effect=self.output_collector):
+            self.game.play()
+        self.assertEqual(
+            self.output_collector.output_collector[-1],
+            "  0 1 2 3 4 5 6\n"
+            " + = = = = = = =\n"
+            "0| X X - - - X X\n"
+            "1| X X - - - X X\n"
+            "2| - - - - - - -\n"
+            "3| - - - 0 - - -\n"
+            "4| - - - - - - -\n"
+            "5| X X - - - X X\n"
+            "6| X X - - - X X\n",
+        )
+        self.assertEqual(
+            self.output_collector.output_collector[-2],
+            "You won",
+        )
 if __name__ == "__main__":
     unittest.main()
