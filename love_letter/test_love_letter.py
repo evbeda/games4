@@ -172,6 +172,22 @@ class TestPlayer(unittest.TestCase):
         result = self.human_player.show_card()
         self.assertEqual(card_to_show, result)
 
+    def test_end_of_round_sets_score_to_0(self):
+        self.human_player.end_of_round()
+        self.assertEqual(self.human_player.score, 0)
+
+    def test_end_of_round_cleans_array_of_cards(self):
+        self.human_player.end_of_round()
+        self.assertEqual(len(self.human_player.cards), 0)
+
+    def test_end_of_round_cleans_array_of_discarded(self):
+        self.human_player.end_of_round()
+        self.assertEqual(len(self.human_player.discarded), 0)
+
+    def test_end_of_round_sets_active_to_true(self):
+        self.human_player.end_of_round()
+        self.assertTrue(self.human_player.is_active)
+
 
 class TestCard(unittest.TestCase):
 
@@ -180,8 +196,10 @@ class TestCard(unittest.TestCase):
         self.genericCard = Card()
         self.game = LoveLetterGame("me")
 
+        self.king = King()
         self.player_1 = self.game.players[0]
-        self.player_1.cards.append(King())
+        self.player_1.cards.append(self.king)
+        self.king.player = self.player_1
         self.player_1.discarded.append(Guard())
         self.player_2 = self.game.players[1]
         self.player_2.discarded.append(Handmaid())
@@ -209,6 +227,10 @@ class TestCard(unittest.TestCase):
         card_to_draw = Guard()
         self.player_1.draw_card(card_to_draw)
         self.assertEqual(card_to_draw.player, self.player_1)
+
+    def test_end_of_round_sets_player_to_none(self):
+        self.king.player.end_of_round()
+        self.assertEqual(self.king.player, None)
 
 
 class TestPrincess(unittest.TestCase):
