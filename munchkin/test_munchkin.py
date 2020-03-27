@@ -6,6 +6,9 @@ from .doors.races.race import Race
 from .munchkin import Munchkin
 from .deck import TreasureDeck
 from .deck import DoorDeck
+from .treasures.treasure import Treasure
+from .treasures.weapon_card import Weapon
+from mock import patch
 
 
 class TestDice(unittest.TestCase):
@@ -99,6 +102,7 @@ class TestRace(unittest.TestCase):
 
 
 class TestMunchkin(unittest.TestCase):
+
     def test_initial_board(self):
         self.muchkin = Munchkin()
         expected_text = "['card1', 'card2']\n"\
@@ -106,43 +110,87 @@ class TestMunchkin(unittest.TestCase):
         result_text = self.muchkin.board
         self.assertEquals(expected_text, result_text)
 
-
-class TestDeck(unittest.TestCase):
+class TestTreasureDeck(unittest.TestCase):
 
     def setUp(self):
         self.my_t_deck = TreasureDeck()
-        self.my_d_deck = DoorDeck()
 
     def test_cards(self):
-        self.assertEqual(self.my_t_deck.cards, ["treasurecard1", "treasurecard2", "treasurecard3", "treasurecard4"])
-        self.assertEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4"])
+        # Increment this number if you create new Weapons Card!
+        self.assertEqual(len(self.my_t_deck.cards), 5)
 
     def test_discards_cards(self):
         self.assertEqual(self.my_t_deck.discard_cards, [])
+
+    def test_add_discard(self):
+        self.my_t_deck.add_discard("ADDED")
+        self.assertEqual(self.my_t_deck.discard_cards, ["ADDED"])
+
+    def test_add_cards(self):
+        self.my_t_deck.add_cards(["ADDED1", "ADDED2"])
+        self.assertEqual(len(self.my_t_deck.cards), 7)
+
+    def test_shuffle_cards(self):
+        shuffle_my_t_deck = self.my_t_deck
+        shuffle_my_t_deck.shuffle_deck()
+        self.assertNotEqual(self.my_t_deck.cards, shuffle_my_t_deck)
+
+    def test_reset_cards(self):
+        self.my_t_deck.add_discard("ADDED1E")
+        self.my_t_deck.reset_cards()
+        self.assertEqual(self.my_t_deck.cards, ["ADDED1E"])
+
+
+class TestDoorDeck(unittest.TestCase):
+
+    def setUp(self):
+        self.my_d_deck = DoorDeck()
+
+    def test_cards(self):
+        self.assertEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4"])
+
+    def test_discards_cards(self):
         self.assertEqual(self.my_d_deck.discard_cards, [])
 
     def test_add_discard(self):
         self.my_d_deck.add_discard("ADDED")
-        self.my_t_deck.add_discard("ADDED")
         self.assertEqual(self.my_d_deck.discard_cards, ["ADDED"])
-        self.assertEqual(self.my_t_deck.discard_cards, ["ADDED"])
 
     def test_add_cards(self):
         self.my_d_deck.add_cards(["ADDED1E", "ADDED2E"])
-        self.my_t_deck.add_cards(["ADDED1", "ADDED2"])
         self.assertEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4", "ADDED1E", "ADDED2E"])
-        self.assertEqual(self.my_t_deck.cards, ["treasurecard1", "treasurecard2", "treasurecard3", "treasurecard4", "ADDED1", "ADDED2"])
 
     def test_shuffle_cards(self):
         self.my_d_deck.shuffle_deck()
-        self.my_t_deck.shuffle_deck()
         self.assertNotEqual(self.my_d_deck.cards, ["doorcard1", "doorcard2", "doorcard3", "doorcard4"])
-        self.assertNotEqual(self.my_t_deck.cards, ["treasurecard1", "treasurecard2", "treasurecard3", "treasurecard4"])
 
     def test_reset_cards(self):
         self.my_d_deck.add_discard("ADDED1")
         self.my_d_deck.reset_cards()
-        self.my_t_deck.add_discard("ADDED1E")
-        self.my_t_deck.reset_cards()
         self.assertEqual(self.my_d_deck.cards, ["ADDED1"])
-        self.assertEqual(self.my_t_deck.cards, ["ADDED1E"])
+
+class TestCardMunchkin(unittest.TestCase):
+    def setUp(self):
+        self.treasure = Treasure()
+        self. weapon = Weapon("Axe", 2, 1, 600, "Human")
+
+    def test_abstract_Card(self):
+        self.assertIsNone(self.treasure.type_treasure)
+        self.assertEqual(self.treasure.type, "Treasure")
+
+    def test_weapon_card(self):
+        self.assertEqual(self.weapon.type, "Treasure")
+        self.assertEqual(self.weapon.type_treasure, "Weapon")
+        self.assertEqual(self.weapon.name, "Axe")
+
+        # Level to fight against the monster
+        self.assertEqual(self.weapon.bonus, 2)
+
+        # Size of Weapon, use 1 or 2 values, it can used with 1 hand of both
+        self.assertEqual(self.weapon.size, 1)
+
+        # Value to sell the weapon, if the player get 1000 in two weapons, he can sell it for +1 Level!
+        self.assertEqual(self.weapon.value, 600)
+
+        # Some Weapons can be used by some Races, or some class, when get "All" means what it can use for everyone
+        self.assertEqual(self.weapon.use_by, "Human")
