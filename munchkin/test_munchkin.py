@@ -9,7 +9,7 @@ from .deck import DoorDeck
 from .treasures.treasure import Treasure
 from .treasures.weapon_card import Weapon
 from .treasures.armor_card import Armor
-from mock import patch
+from unittest.mock import patch
 
 
 class TestDice(unittest.TestCase):
