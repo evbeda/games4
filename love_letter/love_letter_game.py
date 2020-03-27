@@ -3,6 +3,10 @@ from love_letter.human_player import HumanPlayer
 from love_letter.pc_player import PcPlayer
 
 
+class TargetMyselfException(Exception):
+    pass
+
+
 class LoveLetterGame:
 
     def __init__(self, name):
@@ -12,6 +16,7 @@ class LoveLetterGame:
         self.pc_player = PcPlayer(deck=self.deck)
         self.players = [self.human_player, self.pc_player]
         self.deck.remove_last()
+        self.current_player = self.players[0]
         cards_to_show = self.deck.show_three()
         #move this print to method next turn(only first turn)
         for card in cards_to_show:
@@ -38,3 +43,15 @@ class LoveLetterGame:
             return True
         else:
             return False
+
+    def get_opponents(self):
+        players_duplicate = self.players.copy()
+        players_duplicate.remove(self.current_player)
+        return players_duplicate
+
+    def select_target(self, player_name):
+        if player_name == self.current_player.name:
+            raise TargetMyselfException()
+        for player in self.players:
+            if player.name == player_name:
+                return player

@@ -10,7 +10,7 @@ from .cards.king import King
 from .cards.countess import Countess
 from .cards.princess import Princess
 from .human_player import HumanPlayer
-from .love_letter_game import LoveLetterGame
+from .love_letter_game import LoveLetterGame, TargetMyselfException
 from .pc_player import PcPlayer
 from .player import Player
 from .deck import Deck
@@ -117,11 +117,11 @@ class TestPlayer(unittest.TestCase):
 
     def test_player_has_1_card(self):
         cards = self.human_player.cards
-        self.assertEquals(len(cards), 1)
+        self.assertEqual(len(cards), 1)
 
     def test_player_piece_of_heart_empty(self):
         hearts = self.human_player.hearts
-        self.assertEquals(hearts, 0)
+        self.assertEqual(hearts, 0)
 
     def test_human_player_name(self):
         name = self.human_player.name
@@ -140,23 +140,23 @@ class TestPlayer(unittest.TestCase):
 
     def test_str_human(self):
         text = self.human_player.__str__()
-        self.assertEquals(text, "Player: Human Player,"\
+        self.assertEqual(text, "Player: Human Player,"\
                                 " Hearts: 0")
 
     def test_str_pc(self):
         text = self.pc_player.__str__()
-        self.assertEquals(text, "Player: PC Player,"\
+        self.assertEqual(text, "Player: PC Player,"\
                                 " Hearts: 0")
 
     def test_discard_card_removes_1_card_from_hand(self):
         previous_length = len(self.human_player.cards)
         self.human_player.discard_card(self.human_player.cards[0])
-        self.assertEquals(len(self.human_player.cards), previous_length-1)
+        self.assertEqual(len(self.human_player.cards), previous_length-1)
 
     def test_discard_card_adds_score_to_player(self):
         score = self.human_player.cards[0].score
         self.human_player.discard_card(self.human_player.cards[0])
-        self.assertEquals(self.human_player.score, score)
+        self.assertEqual(self.human_player.score, score)
 
     def test_end_of_round_player(self):
         self.human_player.end_of_round()
@@ -167,6 +167,10 @@ class TestPlayer(unittest.TestCase):
         player_attributes = [self.human_player.discarded, self.human_player.score, self.human_player.cards]
         self.assertEqual(attributes, player_attributes)
 
+    def test_show_card(self):
+        card_to_show = self.human_player.cards[0]
+        result = self.human_player.show_card()
+        self.assertEqual(card_to_show, result)
 
 class TestCard(unittest.TestCase):
 
@@ -320,6 +324,7 @@ class TestPrince(unittest.TestCase):
         self.assertEqual(len(self.player_1.cards), 1)
         self.assertFalse(self.player_2.is_active)
 
+
 class TestLoveLetterGame(unittest.TestCase):
 
     def setUp(self):
@@ -361,3 +366,17 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertEqual(attributes, player_attributes)
         self.assertEqual(attributes, pc_player_attributes)
 
+    def test_get_opponents(self):
+        opponents = self.game.players.copy()
+        opponents.remove(self.game.current_player)
+        result = self.game.get_opponents()
+        self.assertEquals(opponents, result)
+
+    def test_select_target_enemy(self):
+        target = self.game.players[1]
+        result = self.game.select_target(self.game.players[1].name)
+        self.assertEquals(target, result)
+
+    def test_select_target_current_player(self):
+        with self.assertRaises(TargetMyselfException):
+            result = self.game.select_target(self.game.players[0].name)
