@@ -200,6 +200,11 @@ class TestCard(unittest.TestCase):
         self.assertTrue(self.player_2 in self.genericCard.look_for_handmaid(self.deck.players, self.player_1))
         self.assertFalse(self.player_1 in self.genericCard.look_for_handmaid(self.deck.players, self.player_1))
 
+    def test_card_drawn_has_a_player(self):
+        self.player_1.draw_card()
+        self.card_to_draw = self.player_1.cards[-1]
+        self.assertEqual(self.card_to_draw.player, self.player_1)
+
 
 class TestPrincess(unittest.TestCase):
 

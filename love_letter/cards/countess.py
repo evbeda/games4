@@ -4,6 +4,7 @@ from love_letter.player import Player
 
 class Countess(Card):
     def __init__(self):
+        super().__init__()
         self.name = "Countess"
         self.score = 7
         self.description = "If a player holds both this card and either the King or Prince card," \

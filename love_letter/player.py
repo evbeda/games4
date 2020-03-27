@@ -11,7 +11,9 @@ class Player(object):
         self.draw_card()
 
     def draw_card(self):
-        self.cards.append(self.deck.cards.pop())
+        card = self.deck.cards.pop(0)
+        card.player = self
+        self.cards.append(card)
 
     def __str__(self):
         return "Player: {}, " \
@@ -21,6 +23,7 @@ class Player(object):
         self.cards.remove(card)
         self.score += card.score
         self.discarded.insert(0, card)
+        card.player = None
 
     def end_of_round(self):
         self.score = 0
