@@ -8,6 +8,9 @@ class Card:
     def execute_action(self, player, target = None):
         raise Exception("Not implemented action!")
 
+    def must_discard(self, player):
+        return False
+
     def look_for_handmaid(self, players, player_owner):
         save_players = []
         for player in players:

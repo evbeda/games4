@@ -16,4 +16,4 @@ class Countess(Card):
         return False
 
     def execute_action(self, player):
-    	pass
+        pass

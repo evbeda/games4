@@ -4,7 +4,7 @@ source =
     guess_number_game
     love_letter
     munchkin
-    senku_game
+    senku
 
 omit =
     env/*
