@@ -25,8 +25,11 @@ class Player(object):
 
     def end_of_round(self):
         self.score = 0
+        for card in self.cards:
+            card.player = None
         self.cards = []
         self.discarded = []
+        self.is_active = True
 
     def show_card(self):
         return self.cards[0]
