@@ -24,3 +24,7 @@ class TestUr(unittest.TestCase):
         cell = Cell()
         cell.token = Token()
         self.assertFalse(cell.is_empty)
+
+    def test_player_start(self):
+        player = Player()
+        self.assertEqual(len(player.start), 4)
