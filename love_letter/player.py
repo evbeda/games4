@@ -14,8 +14,13 @@ class Player(object):
         self.cards.append(card)
 
     def __str__(self):
+        cards = ""
+        for index in range(len(self.cards)):
+            cards += "{}-{} ".format(index, self.cards[index].name)
+        cards.strip(" ")
         return "Player: {}, " \
-               "Hearts: {}".format(self.name, self.hearts)
+               "Hearts: {}, " \
+               "Cards: {}".format(self.name, self.hearts, cards)
 
     def discard_card(self, card):
         self.cards.remove(card)
