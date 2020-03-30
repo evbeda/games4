@@ -238,6 +238,7 @@ class TestPrincess(unittest.TestCase):
         self.princess.player = self.player
 
     def test_execute_action_knocks_out_player(self):
+        self.princess.player = self.player
         self.princess.execute_action()
         self.assertFalse(self.player.is_active)
 
@@ -411,6 +412,7 @@ class TestGuard(unittest.TestCase):
     def setUp(self):
         self.guard = Guard()
         self.prince = Prince()
+        self.king = King()
         self.player_1 = Player()
         self.guard_1 = Guard()
         self.player_1.cards.append(self.prince)
@@ -418,20 +420,20 @@ class TestGuard(unittest.TestCase):
 
 
     def test_guard_action_on_enemy_true(self):
-        result = self.guard.execute_action(self.player_1, Prince())
+        result = self.guard.execute_action(self.player_1, self.prince.name)
         self.assertEqual(result, True)
     
     def test_guard_action_on_enemy_false(self):
-        result = self.guard.execute_action(self.player_1, King())
+        result = self.guard.execute_action(self.player_1, self.king.name)
         self.assertEqual(result, False)
 
     def test_guard_action_on_enemy_dead(self):
-        self.guard.execute_action(self.player_1, King())
+        self.guard.execute_action(self.player_1, self.king.name)
         is_no_dead = self.player_1.is_active
         self.assertEqual(is_no_dead, True)
 
     def test_guard_action_on_enemy_no_dead(self):
-        self.guard.execute_action(self.player_1, Prince())
+        self.guard.execute_action(self.player_1, self.prince.name)
         is_no_dead = self.player_1.is_active
         self.assertEqual(is_no_dead, False)
     
@@ -506,3 +508,31 @@ class TestLoveLetterGame(unittest.TestCase):
     def test_select_target_current_player(self):
         with self.assertRaises(TargetMyselfException):
             result = self.game.select_target(self.game.players[0].name)
+
+    def test_play_with_one_parameter(self):
+        self.princess = Princess()
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(self.princess)
+        self.princess.player = self.game.players[0]
+        self.game.play("0")
+        self.assertEqual(self.game.players[0].is_active, False)
+    
+    def test_play_with_two_parameteres(self):
+        self.priest = Priest()
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(self.priest)
+        self.priest.player = self.game.players[0]
+        text = self.game.players[1].cards[0].__str__()
+        result = self.game.play("0-1")
+        self.assertEqual(text, result)
+    
+    def test_play_with_three_parameteres(self):
+        self.guard = Guard()
+        self.king = King()
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(self.guard)
+        self.game.players[1].cards.pop()
+        self.game.players[1].cards.append(self.king)
+        self.guard.player = self.game.players[0]
+        result = self.game.play("0-1-King")
+        self.assertEqual(result, True)
