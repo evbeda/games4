@@ -123,3 +123,7 @@ class TestHanoiTower(unittest.TestCase):
         hanoi_towers = HanoiTowers(4)
         self.assertEqual(hanoi_towers.board, " 1          \n 2          \n 3          \n 4          \n=== === ===")
 
+    def test_board_display_after_play(self):
+        hanoi_towers = HanoiTowers(4)
+        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
+        self.assertEqual(hanoi_towers.board, " 2          \n 3          \n 4   1      \n=== === ===")
