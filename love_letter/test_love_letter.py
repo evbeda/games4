@@ -478,8 +478,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertTrue(self.game.check_winner())
 
     def test_end_of_round(self):
-        for player in self.game.players:
-            player.end_of_round()
+        self.game.end_of_round()
         discarded_cards = []
         score = 0
         cards = []
