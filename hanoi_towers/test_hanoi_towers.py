@@ -68,3 +68,17 @@ class TestHanoiTower(unittest.TestCase):
         self.assertEqual(len(hanoi_towers.tower1.tokens), 4)
         self.assertEqual(len(hanoi_towers.tower2.tokens), 0)
         self.assertEqual(len(hanoi_towers.tower3.tokens), 0)
+
+    def test_next_turn_win(self):
+        token1 = Token(1)
+        token2 = Token(2)
+        token3 = Token(3)
+        hanoi_towers = HanoiTowers(3)
+        hanoi_towers.tower3.insert_token(token3)
+        hanoi_towers.tower3.insert_token(token2)
+        hanoi_towers.tower3.insert_token(token1)
+        self.assertEqual(hanoi_towers.next_turn(), "You won")
+
+    def test_next_turn_still_playing(self):
+        hanoi_towers = HanoiTowers(4)
+        self.assertEquals(hanoi_towers.next_turn(), "Plase make your move")
