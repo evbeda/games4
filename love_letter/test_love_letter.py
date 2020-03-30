@@ -360,6 +360,33 @@ class TestPrince(unittest.TestCase):
         self.assertEqual(len(self.player_1.cards), 1)
         self.assertFalse(self.player_2.is_active)
 
+class TestGuard(unittest.TestCase):
+    
+    def setUp(self):
+        self.guard = Guard()
+        self.prince = Prince()
+        self.king = King()
+        self.player_1 = Player()
+        self.player_1.cards.append(self.prince)
+
+
+    def test_guard_action_on_enemy_true(self):
+        result = self.guard.execute_action(self.player_1, Prince())
+        self.assertEqual(result, True)
+    
+    def test_guard_action_on_enemy_false(self):
+        result = self.guard.execute_action(self.player_1, King())
+        self.assertEqual(result, False)
+
+    def test_guard_action_on_enemy_dead(self):
+        self.guard.execute_action(self.player_1, King())
+        is_no_dead = self.player_1.is_active
+        self.assertEqual(is_no_dead, True)
+
+    def test_guard_action_on_enemy_no_dead(self):
+        self.guard.execute_action(self.player_1, Prince())
+        is_no_dead = self.player_1.is_active
+        self.assertEqual(is_no_dead, False)
 
 class TestLoveLetterGame(unittest.TestCase):
 
