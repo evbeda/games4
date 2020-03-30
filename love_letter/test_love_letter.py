@@ -536,3 +536,4 @@ class TestLoveLetterGame(unittest.TestCase):
         self.guard.player = self.game.players[0]
         result = self.game.play("0-1-King")
         self.assertEqual(result, True)
+        
