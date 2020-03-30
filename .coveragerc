@@ -6,6 +6,7 @@ source =
     munchkin
     senku
     hanoi_towers
+    ur_game
 
 omit =
     env/*

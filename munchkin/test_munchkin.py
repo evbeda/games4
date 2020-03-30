@@ -7,8 +7,9 @@ from .munchkin import Munchkin
 from .deck import TreasureDeck
 from .deck import DoorDeck
 from .treasures.treasure import Treasure
-from .treasures.weapon_card import Weapon
-from .treasures.armor_card import Armor
+from .treasures.weapon import Weapon
+from .treasures.armor import Armor
+from .treasures.footwear import Footwear
 from unittest.mock import patch
 
 
@@ -111,35 +112,54 @@ class TestMunchkin(unittest.TestCase):
         result_text = self.muchkin.board
         self.assertEquals(expected_text, result_text)
 
-class TestTreasureDeck(unittest.TestCase):
+
+class TestTreasure(unittest.TestCase):
+
+    def test_treasure_basic_info(self):
+        treasure = Treasure("Armadura de Cuero", 1, 200)
+        self.assertEqual(treasure.name, "Armadura de Cuero")
+        self.assertEqual(treasure.bonus, 1)
+        self.assertEqual(treasure.value, 200)
+        self.assertEqual(treasure.used_by, None)
+
+
+class TestArmor(unittest.TestCase):
+
+    def test_armor_basic_info(self):
+        armor = Armor("Armadura Llameante", 3, 400)
+        self.assertEqual(armor.name, "Armadura Llameante")
+        self.assertEqual(armor.bonus, 3)
+        self.assertEqual(armor.value, 400)
+        self.assertEqual(armor.used_by, None)
+
+
+class TestWeapon(unittest.TestCase):
+
+    def test_weapon_basic_info(self):
+        weapon = Weapon("Grande", 2, "Maza Suiza Multiusos", 4, 600)
+        self.assertEqual(weapon.size, "Grande")
+        self.assertEqual(weapon.cant_hands, 2)
+        self.assertEqual(weapon.bonus, 4)
+        self.assertEqual(weapon.name, "Maza Suiza Multiusos")
+        self.assertEqual(weapon.value, 600)
+        self.assertEqual(weapon.used_by, None)
+
+
+class TestFootwear(unittest.TestCase):
 
     def setUp(self):
-        self.my_t_deck = TreasureDeck()
+        pass
 
-    def test_cards(self):
-        # Increment this number if you create new Treasures Card!
-        self.assertEqual(len(self.my_t_deck.cards), 10)
+    def test_weapon_basic_info(self):
+        footwear = Footwear("Maza Suiza Multiusos", 4, 600)
+        self.assertEqual(footwear.bonus, 4)
+        self.assertEqual(footwear.name, "Maza Suiza Multiusos")
+        self.assertEqual(footwear.value, 600)
+        self.assertEqual(footwear.used_by, None)
 
-    def test_discards_cards(self):
-        self.assertEqual(self.my_t_deck.discard_cards, [])
 
-    def test_add_discard(self):
-        self.my_t_deck.add_discard("ADDED")
-        self.assertEqual(self.my_t_deck.discard_cards, ["ADDED"])
-
-    def test_add_cards(self):
-        self.my_t_deck.add_cards(["ADDED1", "ADDED2"])
-        self.assertEqual(len(self.my_t_deck.cards), 12)
-
-    def test_shuffle_cards(self):
-        shuffle_my_t_deck = self.my_t_deck
-        shuffle_my_t_deck.shuffle_deck()
-        self.assertNotEqual(self.my_t_deck.cards, shuffle_my_t_deck)
-
-    def test_reset_cards(self):
-        self.my_t_deck.add_discard("ADDED1E")
-        self.my_t_deck.reset_cards()
-        self.assertEqual(self.my_t_deck.cards, ["ADDED1E"])
+class TestTreasureDeck(unittest.TestCase):
+    pass
 
 
 class TestDoorDeck(unittest.TestCase):
@@ -169,45 +189,3 @@ class TestDoorDeck(unittest.TestCase):
         self.my_d_deck.add_discard("ADDED1")
         self.my_d_deck.reset_cards()
         self.assertEqual(self.my_d_deck.cards, ["ADDED1"])
-
-class TestCardMunchkin(unittest.TestCase):
-    def setUp(self):
-        self.treasure = Treasure()
-        self.weapon = Weapon("Axe", 2, 1, 600, "Human")
-        self.armor = Armor("Armadura de cuero", 1, "Armadura", 200, "Male")
-
-    def test_abstract_Card(self):
-        self.assertIsNone(self.treasure.type_treasure)
-        self.assertEqual(self.treasure.type, "Treasure")
-
-    def test_weapon_card(self):
-        self.assertEqual(self.weapon.type, "Treasure")
-        self.assertEqual(self.weapon.type_treasure, "Weapon")
-        self.assertEqual(self.weapon.name, "Axe")
-
-        # Level to fight against the monster
-        self.assertEqual(self.weapon.bonus, 2)
-
-        # Size of Weapon, use 1 or 2 values, it can used with 1 hand of both
-        self.assertEqual(self.weapon.size, 1)
-
-        # Value to sell the weapon, if the player get 1000 in two weapons, he can sell it for +1 Level!
-        self.assertEqual(self.weapon.value, 600)
-
-        # Some Weapons can be used by some Races, or some class, when get "All" means what it can use for everyone
-        self.assertEqual(self.weapon.used_by, "Human")
-    
-    def test_armor_card(self):
-        self.assertEqual(self.armor.type, "Treasure")
-        self.assertEqual(self.armor.type_treasure, "Armor")
-        self.assertEqual(self.armor.name, "Armadura de cuero")
-
-        # Level to fight against the monster
-        self.assertEqual(self.armor.bonus, 1)
-
-        # Value to sell the armor, if the player get 1000 in two armors, he can sell it for +1 Level!
-        self.assertEqual(self.armor.value, 200)
-        # Part of armor, use armadura, armadura grande, calzado , etc
-        self.assertEqual(self.armor.part, "Armadura")
-        # Some armors can be used by some Races, or some class, when get "All" means what it can use for everyone
-        self.assertEqual(self.armor.used_by, "Male")

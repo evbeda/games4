@@ -3,6 +3,10 @@ from love_letter.card import Card
 
 class Priest(Card):
 
+    input_instructions = "Priest input instructions:\n" \
+                         "'card number-opponent number'\n" \
+                         "Example: 1-2"
+
     def __init__(self):
         super().__init__()
         self.name = "Priest"

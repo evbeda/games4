@@ -1,8 +1,8 @@
 import random
 
 from munchkin.treasures import TREASURE_CARDS
-from munchkin.treasures.weapon_card import Weapon
-from munchkin.treasures.armor_card import Armor
+from munchkin.treasures.weapon import Weapon
+from munchkin.treasures.armor import Armor
 
 
 class Deck:
