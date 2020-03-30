@@ -172,20 +172,11 @@ class TestPlayer(unittest.TestCase):
         result = self.human_player.show_card()
         self.assertEqual(card_to_show, result)
 
-    def test_end_of_round_sets_score_to_0(self):
+    def test_end_of_round_cleans_player(self):
         self.human_player.end_of_round()
         self.assertEqual(self.human_player.score, 0)
-
-    def test_end_of_round_cleans_array_of_cards(self):
-        self.human_player.end_of_round()
         self.assertEqual(len(self.human_player.cards), 0)
-
-    def test_end_of_round_cleans_array_of_discarded(self):
-        self.human_player.end_of_round()
         self.assertEqual(len(self.human_player.discarded), 0)
-
-    def test_end_of_round_sets_active_to_true(self):
-        self.human_player.end_of_round()
         self.assertTrue(self.human_player.is_active)
 
 
@@ -195,7 +186,6 @@ class TestCard(unittest.TestCase):
         self.card = Priest()
         self.genericCard = Card()
         self.game = LoveLetterGame("me")
-
         self.king = King()
         self.player_1 = self.game.players[0]
         self.player_1.cards.append(self.king)
@@ -228,9 +218,11 @@ class TestCard(unittest.TestCase):
         self.player_1.draw_card(card_to_draw)
         self.assertEqual(card_to_draw.player, self.player_1)
 
+
     def test_end_of_round_sets_player_to_none(self):
         self.king.player.end_of_round()
         self.assertEqual(self.king.player, None)
+
 
 
 class TestPrincess(unittest.TestCase):
@@ -322,7 +314,22 @@ class TestBaron(unittest.TestCase):
         self.assertTrue(self.player_1.is_active)
         self.assertTrue(self.player_2.is_active)
 
-    
+
+class TestPriest(unittest.TestCase):
+
+    def setUp(self):
+        self.player_1 = Player()
+        self.player_2 = Player()
+        self.priest = Priest()
+        self.card_1 = King()
+        self.player_2.cards.append(self.card_1)
+
+    def test_execute_action(self):
+        text_to_show = self.card_1.__str__()
+        result = self.priest.execute_action(self.player_2)
+        self.assertEqual(text_to_show, result)
+
+
 class TestPrince(unittest.TestCase):
 
     def setUp(self):
