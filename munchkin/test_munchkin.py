@@ -189,6 +189,48 @@ class TestDoorDeck(unittest.TestCase):
         self.my_d_deck.reset_cards()
         self.assertEqual(self.my_d_deck.cards, ["ADDED1"])
 
+class TestCardMunchkin(unittest.TestCase):
+    def setUp(self):
+        self.treasure = Treasure()
+        self.weapon = Weapon("Axe", 2, 1, 600, "Human")
+        self.armor = Armor("Armadura de cuero", 1, "Armadura", 200, "Male")
+
+    def test_abstract_Card(self):
+        self.assertIsNone(self.treasure.type_treasure)
+        self.assertEqual(self.treasure.type, "Treasure")
+
+    def test_weapon_card(self):
+        self.assertEqual(self.weapon.type, "Treasure")
+        self.assertEqual(self.weapon.type_treasure, "Weapon")
+        self.assertEqual(self.weapon.name, "Axe")
+
+        # Level to fight against the monster
+        self.assertEqual(self.weapon.bonus, 2)
+
+        # Size of Weapon, use 1 or 2 values, it can used with 1 hand of both
+        self.assertEqual(self.weapon.size, 1)
+
+        # Value to sell the weapon, if the player get 1000 in two weapons, he can sell it for +1 Level!
+        self.assertEqual(self.weapon.value, 600)
+
+        # Some Weapons can be used by some Races, or some class, when get "All" means what it can use for everyone
+        self.assertEqual(self.weapon.used_by, "Human")
+
+    def test_armor_card(self):
+        self.assertEqual(self.armor.type, "Treasure")
+        self.assertEqual(self.armor.type_treasure, "Armor")
+        self.assertEqual(self.armor.name, "Armadura de cuero")
+
+        # Level to fight against the monster
+        self.assertEqual(self.armor.bonus, 1)
+
+        # Value to sell the armor, if the player get 1000 in two armors, he can sell it for +1 Level!
+        self.assertEqual(self.armor.value, 200)
+        # Part of armor, use armadura, armadura grande, calzado , etc
+        self.assertEqual(self.armor.part, "Armadura")
+        # Some armors can be used by some Races, or some class, when get "All" means what it can use for everyone
+        self.assertEqual(self.armor.used_by, "Male")
+
 
 class TestTreasureSingleUse(unittest.TestCase):
     def test_single_card_level_up_basic_info(self):
