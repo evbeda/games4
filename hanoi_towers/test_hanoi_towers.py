@@ -2,6 +2,7 @@ import unittest
 
 from hanoi_towers.token import Token
 from hanoi_towers.tower import Tower
+from hanoi_towers.hanoi_towers import HanoiTowers
 
 
 class TestHanoiTower(unittest.TestCase):
@@ -9,7 +10,7 @@ class TestHanoiTower(unittest.TestCase):
     def setUp(self):
         self.token_1 = Token(1)
         self.token_4 = Token(4)
-    
+
     def test_token_basic_info(self):
         token = Token(5)
         self.assertEqual(token.size, 5)
@@ -34,7 +35,7 @@ class TestHanoiTower(unittest.TestCase):
         tower = Tower()
         tower.tokens.append(self.token_4)
         self.assertTrue(tower.validate_insert_token(self.token_1))
-    
+
     def test_validate_insert_token_invalid_tokens(self):
         tower = Tower()
         tower.tokens.append(self.token_1)
@@ -44,20 +45,26 @@ class TestHanoiTower(unittest.TestCase):
         tower = Tower()
         tower.insert_token(self.token_1)
         self.assertEqual(len(tower.tokens), 1)
-    
+
     def test_tower_insert_token_to_valid_tower(self):
         tower = Tower()
         tower.tokens.append(Token(3))
         tower.insert_token(self.token_1)
         self.assertEqual(len(tower.tokens), 2)
-    
+
     def test_tower_insert_token_to_invalid_tower(self):
         tower = Tower()
         tower.tokens.append(Token(2))
         tower.insert_token(self.token_4)
         self.assertEqual(len(tower.tokens), 1)
-    
+
     def test_remove_token(self):
         tower = Tower(3)
         self.assertEqual(tower.tokens[-1], tower.remove_token())
         self.assertEqual(len(tower.tokens), 2)
+
+    def test_init_game(self):
+        hanoi_towers = HanoiTowers(4)
+        self.assertEqual(len(hanoi_towers.tower1.tokens), 4)
+        self.assertEqual(len(hanoi_towers.tower2.tokens), 0)
+        self.assertEqual(len(hanoi_towers.tower3.tokens), 0)
