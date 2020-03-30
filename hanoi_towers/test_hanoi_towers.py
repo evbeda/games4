@@ -60,3 +60,4 @@ class TestHanoiTower(unittest.TestCase):
     def test_remove_token(self):
         tower = Tower(3)
         self.assertEqual(tower.tokens[-1], tower.remove_token())
+        self.assertEqual(len(tower.tokens), 2)

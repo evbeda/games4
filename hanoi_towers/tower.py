@@ -11,7 +11,7 @@ class Tower:
     def insert_token(self, token):
         if(self.validate_insert_token(token)):
             self.tokens.append(token)
-    
+
     def validate_insert_token(self, token):
         if len(self.tokens) == 0:
             return True
@@ -22,4 +22,4 @@ class Tower:
     def remove_token(self):
         return self.tokens.pop()
     
-    
+
