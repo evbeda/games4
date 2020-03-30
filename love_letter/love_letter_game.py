@@ -39,11 +39,16 @@ class LoveLetterGame:
 
 
     def next_turn(self):
-       return #-> lo que le debemos mostrar al usuario en su turno actual
+        text = ""
+        if self.current_player.is_active:
+            for index in range(len(self.current_player.cards)):
+                text += str(index) + "-" + self.current_player.cards[index].__str__() + "\n"
+        return "Its your turn\n" + text
 
-    def play(self, number):
-       #lo que ingreso el usuario por input (puede ser mas de un valor)
-       return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
+    def play(self, command):
+        commands = command.split("-")
+        #lo que ingreso el usuario por input (puede ser mas de un valor)
+        # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
     @property
     def board(self):
