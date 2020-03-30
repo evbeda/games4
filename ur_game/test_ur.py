@@ -28,3 +28,8 @@ class TestUr(unittest.TestCase):
     def test_player_start(self):
         player = Player()
         self.assertEqual(len(player.start), 4)
+
+    def test_player_shared(self):
+        shared = [Cell() for _ in range(8)]
+        player = Player(shared)
+        self.assertEqual(len(player.shared), 8)
