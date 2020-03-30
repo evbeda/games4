@@ -233,10 +233,19 @@ class TestPrincess(unittest.TestCase):
         self.princess = Princess()
         self.game = LoveLetterGame("me")
         self.player = self.game.players[0]
+        self.player.cards.pop()
+        self.player.cards.append(self.princess)
+        self.princess.player = self.player
 
     def test_execute_action_knocks_out_player(self):
-        self.princess.execute_action(self.player)
+        self.princess.execute_action()
         self.assertFalse(self.player.is_active)
+
+    def test_princess_show_instructions(self):
+        instructions = "Princess input instructions:\n" \
+                       "'card number'\n" \
+                       "Example: 1"
+        self.assertEqual(Princess.input_instructions, instructions)
 
 
 class TestCountess(unittest.TestCase):
@@ -245,17 +254,25 @@ class TestCountess(unittest.TestCase):
         self.countess = Countess()
         self.game = LoveLetterGame("me")
         self.player = self.game.players[0]
+        self.countess.player = self.player
         self.player.cards = []
         self.player.cards.append(self.countess)
+        self.countess.player = self.player
 
     def test_must_discard_card_with_king(self):
         self.player.cards.append(King())
-        self.assertTrue(self.countess.must_discard(self.player))
+        self.assertTrue(self.countess.must_discard())
 
     def test_must_discard_card_without_king(self):
         # print(self.player.cards)
         self.player.cards.append(Baron())
-        self.assertFalse(self.countess.must_discard(self.player))
+        self.assertFalse(self.countess.must_discard())
+
+    def test_countess_show_instructions(self):
+        instructions = "Countess input instructions:\n" \
+                       "'card number'\n" \
+                       "example: 2"
+        self.assertEqual(Countess.input_instructions, instructions)
 
 
 class TestKing(unittest.TestCase):
@@ -264,17 +281,26 @@ class TestKing(unittest.TestCase):
         self.king = King()
         self.game = LoveLetterGame("me")
         self.player_1 = self.game.players[0]
+        self.player_1.cards.pop()
         self.player_1.cards.append(Countess())
+        self.player_1.cards.append(self.king)
+        self.king.player = self.player_1
         self.player_2 = self.game.players[1]
         self.player_2.cards.append(Guard())
         
 
     def test_switch_cards(self):
-        self.king.execute_action(self.player_1, self.player_2)
+        self.king.execute_action(self.player_2)
         self.assertEqual(len(self.player_1.cards), 2)
         self.assertTrue("Countess" in card.name for card in self.player_1.cards)
         self.assertEqual(len(self.player_2.cards), 2)
         self.assertTrue("Guard" in card.name for card in self.player_2.cards)
+
+    def test_king_show_instructions(self):
+        instructions = "King input instructions:\n" \
+                       "'card number-opponent number'\n" \
+                       "example: 2-1"
+        self.assertEqual(King.input_instructions, instructions)
 
 
 class TestBaron(unittest.TestCase):
@@ -316,6 +342,12 @@ class TestBaron(unittest.TestCase):
         self.assertTrue(self.player_1.is_active)
         self.assertTrue(self.player_2.is_active)
 
+    def test_baron_show_instructions(self):
+        instructions = "Baron input instructions:\n" \
+                       "'card number-opponent number'\n" \
+                       "example: 1-2"
+        self.assertEqual(Baron.input_instructions, instructions)
+
 
 class TestPriest(unittest.TestCase):
 
@@ -330,6 +362,12 @@ class TestPriest(unittest.TestCase):
         text_to_show = self.card_1.__str__()
         result = self.priest.execute_action(self.player_2)
         self.assertEqual(text_to_show, result)
+
+    def test_priest_show_instructions(self):
+        instructions = "Priest input instructions:\n" \
+                       "'card number-opponent number'\n" \
+                       "Example: 1-2"
+        self.assertEqual(Priest.input_instructions, instructions)
 
 
 class TestPrince(unittest.TestCase):
@@ -361,6 +399,12 @@ class TestPrince(unittest.TestCase):
         self.assertIsNot(self.player_2.cards[0], self.princess)
         self.assertEqual(len(self.player_1.cards), 1)
         self.assertFalse(self.player_2.is_active)
+
+    def test_prince_show_instructions(self):
+        instructions = "Prince input instructions:\n" \
+                       "'card number-opponent number' or 'card-number'\n" \
+                       "Example: 1-2 for opponent and 1 for choosing self"
+        self.assertEqual(Prince.input_instructions, instructions)
 
 class TestGuard(unittest.TestCase):
     
@@ -394,6 +438,12 @@ class TestGuard(unittest.TestCase):
     def test_guard_action_card_guard_type(self):
         result = self.guard.execute_action(self.player_1, Guard())
         self.assertEqual(result, False)
+
+    def test_guard_show_instructions(self):
+        instructions = "Guard input instructions:\n" \
+                       "'card number-opponent number-guess of the card'\n" \
+                       "example: 1-2-king"
+        self.assertEqual(Guard.input_instructions, instructions)
 
 class TestLoveLetterGame(unittest.TestCase):
 

@@ -2,6 +2,11 @@ from love_letter.card import Card
 
 
 class Guard(Card):
+
+    input_instructions = "Guard input instructions:\n" \
+                         "'card number-opponent number-guess of the card'\n" \
+                         "example: 1-2-king"
+
     def __init__(self):
         super().__init__()
         self.name = "Guard"
