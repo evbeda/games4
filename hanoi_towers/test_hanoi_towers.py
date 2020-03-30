@@ -58,13 +58,12 @@ class TestHanoiTower(unittest.TestCase):
         with self.assertRaises(InvalidMovement):
             tower.insert_token(self.token_4)
         self.assertEqual(len(tower.tokens), 1)
-        
 
     def test_remove_token(self):
         tower = Tower(3)
         self.assertEqual(tower.tokens[-1], tower.remove_token())
         self.assertEqual(len(tower.tokens), 2)
-    
+
     def test_remove_token_empty_tower(self):
         tower = Tower()
         with self.assertRaises(EmptyTower):
@@ -89,3 +88,32 @@ class TestHanoiTower(unittest.TestCase):
     def test_next_turn_still_playing(self):
         hanoi_towers = HanoiTowers(4)
         self.assertEquals(hanoi_towers.next_turn(), "Plase make your move")
+
+    def test_play_right_move(self):
+        hanoi_towers = HanoiTowers(4)
+        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
+        self.assertEquals(len(hanoi_towers.tower1.tokens), 3)
+        self.assertEquals(len(hanoi_towers.tower2.tokens), 1)
+        self.assertEquals(len(hanoi_towers.tower3.tokens), 0)
+
+    def test_play_invalid_move(self):
+        hanoi_towers = HanoiTowers(4)
+        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
+        self.assertEqual(hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2), "Invalid move")
+
+    def test_play_invalid_move_tokens(self):
+        hanoi_towers = HanoiTowers(4)
+        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
+        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
+        self.assertEqual(len(hanoi_towers.tower1.tokens), 3)
+        self.assertEqual(len(hanoi_towers.tower2.tokens), 1)
+
+    def test_play_empty_tower(self):
+        hanoi_towers = HanoiTowers(4)
+        self.assertEqual(hanoi_towers.play(hanoi_towers.tower2, hanoi_towers.tower3), "Empty tower")
+
+    def test_play_empty_tower_tokens(self):
+        hanoi_towers = HanoiTowers(4)
+        hanoi_towers.play(hanoi_towers.tower2, hanoi_towers.tower3)
+        self.assertEqual(len(hanoi_towers.tower2.tokens), 0)
+        self.assertEqual(len(hanoi_towers.tower3.tokens), 0)
