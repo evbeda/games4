@@ -183,7 +183,7 @@ class TestFootwear(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_weapon_basic_info(self):
+    def test_footwear_basic_info(self):
         footwear = Footwear("Maza Suiza Multiusos", 4, 600)
         self.assertEqual(footwear.bonus, 4)
         self.assertEqual(footwear.name, "Maza Suiza Multiusos")
@@ -254,7 +254,7 @@ class TestTreasureSingleUse(unittest.TestCase):
 
     def test_single_card_raise_fight_power(self):
         cards_single_use = TREASURE_CARDS['single_use']
-        single_use_lvl_up = Treasure_single_use(**cards_single_use[1])
+        single_use_lvl_up = TreasureSingleUse(**cards_single_use[1])
         self.assertEqual(single_use_lvl_up.name, "Globitos de colores")
         self.assertEqual(single_use_lvl_up.bonus, 5)
         self.assertEqual(single_use_lvl_up.value, None)
