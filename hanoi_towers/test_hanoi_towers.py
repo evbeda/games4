@@ -1,7 +1,7 @@
 import unittest
 
 from hanoi_towers.token import Token
-from hanoi_towers.tower import Tower
+from hanoi_towers.tower import Tower, InvalidMovement, EmptyTower
 from hanoi_towers.hanoi_towers import HanoiTowers
 
 
@@ -55,13 +55,20 @@ class TestHanoiTower(unittest.TestCase):
     def test_tower_insert_token_to_invalid_tower(self):
         tower = Tower()
         tower.tokens.append(Token(2))
-        tower.insert_token(self.token_4)
+        with self.assertRaises(InvalidMovement):
+            tower.insert_token(self.token_4)
         self.assertEqual(len(tower.tokens), 1)
+        
 
     def test_remove_token(self):
         tower = Tower(3)
         self.assertEqual(tower.tokens[-1], tower.remove_token())
         self.assertEqual(len(tower.tokens), 2)
+    
+    def test_remove_token_empty_tower(self):
+        tower = Tower()
+        with self.assertRaises(EmptyTower):
+            tower.remove_token()
 
     def test_init_game(self):
         hanoi_towers = HanoiTowers(4)

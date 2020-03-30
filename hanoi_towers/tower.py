@@ -11,6 +11,8 @@ class Tower:
     def insert_token(self, token):
         if(self.validate_insert_token(token)):
             self.tokens.append(token)
+        else:
+            raise InvalidMovement
 
     def validate_insert_token(self, token):
         if len(self.tokens) == 0:
@@ -20,6 +22,13 @@ class Tower:
         return False
 
     def remove_token(self):
-        return self.tokens.pop()
-    
+        if self.tokens:
+            return self.tokens.pop()
+        else:
+            raise EmptyTower
 
+class InvalidMovement(Exception):
+    pass
+
+class EmptyTower(Exception):
+    pass
