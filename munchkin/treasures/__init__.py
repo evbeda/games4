@@ -74,5 +74,24 @@ TREASURE_CARDS = {
             'part': 'Armadura',
             'used_by': 'all',
         },
+    ],
+    'single_use':
+    [
+        {
+            'name': 'Matar al escudero',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'value': None,
+            'is_level_up': True,
+        },
+        {
+            'name': 'Globitos de colores',
+            'bonus': 5,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': None,
+        }
     ]
 }
