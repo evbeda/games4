@@ -199,4 +199,12 @@ class TestTreasureSingleUse(unittest.TestCase):
         self.assertEqual(single_use_lvl_up.value, None)
         self.assertFalse(single_use_lvl_up.group_effect)
         self.assertTrue(single_use_lvl_up.is_level_up)
-        self.assertTrue(single_use_lvl_up.is_level_up)
+
+    def test_single_card_raise_fight_power(self):
+        cards_single_use = TREASURE_CARDS['single_use']
+        single_use_lvl_up = Treasure_single_use(**cards_single_use[1])
+        self.assertEqual(single_use_lvl_up.name, "Globitos de colores")
+        self.assertEqual(single_use_lvl_up.bonus, 5)
+        self.assertEqual(single_use_lvl_up.value, None)
+        self.assertFalse(single_use_lvl_up.group_effect)
+        self.assertFalse(single_use_lvl_up.is_level_up)
