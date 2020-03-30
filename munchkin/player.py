@@ -2,7 +2,7 @@ class Player:
 
     def __init__(self, name):
         self.name = name
-        self.isTurn= False
+        self.isTurn = False
         self.level = 1
         self.__on_hand = []
         self.__on_board = []
@@ -48,3 +48,26 @@ class Player:
     @on_hand.setter
     def on_hand(self, on_hand):
         self.__on_hand = on_hand
+
+    def draw_card(self, card):
+        try:
+            self.validate_max_card()
+        except MaxCardsOnHandOutRangeException as e:
+            return str(e)
+
+        self.__on_hand.append(card)
+
+    def validate_max_card(self):
+        if len(self.__on_hand) + 1 <= self.max_cards_on_hand:
+            return True
+        else:
+            raise MaxCardsOnHandOutRangeException(
+                "You have {} on hand, and the maximum number of cards that you can have is {}".format(
+                    len(self.__on_hand),
+                    self.max_cards_on_hand,
+                )
+            )
+
+
+class MaxCardsOnHandOutRangeException(Exception):
+    pass
