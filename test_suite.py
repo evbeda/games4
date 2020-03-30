@@ -3,7 +3,7 @@ from guess_number_game.test_guess_number_game import TestGuessNumberGame
 from senku.test_senku import TestSenku
 from love_letter.test_love_letter import TestDeck, TestPlayer, TestLoveLetterGame, TestCard, TestPrincess\
                                         , TestCountess\
-                                        , TestKing, TestPrince, TestBaron
+                                        , TestKing, TestPrince, TestBaron, TestGuard
 
 from ahorcado.test_ahorcado import TestAhorcado
 from munchkin.test_munchkin import (
@@ -36,6 +36,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestCardMunchkin))
     #Love Letter Game
     test_suite.addTest(unittest.makeSuite(TestDeck))
+    test_suite.addTest(unittest.makeSuite(TestGuard))
     test_suite.addTest(unittest.makeSuite(TestPlayer))
     test_suite.addTest(unittest.makeSuite(TestLoveLetterGame))
     test_suite.addTest(unittest.makeSuite(TestCard))
