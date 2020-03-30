@@ -106,6 +106,7 @@ class TestPlayer(unittest.TestCase):
         self.game = LoveLetterGame("Human Player")
         self.human_player = self.game.players[0]
         self.pc_player = self.game.players[1]
+        self.str_player = Player()
 
     def test_player_name_empty(self):
         name = self.human_player.name = None
@@ -139,14 +140,15 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(len(self.human_player.cards), 2)
 
     def test_str_human(self):
-        text = self.human_player.__str__()
-        self.assertEqual(text, "Player: Human Player,"\
-                                " Hearts: 0")
+        self.str_player.cards.append(Guard())
+        text = self.str_player.__str__()
+        self.assertEqual(text, "Player: None, Hearts: 0, Cards: 0-Guard ")
 
     def test_str_pc(self):
+        self.pc_player.cards.pop()
+        self.pc_player.cards.append(Guard())
         text = self.pc_player.__str__()
-        self.assertEqual(text, "Player: PC Player,"\
-                                " Hearts: 0")
+        self.assertEqual(text, "Player: PC Player, Hearts: 0, Cards: 0-Guard ")
 
     def test_discard_card_removes_1_card_from_hand(self):
         previous_length = len(self.human_player.cards)
@@ -404,9 +406,15 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertEquals(number_of_players, result)
 
     def test_board_with_initial_situation(self):
+        #human player
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(Princess())
+        #pc player
+        self.game.players[1].cards.pop()
+        self.game.players[1].cards.append(Baron())
         expected_text = "Deck : 10 remaining cards\n"\
-                        "Player: Me, Hearts: 0\n"\
-                        "Player: PC Player, Hearts: 0"
+                        "Player: Me, Hearts: 0, Cards: 0-Princess \n"\
+                        "Player: PC Player, Hearts: 0, Cards: 0-Baron "
         result_text = self.game.board
         self.assertEquals(expected_text, result_text)
 
