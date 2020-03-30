@@ -8,6 +8,13 @@ class Tower:
         for i in range(cant_tokens):
             self.tokens.insert(0, Token(i+1))
 
-    # def push_token(self, token):
-    #     if(self.validate_push_token(self.token)):
-    #         self.t
+    def insert_token(self, token):
+        if(self.validate_insert_token(token)):
+            self.tokens.append(token)
+    
+    def validate_insert_token(self, token):
+        if len(self.tokens) == 0:
+            return True
+        elif self.tokens[-1].size > token.size:
+            return True
+        return False
