@@ -3,6 +3,7 @@ import unittest
 from ur_game.cell import Cell
 from ur_game.player import Player
 from ur_game.token import Token
+from ur_game.ur import UrGame
 
 
 class TestUr(unittest.TestCase):
@@ -33,3 +34,8 @@ class TestUr(unittest.TestCase):
         shared = [Cell() for _ in range(8)]
         player = Player(shared)
         self.assertEqual(len(player.shared), 8)
+
+    def test_game(self):
+        ur = UrGame()
+        self.assertEqual(len(ur.players), 2)
+        self.assertEqual(ur.players[0].shared, ur.players[1].shared)
