@@ -89,6 +89,7 @@ class TestHanoiTower(unittest.TestCase):
         hanoi_towers = HanoiTowers(4)
         self.assertEquals(hanoi_towers.next_turn(), "Plase make your move")
 
+
     def test_play_right_move(self):
         hanoi_towers = HanoiTowers(4)
         hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
@@ -117,3 +118,8 @@ class TestHanoiTower(unittest.TestCase):
         hanoi_towers.play(hanoi_towers.tower2, hanoi_towers.tower3)
         self.assertEqual(len(hanoi_towers.tower2.tokens), 0)
         self.assertEqual(len(hanoi_towers.tower3.tokens), 0)
+
+    def test_board_display(self):
+        hanoi_towers = HanoiTowers(4)
+        self.assertEqual(hanoi_towers.board, " 1          \n 2          \n 3          \n 4          \n=== === ===")
+
