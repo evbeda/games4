@@ -18,7 +18,7 @@ class Guard(Card):
     
     def execute_action(self, target, card):
         target_card = target.show_card()
-        if card.name == target_card.name and target_card.name != "Guard":
+        if card == target_card.name and target_card.name != "Guard":
             target.is_active = False
             return True
         else:
