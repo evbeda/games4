@@ -18,3 +18,8 @@ class Tower:
         elif self.tokens[-1].size > token.size:
             return True
         return False
+
+    def remove_token(self):
+        return self.tokens.pop()
+    
+    

@@ -24,6 +24,21 @@ class TestHanoiTower(unittest.TestCase):
         self.assertEqual(tower.tokens[1].size, 3)
         self.assertEqual(tower.tokens[2].size, 2)
         self.assertEqual(tower.tokens[3].size, 1)
+        self.assertEqual(len(tower.tokens), 4)
+
+    def test_validate_insert_token_empty_tokens(self):
+        tower = Tower()
+        self.assertTrue(tower.validate_insert_token(self.token_1))
+
+    def test_validate_insert_token_valid_tokens(self):
+        tower = Tower()
+        tower.tokens.append(self.token_4)
+        self.assertTrue(tower.validate_insert_token(self.token_1))
+    
+    def test_validate_insert_token_invalid_tokens(self):
+        tower = Tower()
+        tower.tokens.append(self.token_1)
+        self.assertFalse(tower.validate_insert_token(self.token_4))
 
     def test_tower_insert_token_to_empty_tower(self):
         tower = Tower()
@@ -42,16 +57,6 @@ class TestHanoiTower(unittest.TestCase):
         tower.insert_token(self.token_4)
         self.assertEqual(len(tower.tokens), 1)
     
-    def test_validate_insert_token_empty_tokens(self):
-        tower = Tower()
-        self.assertTrue(tower.validate_insert_token(self.token_1))
-
-    def test_validate_insert_token_valid_tokens(self):
-        tower = Tower()
-        tower.tokens.append(self.token_4)
-        self.assertTrue(tower.validate_insert_token(self.token_1))
-    
-    def test_validate_insert_token_invalid_tokens(self):
-        tower = Tower()
-        tower.tokens.append(self.token_1)
-        self.assertFalse(tower.validate_insert_token(self.token_4))
+    def test_remove_token(self):
+        tower = Tower(3)
+        self.assertEqual(tower.tokens[-1], tower.remove_token())
