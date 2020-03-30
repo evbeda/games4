@@ -18,6 +18,7 @@ from munchkin.test_munchkin import (
 )
 from hanoi_towers.test_hanoi_towers import TestHanoiTower
 from test_game import TestGame
+from ur_game.test_ur import TestUr
 
 
 def suite():
@@ -51,6 +52,8 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestHanoiTower))
     # GAME MACHINE
     test_suite.addTest(unittest.makeSuite(TestGame))
+    #Ur Game
+    test_suite.addTest(unittest.makeSuite(TestUr))
 
     return test_suite
 
