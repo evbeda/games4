@@ -365,9 +365,10 @@ class TestGuard(unittest.TestCase):
     def setUp(self):
         self.guard = Guard()
         self.prince = Prince()
-        self.king = King()
         self.player_1 = Player()
+        self.guard_1 = Guard()
         self.player_1.cards.append(self.prince)
+        self.player_1.cards.append(self.guard)
 
 
     def test_guard_action_on_enemy_true(self):
@@ -387,6 +388,10 @@ class TestGuard(unittest.TestCase):
         self.guard.execute_action(self.player_1, Prince())
         is_no_dead = self.player_1.is_active
         self.assertEqual(is_no_dead, False)
+    
+    def test_guard_action_card_guard_type(self):
+        result = self.guard.execute_action(self.player_1, Guard())
+        self.assertEqual(result, False)
 
 class TestLoveLetterGame(unittest.TestCase):
 
