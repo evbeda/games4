@@ -5,6 +5,7 @@ source =
     love_letter
     munchkin
     senku
+    hanoi_towers
 
 omit =
     env/*
