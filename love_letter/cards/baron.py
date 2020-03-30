@@ -2,6 +2,11 @@ from love_letter.card import Card
 
 
 class Baron(Card):
+
+    input_instructions = "Baron input instructions:\n" \
+                         "'card number-opponent number'\n" \
+                         "example: 1-2"
+
     def __init__(self):
         super().__init__()
         self.name = "Baron"
