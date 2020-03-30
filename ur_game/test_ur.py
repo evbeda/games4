@@ -39,3 +39,7 @@ class TestUr(unittest.TestCase):
         ur = UrGame()
         self.assertEqual(len(ur.players), 2)
         self.assertEqual(ur.players[0].shared, ur.players[1].shared)
+
+    def test_player_finish(self):
+        player = Player()
+        self.assertEqual(len(player.finish), 2)

@@ -7,4 +7,5 @@ class Player:
         self.shared = shared
         self.initial = [Token() for _ in range(7)]
         self.start = [Cell() for _ in range(4)]
+        self.finish = [Cell() for _ in range(2)]
 
