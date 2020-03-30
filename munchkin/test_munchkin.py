@@ -11,10 +11,11 @@ from .treasures.weapon import Weapon
 from .treasures.armor import Armor
 from .treasures.footwear import Footwear
 from unittest.mock import patch
+from .treasures import TREASURE_CARDS
+from .treasures.treasure_single_use import Treasure_single_use
 
 
 class TestDice(unittest.TestCase):
-
     def test_dado_between_1_and_6(self):
         dice = Dice()
         result = dice.shuffle()
@@ -23,7 +24,6 @@ class TestDice(unittest.TestCase):
 
 
 class TestMonster(unittest.TestCase):
-
     def test_monster_has_power_greater_or_equal_than_1(self):
         monster = Monster("CHUPACABRAS", 8, 1, 2)
         result = monster.power
@@ -104,7 +104,6 @@ class TestRace(unittest.TestCase):
 
 
 class TestMunchkin(unittest.TestCase):
-
     def test_initial_board(self):
         self.muchkin = Munchkin()
         expected_text = "['card1', 'card2']\n"\
@@ -189,3 +188,15 @@ class TestDoorDeck(unittest.TestCase):
         self.my_d_deck.add_discard("ADDED1")
         self.my_d_deck.reset_cards()
         self.assertEqual(self.my_d_deck.cards, ["ADDED1"])
+
+
+class TestTreasureSingleUse(unittest.TestCase):
+    def test_single_card_level_up_basic_info(self):
+        cards_single_use = TREASURE_CARDS['single_use']
+        single_use_lvl_up = Treasure_single_use(**cards_single_use[0])
+        self.assertEqual(single_use_lvl_up.name, "Matar al escudero")
+        self.assertEqual(single_use_lvl_up.bonus, None)
+        self.assertEqual(single_use_lvl_up.value, None)
+        self.assertFalse(single_use_lvl_up.group_effect)
+        self.assertTrue(single_use_lvl_up.is_level_up)
+        self.assertTrue(single_use_lvl_up.is_level_up)
