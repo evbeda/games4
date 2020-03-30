@@ -16,6 +16,7 @@ from munchkin.test_munchkin import (
     TestCardMunchkin,
     TestDoorDeck
 )
+from hanoi_towers.test_hanoi_towers import TestHanoiTower
 from test_game import TestGame
 
 
@@ -45,6 +46,8 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestBaron))
     # Ahorcado game
     test_suite.addTest(unittest.makeSuite(TestAhorcado))
+    # Hanoi Towes
+    test_suite.addTest(unittest.makeSuite(TestHanoiTower))
     # GAME MACHINE
     test_suite.addTest(unittest.makeSuite(TestGame))
 
