@@ -47,6 +47,12 @@ class LoveLetterGame:
 
     def play(self, command):
         commands = command.split("-")
+        if len(commands) == 1:
+            return self.current_player.cards[int(commands[0])].execute_action()
+        if len(commands) == 2:
+            return self.current_player.cards[int(commands[0])].execute_action(self.players[int(commands[1])])
+        if len(commands) == 3:
+            return self.current_player.cards[int(commands[0])].execute_action(self.players[int(commands[1])],commands[2])    
         #lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
