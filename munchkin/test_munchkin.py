@@ -9,6 +9,7 @@ from .deck import DoorDeck
 from .treasures.treasure import Treasure
 from .treasures.weapon import Weapon
 from .treasures.armor import Armor
+from .treasures.footwear import Footwear
 from unittest.mock import patch
 
 
@@ -143,6 +144,18 @@ class TestWeapon(unittest.TestCase):
         self.assertEqual(weapon.value, 600)
         self.assertEqual(weapon.used_by, None)
 
+
+class TestFootwear(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_weapon_basic_info(self):
+        footwear = Footwear("Maza Suiza Multiusos", 4, 600)
+        self.assertEqual(footwear.bonus, 4)
+        self.assertEqual(footwear.name, "Maza Suiza Multiusos")
+        self.assertEqual(footwear.value, 600)
+        self.assertEqual(footwear.used_by, None)
 
 
 class TestTreasureDeck(unittest.TestCase):
