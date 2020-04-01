@@ -15,6 +15,7 @@ from munchkin.treasures.treasure import Treasure
 from munchkin.treasures.weapon import Weapon
 from munchkin.treasures.armor import Armor
 from munchkin.treasures.footwear import Footwear
+from munchkin.treasures.headwear import Headwear
 
 
 class TestDice(unittest.TestCase):
@@ -182,9 +183,6 @@ class TestWeapon(unittest.TestCase):
 
 class TestFootwear(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
     def test_footwear_basic_info(self):
         footwear = Footwear("Maza Suiza Multiusos", 4, 600)
         self.assertEqual(footwear.bonus, 4)
@@ -192,6 +190,16 @@ class TestFootwear(unittest.TestCase):
         self.assertEqual(footwear.value, 600)
         self.assertEqual(footwear.used_by, None)
         self.assertFalse(footwear.is_big)
+
+class TestHeadwear(unittest.TestCase):
+
+    def test_headwear_basic_info(self):
+        headwear = Headwear("Pañuelo para tipos duros", 3, 400)
+        self.assertEqual(headwear.bonus, 3)
+        self.assertEqual(headwear.name, "Pañuelo para tipos duros")
+        self.assertEqual(headwear.value, 400)
+        self.assertEqual(headwear.used_by, None)
+        self.assertFalse(headwear.is_big)
 
 class TestTreasureDeck(unittest.TestCase):
     pass
@@ -206,6 +214,7 @@ class TestCardMunchkin(unittest.TestCase):
         self.treasure = Treasure()
         self.weapon = Weapon("Axe", 2, 1, 600, "Human")
         self.armor = Armor("Armadura de cuero", 1, "Armadura", 200, "Male")
+        self.headwear = Headwear("Yelmo cornudo", 1, 600, "all", extra_bonus = 2, extra_used_by = "Elf")
 
     def test_abstract_Card(self):
         self.assertIsNone(self.treasure.type_treasure)
@@ -227,6 +236,28 @@ class TestCardMunchkin(unittest.TestCase):
 
         # Some Weapons can be used by some Races, or some class, when get "All" means what it can use for everyone
         self.assertEqual(self.weapon.used_by, "Human")
+
+    def test_headwear_card(self):
+        self.assertEqual(self.headwear.type, "Treasure")
+        self.assertEqual(self.headwear.type_treasure, "Headwear")
+        self.assertEqual(self.headwear.name, "Yelmo cornudo")
+
+        # Level to fight against the monster
+        self.assertEqual(self.headwear.bonus, 1)
+
+        # Value to sell the weapon, if the player get 1000 in two weapons, he can sell it for +1 Level!
+        self.assertEqual(self.headwear.value, 600)
+
+        # Some Weapons can be used by some Races, or some class, when get "All" means what it can use for everyone
+        self.assertEqual(self.headwear.used_by, "all")
+
+        # A special headwear gives you +2 if you are elf!
+        self.assertEqual(self.headwear.extra_bonus, 2)
+
+        # A special headwear gives you +2 if you are elf!
+        self.assertEqual(self.headwear.extra_used_by, "Elf")
+
+
 
     def test_armor_card(self):
         self.assertEqual(self.armor.type, "Treasure")

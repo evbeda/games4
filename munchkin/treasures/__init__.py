@@ -135,6 +135,32 @@ TREASURE_CARDS = {
         },
 
     ],
+    'headwear':
+    [
+        {
+            'name': 'Pañuelo para tipos duros',
+            'bonus': 3,
+            'value': 400,
+            'used_by': 'Human',
+            'is_big': False,
+        },
+        {
+            'name': 'Yelmo Cornudo',
+            'bonus': 1,
+            'value': 600,
+            'used_by': 'all',
+            'is_big': False,
+            'extra_bonus' : 2,
+            'extra_used_by' : "Elf",
+        },
+        {
+            'name': 'Yelmo del valor',
+            'bonus': 1,
+            'value': 200,
+            'used_by': 'all',
+            'is_big': False,
+        },
+    ],
     'armor':
     [
         {
