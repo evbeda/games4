@@ -16,8 +16,7 @@ class HanoiTowers:
 
     def next_turn(self):
 
-        if (len(self.towers[2].tokens) == self.cant_tokens) or (len(self.towers[1].tokens) == self.cant_tokens):
-            self.is_playing = False
+        if not self.is_playing:
             return "You won"
         else:
             return "Enter the numbers of source and target towers"
@@ -30,7 +29,10 @@ class HanoiTowers:
             self.validate_input(source, target)
             my_token = self.towers[source].remove_token()
             self.towers[target].insert_token(my_token)
-            return ""
+            if (len(self.towers[2].tokens) == self.cant_tokens) or (len(self.towers[1].tokens) == self.cant_tokens):
+                self.is_playing = False
+                return "You won"
+            return "Token moved successfully"
         except InvalidMovement:
             self.towers[source].insert_token(my_token)
             return "Invalid move"

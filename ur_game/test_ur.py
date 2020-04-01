@@ -74,5 +74,55 @@ class TestUr(unittest.TestCase):
         search_result = player.search_token(8)
         self.assertIsNone(search_result)
 
+    def test_player_move_token(self):
+        dice = 2
+        token_selected = 0
+        self.game.players[0].move_token(dice, token_selected)
+        self.assertEqual(len(self.game.players[0].initial), 6)
+        self.assertFalse(self.game.players[0].start[1].is_empty)
+        self.assertEqual(self.game.players[0], self.game.players[0].start[1].token.player)
 
+    def test_player_move_token_start_to_start(self):
+        self.game.players[0].move_token(1, 1)
+        self.game.players[0].move_token(2, 1)
+        self.assertFalse(self.game.players[0].start[2].is_empty)
+        self.assertEqual(self.game.players[0].start[2].token.index, 1)
 
+    def test_player_move_token_to_shared(self):
+        self.game.players[0].move_token(3, 0)
+        self.game.players[0].move_token(2, 0)
+        self.assertTrue(self.game.players[0].start[2].is_empty)
+        self.assertFalse(self.game.players[0].shared[0].is_empty)
+        self.assertEqual(self.game.players[0].shared[0].token.index, 0)
+
+    def test_player_move_token_shared_to_shared(self):
+        self.game.players[0].move_token(3, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(3, 0)
+        self.assertFalse(self.game.players[0].shared[3].is_empty)
+        self.assertEqual(self.game.players[0].shared[3].token.index, 0)
+
+    def test_player_move_token_to_finish(self):
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(3, 0)
+        self.assertFalse(self.game.players[0].finish[0].is_empty)
+        self.assertEqual(self.game.players[0].finish[0].token.index, 0)
+
+    def test_player_move_token_finish_to_finish(self):
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(1, 0)
+        self.game.players[0].move_token(1, 0)
+        self.assertTrue(self.game.players[0].finish[0].is_empty)
+        self.assertEqual(len(self.game.players[0].final_stack), 1)
+
+    def test_player_move_token_to_finish_stack(self):
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(4, 0)
+        self.assertEqual(len(self.game.players[0].final_stack), 1)
+        self.assertEqual(self.game.players[0].final_stack[0].index, 0)

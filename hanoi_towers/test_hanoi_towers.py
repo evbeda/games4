@@ -25,11 +25,22 @@ class TestHanoiTower(unittest.TestCase):
         token2 = Token(2)
         token3 = Token(3)
         token4 = Token(4)
+        self.hanoi_towers.is_playing = False
         self.hanoi_towers.towers[2].insert_token(token4)
         self.hanoi_towers.towers[2].insert_token(token3)
         self.hanoi_towers.towers[2].insert_token(token2)
         self.hanoi_towers.towers[2].insert_token(token1)
         self.assertEqual(self.hanoi_towers.next_turn(), "You won")
+
+    def test_play_and_win(self):
+        token2 = Token(2)
+        token3 = Token(3)
+        token4 = Token(4)
+        self.hanoi_towers.towers[2].insert_token(token4)
+        self.hanoi_towers.towers[2].insert_token(token3)
+        self.hanoi_towers.towers[2].insert_token(token2)
+        result = self.hanoi_towers.play(0, 2)
+        self.assertEqual(result, "You won")
         self.assertFalse(self.hanoi_towers.is_playing)
 
     def test_next_turn_still_playing(self):
