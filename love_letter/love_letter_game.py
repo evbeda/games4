@@ -52,7 +52,7 @@ class LoveLetterGame:
             command_args.append(self.players[int(commands[1])])
             try:
                 self.validate_effect(self.players[int(commands[1])])
-            except Exception(e):
+            except Exception as e:
                 return e.message
         command_args.extend(commands[2:])
         result = self.current_player.cards[int(commands[0])].execute_action(*command_args)
