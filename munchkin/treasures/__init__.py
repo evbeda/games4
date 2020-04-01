@@ -287,7 +287,17 @@ TREASURE_CARDS = {
             'used_by': 'all',
             'is_level_up': False,
             'value': 300,
-            'flee_points':5
+            'flee_points': 5,
+
+        },
+        {
+            'name': 'Pocion de amistad',
+            'bonus': 99,
+            'group_effect': True,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 200,
+            'win_treasure': False,
         },
         {
             'name': 'Agua mineral',
