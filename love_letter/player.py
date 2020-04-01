@@ -41,3 +41,6 @@ class Player(object):
 
     def ask_card(self):
         return self.game.get_deck_card()
+
+    def get_heart(self):
+        return self.hearts

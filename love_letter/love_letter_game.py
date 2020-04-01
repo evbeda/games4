@@ -42,7 +42,7 @@ class LoveLetterGame:
         if self.current_player.is_active:
             for index in range(len(self.current_player.cards)):
                 text += str(index) + "-" + \
-                self.current_player.cards[index].__str__() + "\n"
+                        self.current_player.cards[index].__str__() + "\n"
         return "Its your turn\n" + text
 
     def play(self, command):
@@ -56,9 +56,7 @@ class LoveLetterGame:
                 return e.message
         command_args.extend(commands[2:])
         self.current_player.cards[int(commands[0])].execute_action(*command_args)
-        if self.check_end_of_round():
-            self.give_heart()
-
+        self.give_heart()
 
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
@@ -79,9 +77,13 @@ class LoveLetterGame:
         alive = {}
         for player in self.players:
             if player.is_active:
-                alive[player.name] = player.show_card.score
+                alive[player.name] = player.show_card().score
         if len(alive) == 1:
-            alive[0].hearts += 1
+
+            alive_name = lambda x: x[0]
+            for player in self.players:
+                if player.name == alive_name:
+                    player.hearts += 1
             return True
         if len(self.deck.cards) == 0:
             items_max_value = max(alive.items(), key=lambda x: x[1])
@@ -90,14 +92,14 @@ class LoveLetterGame:
                 if value == items_max_value[1]:
                     list_of_winners.append(key)
             if len(list_of_winners) == 1:
-                for player in players:
+                for player in self.players:
                     if player.name == list_of_winners[0]:
                         player.hearts += 1
                         return True
             else:
                 max_score = 0
                 winner_player = None
-                for player in players:
+                for player in self.players:
                     for winner in list_of_winners:
                         if player.name == winner and player.score > max_score:
                             max_score = player.score
@@ -110,8 +112,8 @@ class LoveLetterGame:
         save_players = []
         for player in self.players:
             if (
-                len(player.discarded) > 0 and
-                player.discarded[0].name == "Handmaid"
+                    len(player.discarded) > 0 and
+                    player.discarded[0].name == "Handmaid"
             ):
                 save_players.append(player)
         return save_players
