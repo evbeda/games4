@@ -171,8 +171,7 @@ class TestArmor(unittest.TestCase):
 class TestWeapon(unittest.TestCase):
 
     def test_weapon_basic_info(self):
-        weapon = Weapon("Grande", 2, "Maza Suiza Multiusos", 4, 600)
-        self.assertEqual(weapon.size, "Grande")
+        weapon = Weapon(2, "Maza Suiza Multiusos", 4, 600)
         self.assertEqual(weapon.cant_hands, 2)
         self.assertEqual(weapon.bonus, 4)
         self.assertEqual(weapon.name, "Maza Suiza Multiusos")
@@ -220,8 +219,8 @@ class TestCardMunchkin(unittest.TestCase):
         # Level to fight against the monster
         self.assertEqual(self.weapon.bonus, 2)
 
-        # Size of Weapon, use 1 or 2 values, it can used with 1 hand of both
-        self.assertEqual(self.weapon.size, 1)
+        # Cant_hands of Weapon, use 1 or 2 values, it can used with 1 hand of both
+        self.assertEqual(self.weapon.cant_hands, 1)
 
         # Value to sell the weapon, if the player get 1000 in two weapons, he can sell it for +1 Level!
         self.assertEqual(self.weapon.value, 600)
