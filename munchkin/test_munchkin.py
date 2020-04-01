@@ -154,6 +154,7 @@ class TestTreasure(unittest.TestCase):
         self.assertEqual(treasure.bonus, 1)
         self.assertEqual(treasure.value, 200)
         self.assertEqual(treasure.used_by, None)
+        self.assertFalse(treasure.is_big)
 
 
 class TestArmor(unittest.TestCase):
@@ -164,6 +165,7 @@ class TestArmor(unittest.TestCase):
         self.assertEqual(armor.bonus, 3)
         self.assertEqual(armor.value, 400)
         self.assertEqual(armor.used_by, None)
+        self.assertFalse(armor.is_big)
 
 
 class TestWeapon(unittest.TestCase):
@@ -176,6 +178,7 @@ class TestWeapon(unittest.TestCase):
         self.assertEqual(weapon.name, "Maza Suiza Multiusos")
         self.assertEqual(weapon.value, 600)
         self.assertEqual(weapon.used_by, None)
+        self.assertFalse(weapon.is_big)
 
 
 class TestFootwear(unittest.TestCase):
@@ -189,7 +192,7 @@ class TestFootwear(unittest.TestCase):
         self.assertEqual(footwear.name, "Maza Suiza Multiusos")
         self.assertEqual(footwear.value, 600)
         self.assertEqual(footwear.used_by, None)
-
+        self.assertFalse(footwear.is_big)
 
 class TestTreasureDeck(unittest.TestCase):
     pass
