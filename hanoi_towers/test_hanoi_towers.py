@@ -95,30 +95,30 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_play_right_move(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        hanoi_towers.play(0, 1)
         self.assertEquals(len(hanoi_towers.towers[0].tokens), 3)
         self.assertEquals(len(hanoi_towers.towers[1].tokens), 1)
         self.assertEquals(len(hanoi_towers.towers[2].tokens), 0)
 
     def test_play_invalid_move(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
-        self.assertEqual(hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1]), "Invalid move")
+        hanoi_towers.play(0, 1)
+        self.assertEqual(hanoi_towers.play(0, 1), "Invalid move")
 
     def test_play_invalid_move_tokens(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
-        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        hanoi_towers.play(0, 1)
+        hanoi_towers.play(0, 1)
         self.assertEqual(len(hanoi_towers.towers[0].tokens), 3)
         self.assertEqual(len(hanoi_towers.towers[1].tokens), 1)
 
     def test_play_empty_tower(self):
         hanoi_towers = HanoiTowers(4)
-        self.assertEqual(hanoi_towers.play(hanoi_towers.towers[1], hanoi_towers.towers[2]), "Empty tower")
+        self.assertEqual(hanoi_towers.play(1, 2), "Empty tower")
 
     def test_play_empty_tower_tokens(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.towers[1], hanoi_towers.towers[2])
+        hanoi_towers.play(1, 2)
         self.assertEqual(len(hanoi_towers.towers[1].tokens), 0)
         self.assertEqual(len(hanoi_towers.towers[2].tokens), 0)
 
@@ -146,7 +146,7 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_board_display_after_play(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        hanoi_towers.play(0, 1)
         expected_board = "Tower 0:\n" \
                          " |\n" \
                          " |--\n" \

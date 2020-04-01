@@ -19,13 +19,13 @@ class HanoiTowers:
         else:
             return "Plase make your move"
 
-    def play(self, source_tower, target_tower):
+    def play(self, source, target):
 
         try:
-            my_token = source_tower.remove_token()
-            target_tower.insert_token(my_token)
+            my_token = self.towers[source].remove_token()
+            self.towers[target].insert_token(my_token)
         except InvalidMovement:
-            source_tower.insert_token(my_token)
+            self.towers[source].insert_token(my_token)
             return "Invalid move"
         except EmptyTower:
             return "Empty tower"
