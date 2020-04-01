@@ -12,6 +12,7 @@ from munchkin.munchkin import Munchkin
 from munchkin.deck import TreasureDeck
 from munchkin.deck import DoorDeck
 from munchkin.treasures.treasure import Treasure
+from munchkin.treasures.various import Various
 from munchkin.treasures.weapon import Weapon
 from munchkin.treasures.armor import Armor
 from munchkin.treasures.footwear import Footwear
@@ -227,6 +228,7 @@ class TestCardMunchkin(unittest.TestCase):
         self.armor = Armor("Armadura de cuero", 1, "Armadura", 200, "Male")
         self.headwear = Headwear("Yelmo cornudo", 1, 600, "all", extra_bonus = 2, extra_used_by = "Elf")
         self.accessories = Accessories("Capa de Sombras", 4, 600, "thief")
+        self.various = Various("Escalera", 3, 400, "Halfling", True)
 
     def test_abstract_Card(self):
         self.assertIsNone(self.treasure.type_treasure)
@@ -284,6 +286,21 @@ class TestCardMunchkin(unittest.TestCase):
 
         # Some armors can be used by some Races, or some class, when get "All" means what it can use for everyone
         self.assertEqual(self.armor.used_by, "Male")
+
+    def test_various_card(self):
+        self.assertEqual(self.armor.type, "Treasure")
+        self.assertEqual(self.armor.type_treasure, "Various")
+        self.assertEqual(self.armor.name, "Escalera")
+
+        # Level to fight against the monster
+        self.assertEqual(self.armor.bonus, 3)
+
+        # Value to sell the armor, if the player get 1000 in two armors, he can sell it for +1 Level!
+        self.assertEqual(self.armor.value, 400)
+        # Some armors can be used by some Races, or some class, when get "All" means what it can use for everyone
+        self.assertEqual(self.armor.used_by, "Halfling")
+        self.assertEqual(self.armor.is_big, True)
+
 
     def test_accessories_card(self):
         self.assertEqual(self.accessories.type, "Treasure")
