@@ -155,7 +155,8 @@ TREASURE_CARDS = {
             'name': 'Armadura de mithril',
             'bonus': 3,
             'value': 600,
-            'part': 'Grande armadura',
+            'part': 'Amadura',
+            'is_big': True,
             'used_by': 'Wizard',
         },
         {
@@ -172,6 +173,58 @@ TREASURE_CARDS = {
             'part': 'Armadura',
             'used_by': 'all',
         },
+        {
+            'name': 'Armadura Rechoncha',
+            'bonus': 3,
+            'value': 400,
+            'part': 'Armadura',
+            'used_by': 'Dwarf',
+        }
+    ],
+    'accessories': [
+        {
+            'name': 'Capa de Sombras',
+            'bonus': 4,
+            'value': 600,
+            'part': None,
+            'used_by': 'thief',
+        },
+        {
+            'name': 'Leotardos de Fuerza de Gigante',
+            'bonus': 3,
+            'value': 600,
+            'part': None,
+            'used_by': 'no_warrior',
+        },
+        {
+            'name': 'Rodilleras con Pinchos',
+            'bonus': 1,
+            'value': 22,
+            'part': None,
+        },
+    ],
+    'footwear': [
+        {
+            'name': 'Botas de Correr Muy Muy Rapido',
+            'bonus': 2,
+            'value': 400,
+            'part': 'Calzado',
+            'used_by': 'all',
+        },
+        {
+            'name': 'Botas De Invocacion de Hemorroides',
+            'flee_bonus': 2,
+            'value': 400,
+            'part': 'Calzado',
+            'used_by': 'all',
+        },
+        {
+            'name': 'Botas de Correr Muy Muy Rapido',
+            'bonus': 2,
+            'value': 400,
+            'part': 'Calzado',
+            'used_by': 'all',
+        }
     ],
     'single_use':
     [
