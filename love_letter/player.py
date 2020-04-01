@@ -41,3 +41,7 @@ class Player(object):
 
     def ask_card(self):
         return self.game.get_deck_card()
+
+    @property
+    def is_active(self):
+        return self.is_active

@@ -153,7 +153,7 @@ class TestPlayer(unittest.TestCase):
     def test_discard_card_removes_1_card_from_hand(self):
         previous_length = len(self.human_player.cards)
         self.human_player.discard_card(self.human_player.cards[0])
-        self.assertEqual(len(self.human_player.cards), previous_length-1)
+        self.assertEqual(len(self.human_player.cards), previous_length - 1)
 
     def test_discard_card_adds_score_to_player(self):
         score = self.human_player.cards[0].score
@@ -205,7 +205,7 @@ class TestCard(unittest.TestCase):
             "Name: Priest, " \
             "Strength: 2, " \
             "Description: Player is allowed to see another player's hand."
-             )
+        )
 
     def test_generic_exception(self):
         self.assertRaises(Exception, lambda: (self.genericCard.execute_action("player")))
@@ -220,11 +220,9 @@ class TestCard(unittest.TestCase):
         self.player_1.draw_card(card_to_draw)
         self.assertEqual(card_to_draw.player, self.player_1)
 
-
     def test_end_of_round_sets_player_to_none(self):
         self.king.player.end_of_round()
         self.assertEqual(self.king.player, None)
-
 
 
 class TestPrincess(unittest.TestCase):
@@ -288,7 +286,6 @@ class TestKing(unittest.TestCase):
         self.king.player = self.player_1
         self.player_2 = self.game.players[1]
         self.player_2.cards.append(Guard())
-        
 
     def test_switch_cards(self):
         self.king.execute_action(self.player_2)
@@ -389,7 +386,7 @@ class TestPrince(unittest.TestCase):
         self.prince.execute_action(self.player_2)
         self.assertIsNot(self.player_2.cards[0], self.priest)
         self.assertEqual(len(self.player_1.cards), 1)
-    
+
     def test_prince_action_on_self(self):
         self.prince.execute_action(self.player_1)
         self.assertIsNot(self.player_1.cards[0], self.guard)
@@ -407,8 +404,9 @@ class TestPrince(unittest.TestCase):
                        "Example: 1-2 for opponent and 1 for choosing self"
         self.assertEqual(Prince.input_instructions, instructions)
 
+
 class TestGuard(unittest.TestCase):
-    
+
     def setUp(self):
         self.guard = Guard()
         self.prince = Prince()
@@ -418,11 +416,10 @@ class TestGuard(unittest.TestCase):
         self.player_1.cards.append(self.prince)
         self.player_1.cards.append(self.guard)
 
-
     def test_guard_action_on_enemy_true(self):
         result = self.guard.execute_action(self.player_1, self.prince.name)
         self.assertEqual(result, True)
-    
+
     def test_guard_action_on_enemy_false(self):
         result = self.guard.execute_action(self.player_1, self.king.name)
         self.assertEqual(result, False)
@@ -436,7 +433,7 @@ class TestGuard(unittest.TestCase):
         self.guard.execute_action(self.player_1, self.prince.name)
         is_no_dead = self.player_1.is_active
         self.assertEqual(is_no_dead, False)
-    
+
     def test_guard_action_card_guard_type(self):
         result = self.guard.execute_action(self.player_1, Guard())
         self.assertEqual(result, False)
@@ -446,6 +443,7 @@ class TestGuard(unittest.TestCase):
                        "'card number-opponent number-guess of the card'\n" \
                        "example: 1-2-king"
         self.assertEqual(Guard.input_instructions, instructions)
+
 
 class TestLoveLetterGame(unittest.TestCase):
 
@@ -458,14 +456,14 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertEquals(number_of_players, result)
 
     def test_board_with_initial_situation(self):
-        #human player
+        # human player
         self.game.players[0].cards.pop()
         self.game.players[0].cards.append(Princess())
-        #pc player
+        # pc player
         self.game.players[1].cards.pop()
         self.game.players[1].cards.append(Baron())
-        expected_text = "Deck : 10 remaining cards\n"\
-                        "Player: Me, Hearts: 0, Cards: 0-Princess \n"\
+        expected_text = "Deck : 10 remaining cards\n" \
+                        "Player: Me, Hearts: 0, Cards: 0-Princess \n" \
                         "Player: PC Player, Hearts: 0, Cards: 0-Baron "
         result_text = self.game.board
         self.assertEquals(expected_text, result_text)
@@ -506,7 +504,7 @@ class TestLoveLetterGame(unittest.TestCase):
 
     def test_select_target_current_player(self):
         with self.assertRaises(TargetMyselfException):
-            result = self.game.select_target(self.game.players[0].name)
+            self.game.select_target(self.game.players[0].name)
 
     def test_play_with_one_parameter(self):
         self.princess = Princess()
@@ -515,7 +513,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.princess.player = self.game.players[0]
         self.game.play("0")
         self.assertEqual(self.game.players[0].is_active, False)
-    
+
     def test_play_with_two_parameteres(self):
         self.priest = Priest()
         self.game.players[0].cards.pop()
@@ -524,7 +522,7 @@ class TestLoveLetterGame(unittest.TestCase):
         text = self.game.players[1].cards[0].__str__()
         result = self.game.play("0-1")
         self.assertEqual(text, result)
-    
+
     def test_play_with_three_parameteres(self):
         self.guard = Guard()
         self.king = King()
@@ -535,4 +533,3 @@ class TestLoveLetterGame(unittest.TestCase):
         self.guard.player = self.game.players[0]
         result = self.game.play("0-1-King")
         self.assertEqual(result, True)
-        
