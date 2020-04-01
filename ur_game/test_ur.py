@@ -126,3 +126,20 @@ class TestUr(unittest.TestCase):
         self.game.players[0].move_token(4, 0)
         self.assertEqual(len(self.game.players[0].final_stack), 1)
         self.assertEqual(self.game.players[0].final_stack[0].index, 0)
+
+    def test_ur_game_playing(self):
+        self.assertTrue(self.game.is_playing)
+
+    def test_ur_game_finished(self):
+        player = self.game.players[0]
+        for index_token in range(len(player.initial)):
+            token = player.initial.pop()
+            player.final_stack.append(token)
+        self.assertFalse(self.game.is_playing)
+
+    def test_roll_dices(self):
+        dice_throw_value = self.game.roll_dices()
+        self.assertTrue(dice_throw_value >= 0)
+        self.assertTrue(dice_throw_value <= 4)
+        self.assertFalse(dice_throw_value > 4)
+        self.assertFalse(dice_throw_value < 0)
