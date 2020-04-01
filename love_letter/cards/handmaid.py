@@ -12,3 +12,6 @@ class Handmaid(Card):
         self.name = "Handmaid"
         self.score = 4
         self.description = "Player cannot be affected by any other player's card until the next turn."
+     
+    def execute_action(self):
+        pass
