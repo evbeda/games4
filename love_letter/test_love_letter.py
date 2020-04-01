@@ -504,34 +504,33 @@ class TestLoveLetterGame(unittest.TestCase):
         with self.assertRaises(TargetMyselfException):
             self.game.select_target(self.game.players[0].name)
 
-    #comentado porque cambio la logica de play, por lo tanto estos test hay que volver a adaptarlos al play
-    # def test_play_with_one_parameter(self):
-    #     self.princess = Princess()
-    #     self.game.players[0].cards.pop()
-    #     self.game.players[0].cards.append(self.princess)
-    #     self.princess.player = self.game.players[0]
-    #     self.game.play("0")
-    #     self.assertEqual(self.game.players[0].is_active, False)
-    #
-    # def test_play_with_two_parameteres(self):
-    #     self.priest = Priest()
-    #     self.game.players[0].cards.pop()
-    #     self.game.players[0].cards.append(self.priest)
-    #     self.priest.player = self.game.players[0]
-    #     text = self.game.players[1].cards[0].__str__()
-    #     result = self.game.play("0-1")
-    #     self.assertEqual(text, result)
-    #
-    # def test_play_with_three_parameteres(self):
-    #     self.guard = Guard()
-    #     self.king = King()
-    #     self.game.players[0].cards.pop()
-    #     self.game.players[0].cards.append(self.guard)
-    #     self.game.players[1].cards.pop()
-    #     self.game.players[1].cards.append(self.king)
-    #     self.guard.player = self.game.players[0]
-    #     result = self.game.play("0-1-King")
-    #     self.assertEqual(result, True)
+    def test_play_with_one_parameter(self):
+        self.princess = Princess()
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(self.princess)
+        self.princess.player = self.game.players[0]
+        self.game.play("0")
+        self.assertEqual(self.game.players[0].is_active, False)
+
+    def test_play_with_two_parameteres(self):
+        self.priest = Priest()
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(self.priest)
+        self.priest.player = self.game.players[0]
+        text = self.game.players[1].cards[0].__str__()
+        result = self.game.play("0-1")
+        self.assertEqual(text, result)
+
+    def test_play_with_three_parameteres(self):
+        self.guard = Guard()
+        self.king = King()
+        self.game.players[0].cards.pop()
+        self.game.players[0].cards.append(self.guard)
+        self.game.players[1].cards.pop()
+        self.game.players[1].cards.append(self.king)
+        self.guard.player = self.game.players[0]
+        result = self.game.play("0-1-King")
+        self.assertEqual(result, True)
 
     def test_validate_effect_active(self):
         self.game.players[1].is_active = False
