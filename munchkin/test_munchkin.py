@@ -214,7 +214,10 @@ class TestAccesories(unittest.TestCase):
         self.assertFalse(accessories.is_big)
 
 class TestTreasureDeck(unittest.TestCase):
-    pass
+
+    def test_treasure_deck(self):
+        deck_treasure = TreasureDeck()
+        self.assertTrue(deck_treasure)
 
 
 class TestDoorDeck(unittest.TestCase):
@@ -288,23 +291,14 @@ class TestCardMunchkin(unittest.TestCase):
         self.assertEqual(self.armor.used_by, "Male")
 
     def test_various_card(self):
-        self.assertEqual(self.armor.type, "Treasure")
-        self.assertEqual(self.armor.type_treasure, "Various")
-        self.assertEqual(self.armor.name, "Escalera")
-
-        # Level to fight against the monster
-        self.assertEqual(self.armor.bonus, 3)
-
-        # Value to sell the armor, if the player get 1000 in two armors, he can sell it for +1 Level!
-        self.assertEqual(self.armor.value, 400)
-        # Some armors can be used by some Races, or some class, when get "All" means what it can use for everyone
-        self.assertEqual(self.armor.used_by, "Halfling")
-        self.assertEqual(self.armor.is_big, True)
-
+        self.assertEqual(self.various.name, "Escalera")
+        self.assertEqual(self.various.bonus, 3)
+        self.assertEqual(self.various.value, 400)
+        self.assertEqual(self.various.used_by, "Halfling")
+        self.assertEqual(self.various.is_big, True)
+        self.assertEqual(self.various.cant_hand, 2)
 
     def test_accessories_card(self):
-        self.assertEqual(self.accessories.type, "Treasure")
-        self.assertEqual(self.accessories.type_treasure, "Accessories")
         self.assertEqual(self.accessories.name, "Capa de sombras")
 
         # Level to fight against the monster
