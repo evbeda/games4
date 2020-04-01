@@ -253,12 +253,25 @@ class TestTreasureSingleUse(unittest.TestCase):
         self.assertEqual(single_use_lvl_up.value, None)
         self.assertFalse(single_use_lvl_up.group_effect)
         self.assertTrue(single_use_lvl_up.is_level_up)
+        self.assertFalse(single_use_lvl_up.reroll_dice)
 
     def test_single_card_raise_fight_power(self):
         cards_single_use = TREASURE_CARDS['single_use']
-        single_use_lvl_up = TreasureSingleUse(**cards_single_use[1])
-        self.assertEqual(single_use_lvl_up.name, "Globitos de colores")
-        self.assertEqual(single_use_lvl_up.bonus, 5)
-        self.assertEqual(single_use_lvl_up.value, None)
-        self.assertFalse(single_use_lvl_up.group_effect)
-        self.assertFalse(single_use_lvl_up.is_level_up)
+        raise_fight_power = TreasureSingleUse(**cards_single_use[1])
+        self.assertEqual(raise_fight_power.name, "Globitos de colores")
+        self.assertEqual(raise_fight_power.bonus, 5)
+        self.assertEqual(raise_fight_power.value, None)
+        self.assertFalse(raise_fight_power.group_effect)
+        self.assertFalse(raise_fight_power.is_level_up)
+
+    def test_single_card_flee(self):
+        cards_single_use = TREASURE_CARDS['single_use']
+        flee = TreasureSingleUse(**cards_single_use[2])
+        self.assertEqual(flee.name, "Frasco de pegamento")
+        self.assertEqual(flee.bonus, None)
+        self.assertEqual(flee.value, 100)
+        self.assertFalse(flee.group_effect)
+        self.assertFalse(flee.is_level_up)
+        self.assertTrue(flee.reroll_dice)
+
+

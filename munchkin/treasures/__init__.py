@@ -133,7 +133,7 @@ TREASURE_CARDS = {
             'used_by': 'No Thief',
             'is_big': True,
         },
-        
+
     ],
     'armor':
     [
@@ -190,6 +190,16 @@ TREASURE_CARDS = {
             'used_by': 'all',
             'is_level_up': False,
             'value': None,
+        },
+        {
+            'name': 'Frasco de pegamento',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 100,
+            'reroll_dice': True,
+
         },
         {
             'name': 'Agua mineral',
@@ -286,6 +296,15 @@ TREASURE_CARDS = {
             'used_by': 'all',
             'is_level_up': False,
             'value': 200,
+        },
+        {
+            'name': 'Dado cargado',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 300,
+            'reroll_dice': True,
         },
     ]
 }
