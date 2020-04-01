@@ -65,24 +65,25 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_board_display(self):
         hanoi_towers = HanoiTowers(4)
-        expected_board=  "Tower 0:\n"\
-                " |-\n"\
-                " |--\n"\
-                " |---\n"\
-                " |----\n"\
-                "\n"\
-                "Tower 1:\n"\
-                " |\n" \
-                " |\n" \
-                " |\n" \
-                " |\n" \
-                "\n" \
-                "Tower 2:\n" \
-                " |\n" \
-                " |\n" \
-                " |\n" \
-                " |\n" \
-                "\n"
+        expected_board = \
+            "Tower 0:\n"\
+            " |-\n"\
+            " |--\n"\
+            " |---\n"\
+            " |----\n"\
+            "\n"\
+            "Tower 1:\n"\
+            " |\n" \
+            " |\n" \
+            " |\n" \
+            " |\n" \
+            "\n" \
+            "Tower 2:\n" \
+            " |\n" \
+            " |\n" \
+            " |\n" \
+            " |\n" \
+            "\n"
         self.assertEqual(hanoi_towers.board, expected_board)
 
     def test_board_display_after_play(self):
@@ -106,7 +107,7 @@ class TestHanoiTower(unittest.TestCase):
                          " |\n" \
                          " |\n" \
                          "\n"
-        self.assertEqual(hanoi_towers.board,expected_board)
+        self.assertEqual(hanoi_towers.board, expected_board)
 
     def test_play_same_2_towers(self):
         hanoi_towers = HanoiTowers(4)
@@ -137,6 +138,7 @@ class TestHanoiTower(unittest.TestCase):
         hanoi_towers = HanoiTowers(4)
         result = hanoi_towers.play(0, 7)
         self.assertEqual(result, "Error: enter numbers between 0 and 2")
+
 
 class TestToken(unittest.TestCase):
 
