@@ -1,5 +1,6 @@
 from ahorcado.ahorcado import Ahorcado
 from guess_number_game.guess_number_game import GuessNumberGame
+from hanoi_towers.hanoi_towers import HanoiTowers
 from senku.senku import SenkuGame
 
 
@@ -11,6 +12,7 @@ class Game(object):
             GuessNumberGame,
             SenkuGame,
             Ahorcado,
+            HanoiTowers,
         ]
 
     def output(self, text):
