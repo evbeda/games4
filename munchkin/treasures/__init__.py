@@ -66,7 +66,7 @@ TREASURE_CARDS = {
             'bonus': 2,
             'cant_hands': 1,
             'value': 400,
-            'used_by': 'No Thief',
+            'used_by': '!Thief',
             'is_big': False,
         },
         {
@@ -130,7 +130,7 @@ TREASURE_CARDS = {
             'bonus': 3,
             'cant_hands': 2,
             'value': 0,
-            'used_by': 'No Thief',
+            'used_by': '!Thief',
             'is_big': True,
         },
 
@@ -150,8 +150,8 @@ TREASURE_CARDS = {
             'value': 600,
             'used_by': 'all',
             'is_big': False,
-            'extra_bonus' : 2,
-            'extra_used_by' : "Elf",
+            'extra_bonus': 2,
+            'extra_used_by': "Elf",
         },
         {
             'name': 'Yelmo del valor',
@@ -246,7 +246,7 @@ TREASURE_CARDS = {
         },
         {
             'name': 'Botas de Correr Muy Muy Rapido',
-            'bonus' : 0,
+            'bonus': 0,
             'value': 400,
             'part': 'Calzado',
             'used_by': 'all',
@@ -282,8 +282,8 @@ TREASURE_CARDS = {
             'value': 300,
             'is_big': False,
             'used_by': 'all',
-            'flee_bonus' : 1,
-            'cant_hands' : 1,
+            'flee_bonus': 1,
+            'cant_hands': 1,
         },
     ],
     'single_use':
@@ -312,6 +312,7 @@ TREASURE_CARDS = {
             'is_level_up': False,
             'value': 100,
             'reroll_dice': True,
+            'affect_other_player': True
 
         },
         {
@@ -332,6 +333,15 @@ TREASURE_CARDS = {
             'is_level_up': False,
             'value': 200,
             'win_treasure': False,
+        },
+        {
+            'name': 'Pocion de transferencia',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 300,
+            'affect_other_player': True
         },
         {
             'name': 'Agua mineral',
@@ -455,6 +465,89 @@ TREASURE_CARDS = {
             'is_level_up': False,
             'value': 500,
             'reroll_dice': True,
-        }
+        },
+        {
+            'name': 'Pocion de halitosis',
+            'bonus': 2,
+            'group_effect': True,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 100,
+        },
+        {
+            'name': 'Pocion de invisibilidad',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 200,
+            'flee_points': 5,
+        },
+        {
+            'name': 'Pocion de pollimorfizacion',
+            'bonus': 99,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 1300,
+        },
+        {
+            'name': 'Pocion de sueño',
+            'bonus': 2,
+            'group_effect': True,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 100,
+        },
+        {
+            'name': 'Pocion de valentia estupida',
+            'bonus': 2,
+            'group_effect': True,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 100,
+        },
+        {
+            'name': 'Pocion de veneno ardiente',
+            'bonus': 3,
+            'group_effect': True,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 100,
+        },
+        {
+            'name': 'Pocion viril de masculinidad',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': True,
+            'value': None,
+        },
+        {
+            'name': 'Robar un nivel',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': True,
+            'value': None,
+            'affect_other_player': True
+        },
+        {
+            'name': 'Rodillera de seduccion',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': '!Warrior',
+            'is_level_up': False,
+            'value': None,
+            'affect_other_player': True
+        },
+        {
+            'name': 'Sobornar al master con comida',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': True,
+            'value': None,
+        },
     ]
 }

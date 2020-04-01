@@ -316,7 +316,7 @@ class TestTreasureSingleUse(unittest.TestCase):
         self.assertFalse(flee.reroll_dice)
         self.assertEqual(flee.flee_points, 5)
 
-    def test_single_win_treasure(self):
+    def test_single_card_win_treasure(self):
         cards_single_use = TREASURE_CARDS['single_use']
         treasure_single_use = TreasureSingleUse(**cards_single_use[4])
         self.assertEqual(treasure_single_use.name, "Pocion de amistad")
@@ -327,5 +327,18 @@ class TestTreasureSingleUse(unittest.TestCase):
         self.assertFalse(treasure_single_use.reroll_dice)
         self.assertEqual(treasure_single_use.flee_points, 0)
         self.assertFalse(treasure_single_use.win_treasure)
+
+    def test_single_card_affect_other_player(self):
+        cards_single_use = TREASURE_CARDS['single_use']
+        treasure_single_use = TreasureSingleUse(**cards_single_use[5])
+        self.assertEqual(treasure_single_use.name, "Pocion de transferencia")
+        self.assertEqual(treasure_single_use.bonus, None)
+        self.assertEqual(treasure_single_use.value, 300)
+        self.assertFalse(treasure_single_use.group_effect)
+        self.assertFalse(treasure_single_use.is_level_up)
+        self.assertFalse(treasure_single_use.reroll_dice)
+        self.assertEqual(treasure_single_use.flee_points, 0)
+        self.assertTrue(treasure_single_use.win_treasure)
+        self.assertTrue(treasure_single_use.affect_other_player)
 
 
