@@ -12,6 +12,10 @@ class TestUr(unittest.TestCase):
         token = Token()
         self.assertEqual(token.player, None)
 
+    def test_token_index(self):
+        token = Token(1)
+        self.assertEqual(token.index, 1)
+
     def test_player(self):
         player = Player()
         self.assertEqual(len(player.initial), 7)
@@ -44,4 +48,3 @@ class TestUr(unittest.TestCase):
     def test_player_finish(self):
         player = Player()
         self.assertEqual(len(player.finish), 2)
-
