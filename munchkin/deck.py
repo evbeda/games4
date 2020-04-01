@@ -48,7 +48,6 @@ class DoorDeck(Deck):
         self.add_cards(card)
 
 
-
 class TreasureDeck(Deck):
 
     def __init__(self):
