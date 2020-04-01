@@ -32,6 +32,22 @@ class HanoiTowers:
 
     @property
     def board(self):
+        tower_print = ""
+        for tower in self.towers:
+            tower_print += f"Tower {self.towers.index(tower)}:\n"
+            for index in range(self.cant_tokens-1, -1, -1):
+                tower_print += " |"
+                if len(tower.tokens) > index:
+                    for y in range(tower.tokens[index].size):
+                        tower_print += "-"
+                tower_print += "\n"
+            tower_print += "\n"
+        return tower_print
+
+
+
+
+        """
         tallest = max(len(self.towers[0].tokens), len(self.towers[1].tokens), len(self.towers[2].tokens))
         board = ""
         for row in range(tallest, 0, -1):
@@ -50,3 +66,4 @@ class HanoiTowers:
             board += "\n"
         board += "=== === ==="
         return board
+        """

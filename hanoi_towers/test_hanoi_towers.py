@@ -1,8 +1,8 @@
 import unittest
 
-from hanoi_towers.token import Token
-from hanoi_towers.tower import Tower, InvalidMovement, EmptyTower
-from hanoi_towers.hanoi_towers import HanoiTowers
+from .token import Token
+from .tower import Tower, InvalidMovement, EmptyTower
+from .hanoi_towers import HanoiTowers
 
 
 class TestHanoiTower(unittest.TestCase):
@@ -124,9 +124,45 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_board_display(self):
         hanoi_towers = HanoiTowers(4)
-        self.assertEqual(hanoi_towers.board, " 1          \n 2          \n 3          \n 4          \n=== === ===")
+        expected_board=  "Tower 0:\n"\
+                " |-\n"\
+                " |--\n"\
+                " |---\n"\
+                " |----\n"\
+                "\n"\
+                "Tower 1:\n"\
+                " |\n" \
+                " |\n" \
+                " |\n" \
+                " |\n" \
+                "\n" \
+                "Tower 2:\n" \
+                " |\n" \
+                " |\n" \
+                " |\n" \
+                " |\n" \
+                "\n"
+        self.assertEqual(hanoi_towers.board, expected_board)
 
     def test_board_display_after_play(self):
         hanoi_towers = HanoiTowers(4)
         hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
-        self.assertEqual(hanoi_towers.board, " 2          \n 3          \n 4   1      \n=== === ===")
+        expected_board = "Tower 0:\n" \
+                         " |\n" \
+                         " |--\n" \
+                         " |---\n" \
+                         " |----\n" \
+                         "\n" \
+                         "Tower 1:\n" \
+                         " |\n" \
+                         " |\n" \
+                         " |\n" \
+                         " |-\n" \
+                         "\n" \
+                         "Tower 2:\n" \
+                         " |\n" \
+                         " |\n" \
+                         " |\n" \
+                         " |\n" \
+                         "\n"
+        self.assertEqual(hanoi_towers.board,expected_board)
