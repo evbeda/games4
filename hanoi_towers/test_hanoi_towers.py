@@ -89,16 +89,15 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_next_turn_still_playing(self):
         hanoi_towers = HanoiTowers(4)
-        self.assertEquals(hanoi_towers.next_turn(), "Plase make your move")
+        self.assertEqual(hanoi_towers.next_turn(), "Plase make your move")
         self.assertTrue(hanoi_towers.is_playing)
-
 
     def test_play_right_move(self):
         hanoi_towers = HanoiTowers(4)
         hanoi_towers.play(0, 1)
-        self.assertEquals(len(hanoi_towers.towers[0].tokens), 3)
-        self.assertEquals(len(hanoi_towers.towers[1].tokens), 1)
-        self.assertEquals(len(hanoi_towers.towers[2].tokens), 0)
+        self.assertEqual(len(hanoi_towers.towers[0].tokens), 3)
+        self.assertEqual(len(hanoi_towers.towers[1].tokens), 1)
+        self.assertEqual(len(hanoi_towers.towers[2].tokens), 0)
 
     def test_play_invalid_move(self):
         hanoi_towers = HanoiTowers(4)
