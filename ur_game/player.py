@@ -11,10 +11,12 @@ class Player:
         self.finish = [Cell() for _ in range(2)]
 
     def move_token(self, dice_result, index_token):
+
         if dice_result == 0:
             return None
 
         my_index, actual_array = self.search_token(index_token)
+
         if actual_array == self.initial:
             my_token = actual_array.pop(my_index)
         else:
@@ -22,20 +24,35 @@ class Player:
             actual_array[my_index].clear_cell()
 
         if actual_array == self.initial:
-            self.start[dice_result - 1].put_token(my_token)
+            if not self.start[dice_result - 1].is_empty:
+                raise OccupedCellException
+            else:
+                self.start[dice_result - 1].put_token(my_token)
         elif actual_array == self.start:
             if dice_result + my_index > 3:
-                self.shared[abs(my_index - 4 + dice_result)].put_token(my_token)
+                if not self.shared[abs(my_index - 4 + dice_result)].is_empty:
+                    raise OccupedCellException
+                else:
+                    self.shared[abs(my_index - 4 + dice_result)].put_token(my_token)
             else:
-                self.start[my_index + dice_result].put_token(my_token)
+                if not self.start[my_index + dice_result].is_empty:
+                    raise OccupedCellException
+                else:
+                    self.start[my_index + dice_result].put_token(my_token)
         elif actual_array == self.shared:
             if dice_result + my_index > 7:
                 if abs(my_index - 8 + dice_result) == 1:
                     self.final_stack.append(my_token)
                 else:
-                    self.finish[abs(my_index - 8 + dice_result)].put_token(my_token)
+                    if not self.finish[abs(my_index - 8 + dice_result)].is_empty:
+                        raise OccupedCellException
+                    else:
+                        self.finish[abs(my_index - 8 + dice_result)].put_token(my_token)
             else:
-                self.shared[my_index + dice_result].put_token(my_token)
+                if not self.shared[my_index + dice_result].is_empty:
+                    raise OccupedCellException
+                else:
+                    self.shared[my_index + dice_result].put_token(my_token)
         elif actual_array == self.finish:
             if dice_result == 1:
                 self.final_stack.append(my_token)
@@ -64,3 +81,7 @@ class Player:
                 if not array[cell_index].is_empty and array[cell_index].token.index is token_index:
                     return cell_index, array,
         return None
+
+
+class OccupedCellException(Exception):
+    pass
