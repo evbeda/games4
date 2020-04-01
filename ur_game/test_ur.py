@@ -2,6 +2,7 @@ import unittest
 
 from ur_game.cell import Cell
 from ur_game.player import Player
+from ur_game.player import OccupedCellException
 from ur_game.token import Token
 from ur_game.ur import UrGame
 
@@ -143,3 +144,26 @@ class TestUr(unittest.TestCase):
         self.assertTrue(dice_throw_value <= 4)
         self.assertFalse(dice_throw_value > 4)
         self.assertFalse(dice_throw_value < 0)
+
+    def test_move_token_to_occuped_cell_start(self):
+        self.game.players[0].move_token(2, 0)
+        with self.assertRaises(OccupedCellException):
+            self.game.players[0].move_token(2, 1)
+
+    def test_move_token_to_occuped_cell_start_to_share(self):
+        self.game.players[0].move_token(3, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(3, 1)
+        with self.assertRaises(OccupedCellException):
+            self.game.players[0].move_token(2, 1)
+
+    def test_move_token_to_occuped_cell_share_to_finish(self):
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(3, 0)
+        self.game.players[0].move_token(4, 1)
+        self.game.players[0].move_token(4, 1)
+        self.game.players[0].move_token(2, 1)
+        with self.assertRaises(OccupedCellException):
+            self.game.players[0].move_token(3, 1)
