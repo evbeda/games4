@@ -3,6 +3,8 @@ import random
 from munchkin.treasures import TREASURE_CARDS
 from munchkin.treasures.weapon import Weapon
 from munchkin.treasures.armor import Armor
+from munchkin.doors import DOOR_CARDS
+from munchkin.doors.monster import Monster
 
 
 class Deck:
@@ -32,12 +34,19 @@ class Deck:
         self._cards = self._discard_cards
         self.shuffle_deck()
 
+    def draw_card(self):
+        return self.cards.pop()
+
 
 class DoorDeck(Deck):
 
     def __init__(self):
         super().__init__()
-        self.add_cards(["doorcard1", "doorcard2", "doorcard3", "doorcard4"])
+        card = []
+        for monster in DOOR_CARDS['monster']:
+            card.append(Monster(**monster))
+        self.add_cards(card)
+
 
 
 class TreasureDeck(Deck):
