@@ -255,6 +255,15 @@ TREASURE_CARDS = {
 
         },
         {
+            'name': 'Muro instantaneo',
+            'bonus': None,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 300,
+            'flee_points':5
+        },
+        {
             'name': 'Agua mineral',
             'bonus': 2,
             'group_effect': False,
@@ -359,5 +368,23 @@ TREASURE_CARDS = {
             'value': 300,
             'reroll_dice': True,
         },
+        {
+            'name': 'Lampara maravillosa',
+            'bonus': 99,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 3500,
+            'reroll_dice': True,
+        },
+        {
+            'name': 'Lampara maravillosa',
+            'bonus': 99,
+            'group_effect': False,
+            'used_by': 'all',
+            'is_level_up': False,
+            'value': 500,
+            'reroll_dice': True,
+        }
     ]
 }
