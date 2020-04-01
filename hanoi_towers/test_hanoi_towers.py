@@ -71,9 +71,9 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_init_game(self):
         hanoi_towers = HanoiTowers(4)
-        self.assertEqual(len(hanoi_towers.tower1.tokens), 4)
-        self.assertEqual(len(hanoi_towers.tower2.tokens), 0)
-        self.assertEqual(len(hanoi_towers.tower3.tokens), 0)
+        self.assertEqual(len(hanoi_towers.towers[0].tokens), 4)
+        self.assertEqual(len(hanoi_towers.towers[1].tokens), 0)
+        self.assertEqual(len(hanoi_towers.towers[2].tokens), 0)
         self.assertTrue(hanoi_towers.is_playing)
 
     def test_next_turn_win(self):
@@ -81,9 +81,9 @@ class TestHanoiTower(unittest.TestCase):
         token2 = Token(2)
         token3 = Token(3)
         hanoi_towers = HanoiTowers(3)
-        hanoi_towers.tower3.insert_token(token3)
-        hanoi_towers.tower3.insert_token(token2)
-        hanoi_towers.tower3.insert_token(token1)
+        hanoi_towers.towers[2].insert_token(token3)
+        hanoi_towers.towers[2].insert_token(token2)
+        hanoi_towers.towers[2].insert_token(token1)
         self.assertEqual(hanoi_towers.next_turn(), "You won")
         self.assertFalse(hanoi_towers.is_playing)
 
@@ -95,32 +95,32 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_play_right_move(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
-        self.assertEquals(len(hanoi_towers.tower1.tokens), 3)
-        self.assertEquals(len(hanoi_towers.tower2.tokens), 1)
-        self.assertEquals(len(hanoi_towers.tower3.tokens), 0)
+        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        self.assertEquals(len(hanoi_towers.towers[0].tokens), 3)
+        self.assertEquals(len(hanoi_towers.towers[1].tokens), 1)
+        self.assertEquals(len(hanoi_towers.towers[2].tokens), 0)
 
     def test_play_invalid_move(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
-        self.assertEqual(hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2), "Invalid move")
+        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        self.assertEqual(hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1]), "Invalid move")
 
     def test_play_invalid_move_tokens(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
-        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
-        self.assertEqual(len(hanoi_towers.tower1.tokens), 3)
-        self.assertEqual(len(hanoi_towers.tower2.tokens), 1)
+        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
+        self.assertEqual(len(hanoi_towers.towers[0].tokens), 3)
+        self.assertEqual(len(hanoi_towers.towers[1].tokens), 1)
 
     def test_play_empty_tower(self):
         hanoi_towers = HanoiTowers(4)
-        self.assertEqual(hanoi_towers.play(hanoi_towers.tower2, hanoi_towers.tower3), "Empty tower")
+        self.assertEqual(hanoi_towers.play(hanoi_towers.towers[1], hanoi_towers.towers[2]), "Empty tower")
 
     def test_play_empty_tower_tokens(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.tower2, hanoi_towers.tower3)
-        self.assertEqual(len(hanoi_towers.tower2.tokens), 0)
-        self.assertEqual(len(hanoi_towers.tower3.tokens), 0)
+        hanoi_towers.play(hanoi_towers.towers[1], hanoi_towers.towers[2])
+        self.assertEqual(len(hanoi_towers.towers[1].tokens), 0)
+        self.assertEqual(len(hanoi_towers.towers[2].tokens), 0)
 
     def test_board_display(self):
         hanoi_towers = HanoiTowers(4)
@@ -128,5 +128,5 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_board_display_after_play(self):
         hanoi_towers = HanoiTowers(4)
-        hanoi_towers.play(hanoi_towers.tower1, hanoi_towers.tower2)
+        hanoi_towers.play(hanoi_towers.towers[0], hanoi_towers.towers[1])
         self.assertEqual(hanoi_towers.board, " 2          \n 3          \n 4   1      \n=== === ===")

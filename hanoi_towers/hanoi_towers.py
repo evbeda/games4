@@ -8,14 +8,12 @@ class HanoiTowers:
     def __init__(self, cant_tokens):
 
         self.cant_tokens = cant_tokens
-        self.tower1 = Tower(cant_tokens)
-        self.tower2 = Tower()
-        self.tower3 = Tower()
+        self.towers = [Tower(cant_tokens), Tower(), Tower()]
         self.is_playing = True
 
     def next_turn(self):
 
-        if (len(self.tower3.tokens) == self.cant_tokens) or (len(self.tower2.tokens) == self.cant_tokens):
+        if (len(self.towers[2].tokens) == self.cant_tokens) or (len(self.towers[1].tokens) == self.cant_tokens):
             self.is_playing = False
             return "You won"
         else:
@@ -34,19 +32,19 @@ class HanoiTowers:
 
     @property
     def board(self):
-        tallest = max(len(self.tower1.tokens), len(self.tower2.tokens), len(self.tower3.tokens))
+        tallest = max(len(self.towers[0].tokens), len(self.towers[1].tokens), len(self.towers[2].tokens))
         board = ""
         for row in range(tallest, 0, -1):
-            if len(self.tower1.tokens) >= row:
-                board += " {}  ".format(self.tower1.tokens[row-1].size)
+            if len(self.towers[0].tokens) >= row:
+                board += " {}  ".format(self.towers[0].tokens[row-1].size)
             else:
                 board += "    "
-            if len(self.tower2.tokens) >= row:
-                board += " {}  ".format(self.tower2.tokens[row-1].size)
+            if len(self.towers[1].tokens) >= row:
+                board += " {}  ".format(self.towers[1].tokens[row-1].size)
             else:
                 board += "    "
-            if len(self.tower3.tokens) >= row:
-                board += " {}  ".format(self.tower3.tokens[row-1].size)
+            if len(self.towers[2].tokens) >= row:
+                board += " {}  ".format(self.towers[2].tokens[row-1].size)
             else:
                 board += "    "
             board += "\n"
