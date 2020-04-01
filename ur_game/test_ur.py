@@ -15,6 +15,7 @@ class TestUr(unittest.TestCase):
     def test_player(self):
         player = Player()
         self.assertEqual(len(player.initial), 7)
+        self.assertEqual(len(player.final_stack), 0)
 
     def test_cell_empty(self):
         cell = Cell()
@@ -43,3 +44,4 @@ class TestUr(unittest.TestCase):
     def test_player_finish(self):
         player = Player()
         self.assertEqual(len(player.finish), 2)
+
