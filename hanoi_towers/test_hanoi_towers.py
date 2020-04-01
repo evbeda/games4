@@ -31,7 +31,7 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_next_turn_still_playing(self):
         hanoi_towers = HanoiTowers(4)
-        self.assertEqual(hanoi_towers.next_turn(), "Plase make your move")
+        self.assertEqual(hanoi_towers.next_turn(), "Enter the numbers of source and target towers")
         self.assertTrue(hanoi_towers.is_playing)
 
     def test_play_right_move(self):

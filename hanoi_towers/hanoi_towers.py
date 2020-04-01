@@ -5,7 +5,10 @@ from .tower import EmptyTower
 
 class HanoiTowers:
 
-    def __init__(self, cant_tokens):
+    name = "Hanoi Towers"
+    input_args = 2
+
+    def __init__(self, cant_tokens=4):
 
         self.cant_tokens = cant_tokens
         self.towers = [Tower(cant_tokens), Tower(), Tower()]
@@ -17,7 +20,7 @@ class HanoiTowers:
             self.is_playing = False
             return "You won"
         else:
-            return "Plase make your move"
+            return "Enter the numbers of source and target towers"
 
     def play(self, source, target):
 
@@ -27,6 +30,7 @@ class HanoiTowers:
             self.validate_input(source, target)
             my_token = self.towers[source].remove_token()
             self.towers[target].insert_token(my_token)
+            return ""
         except InvalidMovement:
             self.towers[source].insert_token(my_token)
             return "Invalid move"
