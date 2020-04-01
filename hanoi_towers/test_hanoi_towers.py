@@ -1,8 +1,12 @@
 import unittest
 
 from .token import Token
-from .tower import Tower, InvalidMovement, EmptyTower
+from .tower import Tower
+from .tower import InvalidMovement
+from .tower import EmptyTower
 from .hanoi_towers import HanoiTowers
+from .hanoi_towers import SameTowerException
+from .hanoi_towers import NotValidTowerIndexException
 
 
 class TestHanoiTower(unittest.TestCase):
@@ -103,6 +107,36 @@ class TestHanoiTower(unittest.TestCase):
                          " |\n" \
                          "\n"
         self.assertEqual(hanoi_towers.board,expected_board)
+
+    def test_play_same_2_towers(self):
+        hanoi_towers = HanoiTowers(4)
+        result_text = hanoi_towers.play(0, 0)
+        self.assertEqual(result_text, "Error: the towers must be different")
+
+    def test_validate_non_integer_input(self):
+        hanoi_towers = HanoiTowers(4)
+        result = hanoi_towers.play("A", 3)
+        self.assertEqual(result, "Error: enter only integers")
+
+    def test_validate_input_different_towers(self):
+        hanoi_towers = HanoiTowers(4)
+        result = hanoi_towers.validate_input(0, 1)
+        self.assertEqual(result, True)
+
+    def test_validate_input_same_both_towers(self):
+        hanoi_towers = HanoiTowers(4)
+        with self.assertRaises(SameTowerException):
+            hanoi_towers.validate_input(1, 1)
+
+    def test_validate_input_towers_out_index(self):
+        hanoi_towers = HanoiTowers(4)
+        with self.assertRaises(NotValidTowerIndexException):
+            hanoi_towers.validate_input(5, 1)
+
+    def test_play_towers_out_index(self):
+        hanoi_towers = HanoiTowers(4)
+        result = hanoi_towers.play(0, 7)
+        self.assertEqual(result, "Error: enter numbers between 0 and 2")
 
 class TestToken(unittest.TestCase):
 

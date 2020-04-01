@@ -22,6 +22,9 @@ class HanoiTowers:
     def play(self, source, target):
 
         try:
+            source = int(source)
+            target = int(target)
+            self.validate_input(source, target)
             my_token = self.towers[source].remove_token()
             self.towers[target].insert_token(my_token)
         except InvalidMovement:
@@ -29,7 +32,23 @@ class HanoiTowers:
             return "Invalid move"
         except EmptyTower:
             return "Empty tower"
+        except ValueError:
+            return "Error: enter only integers"
+        except SameTowerException:
+            return "Error: the towers must be different"
+        except NotValidTowerIndexException:
+            return f"Error: enter numbers between 0 and {len(self.towers)-1}"
 
+    def validate_input(self, source, target):
+        if source == target:
+            raise SameTowerException
+        try:
+            self.towers[source]
+            self.towers[target]
+        except IndexError:
+            raise NotValidTowerIndexException
+        return True
+    
     @property
     def board(self):
         tower_print = ""
@@ -38,8 +57,16 @@ class HanoiTowers:
             for index in range(self.cant_tokens-1, -1, -1):
                 tower_print += " |"
                 if len(tower.tokens) > index:
-                    for y in range(tower.tokens[index].size):
+                    for _ in range(tower.tokens[index].size):
                         tower_print += "-"
                 tower_print += "\n"
             tower_print += "\n"
         return tower_print
+
+
+class SameTowerException(Exception):
+    pass
+
+
+class NotValidTowerIndexException(Exception):
+    pass
