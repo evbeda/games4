@@ -9,7 +9,7 @@ class Tower:
             self.tokens.insert(0, Token(i + 1))
 
     def insert_token(self, token):
-        if(self.validate_insert_token(token)):
+        if self.validate_insert_token(token):
             self.tokens.append(token)
         else:
             raise InvalidMovement
