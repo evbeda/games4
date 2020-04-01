@@ -1,6 +1,11 @@
 import random
 
 from munchkin.treasures import TREASURE_CARDS
+from munchkin.treasures.accessories import Accessories
+from munchkin.treasures.footwear import Footwear
+from munchkin.treasures.headwear import Headwear
+from munchkin.treasures.treasure_single_use import TreasureSingleUse
+from munchkin.treasures.various import Various
 from munchkin.treasures.weapon import Weapon
 from munchkin.treasures.armor import Armor
 from munchkin.doors import DOOR_CARDS
@@ -57,5 +62,15 @@ class TreasureDeck(Deck):
             card.append(Weapon(**arm_card_config))
         for armor_card_config in TREASURE_CARDS['armor']:
             card.append(Armor(**armor_card_config))
+        for armor_card_config in TREASURE_CARDS['various']:
+            card.append(Various(**armor_card_config))
+        for armor_card_config in TREASURE_CARDS['headwear']:
+            card.append(Headwear(**armor_card_config))
+        for armor_card_config in TREASURE_CARDS['accessories']:
+            card.append(Accessories(**armor_card_config))
+        for armor_card_config in TREASURE_CARDS['footwear']:
+            card.append(Footwear(**armor_card_config))
+        for armor_card_config in TREASURE_CARDS['single_use']:
+            card.append(TreasureSingleUse(**armor_card_config))
         self.add_cards(card)
 

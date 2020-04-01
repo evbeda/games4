@@ -5,3 +5,5 @@ class Various(Treasure):
 
     def __init__(self, name, bonus, value, used_by=None, is_big=False, flee_bonus=0, cant_hands=0):
         super().__init__(name, bonus, value, used_by, is_big)
+        self.flee_bonus = flee_bonus
+        self.cant_hand = cant_hands
