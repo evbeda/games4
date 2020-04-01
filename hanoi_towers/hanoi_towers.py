@@ -43,27 +43,3 @@ class HanoiTowers:
                 tower_print += "\n"
             tower_print += "\n"
         return tower_print
-
-
-
-
-        """
-        tallest = max(len(self.towers[0].tokens), len(self.towers[1].tokens), len(self.towers[2].tokens))
-        board = ""
-        for row in range(tallest, 0, -1):
-            if len(self.towers[0].tokens) >= row:
-                board += " {}  ".format(self.towers[0].tokens[row-1].size)
-            else:
-                board += "    "
-            if len(self.towers[1].tokens) >= row:
-                board += " {}  ".format(self.towers[1].tokens[row-1].size)
-            else:
-                board += "    "
-            if len(self.towers[2].tokens) >= row:
-                board += " {}  ".format(self.towers[2].tokens[row-1].size)
-            else:
-                board += "    "
-            board += "\n"
-        board += "=== === ==="
-        return board
-        """
