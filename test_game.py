@@ -72,7 +72,6 @@ class TestGame(unittest.TestCase):
             ['[]', 'you win', '[50]'],
         )
 
-
     def test_play_ahorcado(self):
 
         class ControlInputValues(object):
