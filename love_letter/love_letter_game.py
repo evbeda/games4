@@ -55,9 +55,9 @@ class LoveLetterGame:
             except Exception(e):
                 return e.message
         command_args.extend(commands[2:])
-        self.current_player.cards[int(commands[0])].execute_action(*command_args)
+        result = self.current_player.cards[int(commands[0])].execute_action(*command_args)
         self.give_heart()
-
+        return result
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
