@@ -8,6 +8,9 @@ from ur_game.ur import UrGame
 
 class TestUr(unittest.TestCase):
 
+    def setUp(self):
+        self.game = UrGame()
+
     def test_token(self):
         token = Token()
         self.assertEqual(token.player, None)
@@ -48,3 +51,28 @@ class TestUr(unittest.TestCase):
     def test_player_finish(self):
         player = Player()
         self.assertEqual(len(player.finish), 2)
+
+    def test_search_token_true(self):
+        player = self.game.players[0]
+        token = player.initial[0]
+        search_result = player.search_token(0)
+        token_index = search_result[0]
+        array_token = search_result[1]
+        self.assertEqual(array_token[token_index], token)
+
+    def test_search_token_true2(self):
+        '''Se mueve un token para ver si lo sigue buscando bien'''
+        player = self.game.players[0]
+        first_token = player.initial.pop(0)
+        player.shared[0].token = first_token
+        search_result = player.search_token(0)
+        token_index, array_token = search_result[0], search_result[1]
+        self.assertEqual(array_token[token_index].token, first_token)
+
+    def test_search_token_false(self):
+        player = self.game.players[0]
+        search_result = player.search_token(8)
+        self.assertIsNone(search_result)
+
+
+

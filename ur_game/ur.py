@@ -3,7 +3,6 @@ from ur_game.player import Player
 
 
 class UrGame:
-    
 
     def __init__(self):
         shared = [Cell() for _ in range(8)]
