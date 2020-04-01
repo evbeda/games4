@@ -239,18 +239,52 @@ TREASURE_CARDS = {
         },
         {
             'name': 'Botas De Invocacion de Hemorroides',
-            'flee_bonus': 2,
+            'bonus': 2,
             'value': 400,
             'part': 'Calzado',
             'used_by': 'all',
         },
         {
             'name': 'Botas de Correr Muy Muy Rapido',
-            'bonus': 2,
+            'bonus' : 0,
             'value': 400,
             'part': 'Calzado',
             'used_by': 'all',
-        }
+            'flee_bonus': 2,
+        },
+    ],
+    'various':
+    [
+        {
+            'name': 'Escalera',
+            'bonus': 3,
+            'value': 400,
+            'is_big': True,
+            'used_by': 'Halfling',
+        },
+        {
+            'name': 'Sandwich de cabrales con anchoas',
+            'bonus': 3,
+            'value': 400,
+            'is_big': False,
+            'used_by': 'Halfling',
+        },
+        {
+            'name': 'Titulo realmente impresionante',
+            'bonus': 3,
+            'value': 0,
+            'is_big': False,
+            'used_by': 'all',
+        },
+        {
+            'name': 'Tuba de hechizar',
+            'bonus': 0,
+            'value': 300,
+            'is_big': False,
+            'used_by': 'all',
+            'flee_bonus' : 1,
+            'cant_hands' : 1,
+        },
     ],
     'single_use':
     [
