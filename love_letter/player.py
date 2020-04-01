@@ -28,7 +28,7 @@ class Player(object):
         self.discarded.insert(0, card)
         card.player = None
 
-    def end_of_round(self):
+    def reset_round(self):
         self.score = 0
         for card in self.cards:
             card.player = None
@@ -41,3 +41,6 @@ class Player(object):
 
     def ask_card(self):
         return self.game.get_deck_card()
+
+    def get_heart(self):
+        return self.hearts

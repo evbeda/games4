@@ -13,14 +13,14 @@ class Deck:
 
     def __init__(self):
         self.cards = []
-        guards = [Guard() for index in range(5)]
-        barons = [Baron() for index in range(2)]
-        countesses = [Countess() for index in range(1)]
-        handmaids = [Handmaid() for index in range(2)]
-        king = [King() for index in range(1)]
-        princes = [Prince() for index in range(2)]
-        princess = [Princess() for index in range(1)]
-        priests = [Priest() for index in range(2)]
+        guards = [Guard() for _ in range(5)]
+        barons = [Baron() for _ in range(2)]
+        countesses = [Countess() for _ in range(1)]
+        handmaids = [Handmaid() for _ in range(2)]
+        king = [King() for _ in range(1)]
+        princes = [Prince() for _ in range(2)]
+        princess = [Princess() for _ in range(1)]
+        priests = [Priest() for _ in range(2)]
         self.cards.extend(guards)
         self.cards.extend(barons)
         self.cards.extend(countesses)
