@@ -10,7 +10,7 @@ from .cards.king import King
 from .cards.countess import Countess
 from .cards.princess import Princess
 from .human_player import HumanPlayer
-from .love_letter_game import LoveLetterGame, TargetMyselfException
+from .love_letter_game import LoveLetterGame, TargetMyselfException, TargetInvalidException
 from .pc_player import PcPlayer
 from .player import Player
 from .deck import Deck
@@ -161,7 +161,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.human_player.score, score)
 
     def test_end_of_round_player(self):
-        self.human_player.end_of_round()
+        self.human_player.reset_round()
         discarded_cards = []
         score = 0
         cards = []
@@ -175,7 +175,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(card_to_show, result)
 
     def test_end_of_round_cleans_player(self):
-        self.human_player.end_of_round()
+        self.human_player.reset_round()
         self.assertEqual(self.human_player.score, 0)
         self.assertEqual(len(self.human_player.cards), 0)
         self.assertEqual(len(self.human_player.discarded), 0)
@@ -202,8 +202,8 @@ class TestCard(unittest.TestCase):
     def test_card_print(self):
         self.assertEqual(
             self.card.__str__(),
-            "Name: Priest, " \
-            "Strength: 2, " \
+            "Name: Priest, "
+            "Strength: 2, "
             "Description: Player is allowed to see another player's hand."
         )
 
@@ -211,9 +211,7 @@ class TestCard(unittest.TestCase):
         self.assertRaises(Exception, lambda: (self.genericCard.execute_action("player")))
 
     def test_looking_for_handmaid(self):
-        self.assertEqual(len(self.genericCard.look_for_handmaid(self.deck.players, self.player_1)), 1)
-        self.assertTrue(self.player_2 in self.genericCard.look_for_handmaid(self.deck.players, self.player_1))
-        self.assertFalse(self.player_1 in self.genericCard.look_for_handmaid(self.deck.players, self.player_1))
+        self.assertIn(self.player_2, self.game.look_for_handmaid())
 
     def test_card_drawn_has_a_player(self):
         card_to_draw = Guard()
@@ -221,7 +219,7 @@ class TestCard(unittest.TestCase):
         self.assertEqual(card_to_draw.player, self.player_1)
 
     def test_end_of_round_sets_player_to_none(self):
-        self.king.player.end_of_round()
+        self.king.player.reset_round()
         self.assertEqual(self.king.player, None)
 
 
@@ -476,7 +474,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertTrue(self.game.check_winner())
 
     def test_end_of_round(self):
-        self.game.end_of_round()
+        self.game.reset_round()
         discarded_cards = []
         score = 0
         cards = []
@@ -533,3 +531,21 @@ class TestLoveLetterGame(unittest.TestCase):
         self.guard.player = self.game.players[0]
         result = self.game.play("0-1-King")
         self.assertEqual(result, True)
+
+    def test_validate_effect_active(self):
+        self.game.players[1].is_active = False
+        with self.assertRaises(TargetInvalidException):
+            self.game.validate_effect(self.game.players[1])
+
+    def test_validate_effect_handmaid(self):
+        self.game.players[1].discarded.append(Handmaid())
+        with self.assertRaises(TargetInvalidException):
+            self.game.validate_effect(self.game.players[1])
+
+    def test_check_end_of_round_player(self):
+        self.game.players[1].is_active = False
+        self.assertTrue(self.game.check_end_of_round())
+
+    def test_check_end_of_round_deck(self):
+        self.game.deck.cards = []
+        self.assertTrue(self.game.check_end_of_round())
