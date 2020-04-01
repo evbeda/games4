@@ -2,6 +2,7 @@ import unittest
 
 from ur_game.cell import Cell
 from ur_game.player import Player
+from ur_game.player import OccupedCellException
 from ur_game.token import Token
 from ur_game.ur import UrGame
 
@@ -126,3 +127,43 @@ class TestUr(unittest.TestCase):
         self.game.players[0].move_token(4, 0)
         self.assertEqual(len(self.game.players[0].final_stack), 1)
         self.assertEqual(self.game.players[0].final_stack[0].index, 0)
+
+    def test_ur_game_playing(self):
+        self.assertTrue(self.game.is_playing)
+
+    def test_ur_game_finished(self):
+        player = self.game.players[0]
+        for index_token in range(len(player.initial)):
+            token = player.initial.pop()
+            player.final_stack.append(token)
+        self.assertFalse(self.game.is_playing)
+
+    def test_roll_dices(self):
+        dice_throw_value = self.game.roll_dices()
+        self.assertTrue(dice_throw_value >= 0)
+        self.assertTrue(dice_throw_value <= 4)
+        self.assertFalse(dice_throw_value > 4)
+        self.assertFalse(dice_throw_value < 0)
+
+    def test_move_token_to_occuped_cell_start(self):
+        self.game.players[0].move_token(2, 0)
+        with self.assertRaises(OccupedCellException):
+            self.game.players[0].move_token(2, 1)
+
+    def test_move_token_to_occuped_cell_start_to_share(self):
+        self.game.players[0].move_token(3, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(3, 1)
+        with self.assertRaises(OccupedCellException):
+            self.game.players[0].move_token(2, 1)
+
+    def test_move_token_to_occuped_cell_share_to_finish(self):
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(4, 0)
+        self.game.players[0].move_token(2, 0)
+        self.game.players[0].move_token(3, 0)
+        self.game.players[0].move_token(4, 1)
+        self.game.players[0].move_token(4, 1)
+        self.game.players[0].move_token(2, 1)
+        with self.assertRaises(OccupedCellException):
+            self.game.players[0].move_token(3, 1)
