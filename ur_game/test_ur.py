@@ -162,4 +162,9 @@ class TestPlayer(unittest.TestCase):
         to_index = 9
         self.assertEqual(self.player.get_cell_by_index(to_index), self.player.validate_movement_to_cell(to_index))
 
-
+    def test_move_token_to_cell_final(self):
+        to_index = 14
+        cell = self.player.get_cell_by_index(to_index)
+        token = self.player.initial.pop()
+        self.player.move_token_to_cell(cell, token)
+        self.assertIn(token, self.player.final_stack)
