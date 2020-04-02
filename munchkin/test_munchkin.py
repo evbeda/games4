@@ -60,7 +60,6 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
-        self.assertEqual(self.player.isTurn, False)
 
     def test_set_default_status(self):
         self.player.name = "changed"
@@ -71,7 +70,6 @@ class TestPlayer(unittest.TestCase):
         self.player.fleeing_chance = -2
         self.player.max_race_cards = 2
         self.player.max_cards_on_hand = 7
-        self.player.isTurn = True
         self.player.set_default_status()
         self.assertEqual(self.player.name, "changed")
         self.assertEqual(self.player.level, 4)
@@ -81,7 +79,6 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
-        self.assertEqual(self.player.isTurn, True)
 
     def test_level_up(self):
         self.player.level_up()
@@ -122,19 +119,39 @@ class TestRace(unittest.TestCase):
 
 
 class TestMunchkin(unittest.TestCase):
+    
+    def setUp(self):
+        self.munchkin = Munchkin()
 
     def test_munchkin_initialization(self):
-        self.munchkin = Munchkin()
         self.assertEqual(len(self.munchkin.players), 2)
 
     def test_initial_board(self):
         pass
 
     def test_draw_card(self):
-        self.munchkin = Munchkin()
         player_1 = self.munchkin.players[0]
         self.munchkin.draw_card()
         self.assertEqual(len(player_1.on_hand), 1)
+  
+    def test_munchkin_board(self):
+        player_1 = self.munchkin.players[0]
+        card = {
+            'name': 'Roca enorme',
+            'bonus': 3,
+            'cant_hands': 2,
+            'value': 0,
+            'used_by': '!Thief',
+            'is_big': True,
+        }
+        player_1.on_board = [card]
+        expected = "Name: 1, \n" \
+            "Cards on Board:\n" \
+            "  {'name': 'Roca enorme', 'bonus': 3, 'cant_hands': 2, 'value': 0, 'used_by': '!Thief', 'is_big': True}\n" \
+            "Name: 2, \n"\
+            "Cards on Board:\n"
+        result = self.munchkin.board
+        self.assertEqual(result, expected)
 
 class TestTreasure(unittest.TestCase):
 
