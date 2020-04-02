@@ -620,3 +620,28 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[0].cards.append(king)
         self.game.players[1].cards.append(guard)
         self.assertFalse(self.game.check_if_end_round())
+
+    def test_check_if_end_round_tie(self):
+        guard = Guard()
+        self.game.deck.cards = []
+        self.game.players[0].cards.pop()
+        self.game.players[1].cards.pop()
+        self.game.players[0].cards.append(guard)
+        self.game.players[1].cards.append(guard)
+        self.game.players[0].score = 5
+        self.game.players[1].score = 0
+        self.assertTrue(self.game.check_if_end_round())
+        self.assertEqual(self.game.players[0].hearts, 1)
+        self.assertEqual(self.game.players[1].hearts, 0)
+
+    def test_tie_breaker(self):
+        guard = Guard()
+        self.game.deck.cards = []
+        self.game.players[0].cards.pop()
+        self.game.players[1].cards.pop()
+        self.game.players[0].cards.append(guard)
+        self.game.players[1].cards.append(guard)
+        self.game.players[0].score = 5
+        self.game.players[1].score = 0
+        self.game.tiebreaker(["Me", "PC Player"])
+        self.assertEquals(self.game.players[0].hearts, 1)
