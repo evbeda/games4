@@ -473,6 +473,16 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[1].hearts = 7
         self.assertTrue(self.game.check_winner())
 
+    def test_next_turn_winner(self):
+        self.game.players[0].hearts = 7
+        self.game.players[1].hearts = 0
+        self.assertEqual(self.game.next_turn(), "Me wins")
+
+    def test_next_turn_not_winner(self):
+        self.game.players[0].hearts = 1
+        self.game.players[1].hearts = 1
+        self.assertNotEqual(self.game.next_turn(), "Me wins")
+
     def test_end_of_round(self):
         self.game.reset_round()
         discarded_cards = []
