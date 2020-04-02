@@ -11,6 +11,7 @@ from munchkin.player import (
 from munchkin.doors.monster import Monster
 from munchkin.doors.races.race import Race
 from munchkin.munchkin import Munchkin
+from munchkin.deck import Deck
 from munchkin.deck import TreasureDeck
 from munchkin.deck import DoorDeck
 from munchkin.treasures.treasure import Treasure
@@ -169,6 +170,7 @@ class TestMunchkin(unittest.TestCase):
         result = self.munchkin.board
         self.assertEqual(result, expected)
 
+
 class TestTreasure(unittest.TestCase):
 
     def test_treasure_basic_info(self):
@@ -234,6 +236,22 @@ class TestAccesories(unittest.TestCase):
         self.assertEqual(accessories.value, 600)
         self.assertEqual(accessories.used_by, None)
         self.assertFalse(accessories.is_big)
+
+
+class TestDeck(unittest.TestCase):
+    def setUp(self):
+        self.deck = Deck()
+        self.treasure = Treasure("treasure", 0, 0)
+
+    def test_add_discard_cards(self):
+        self.deck.add_discard(self.treasure)
+        self.assertEqual(len(self.deck.discard_cards), 1)
+
+    def test_reset_cards(self):  
+        self.deck.add_discard(self.treasure)
+        self.deck.reset_cards()
+        self.assertNotEqual(self.deck.cards, [])
+        self.assertEqual(self.deck.discard_cards, [])
 
 
 class TestTreasureDeck(unittest.TestCase):

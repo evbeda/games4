@@ -13,6 +13,7 @@ from munchkin.test_munchkin import (
     TestRace,
     TestTreasure,
     TestMunchkin,
+    TestDeck,
     TestTreasureDeck,
     TestDoorDeck,
     TestArmor,
@@ -39,6 +40,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(MunchkinTestPlayer))
     test_suite.addTest(unittest.makeSuite(TestRace))
     test_suite.addTest(unittest.makeSuite(TestMunchkin))
+    test_suite.addTest(unittest.makeSuite(TestDeck))
     test_suite.addTest(unittest.makeSuite(TestTreasureDeck))
     test_suite.addTest(unittest.makeSuite(TestDoorDeck))
     test_suite.addTest(unittest.makeSuite(TestTreasure))
