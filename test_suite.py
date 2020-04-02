@@ -1,10 +1,18 @@
 import unittest
 from guess_number_game.test_guess_number_game import TestGuessNumberGame
 from senku.test_senku import TestSenku
-from love_letter.test_love_letter import TestDeck, TestPlayer, TestLoveLetterGame, TestCard, TestPrincess\
-                                        , TestCountess\
-                                        , TestKing, TestPrince, TestBaron, TestGuard
-
+from love_letter.test_love_letter import (
+    TestDeck,
+    TestPlayer as LoveLetterTestPlayer,
+    TestLoveLetterGame,
+    TestCard,
+    TestPrincess,
+    TestCountess,
+    TestKing,
+    TestPrince,
+    TestBaron,
+    TestGuard,
+)
 from ahorcado.test_ahorcado import TestAhorcado
 from munchkin.test_munchkin import (
     TestDice,
@@ -26,7 +34,7 @@ from munchkin.test_munchkin import (
 )
 from hanoi_towers.test_hanoi_towers import TestHanoiTower, TestToken, TestTower
 from test_game import TestGame
-from ur_game.test_ur import TestUr, TestPlayer
+from ur_game.test_ur import TestUr, TestPlayer as UrTestPlayer
 
 
 def suite():
@@ -51,10 +59,10 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestAccesories))
     test_suite.addTest(unittest.makeSuite(TestTreasureSingleUse))
     test_suite.addTest(unittest.makeSuite(TestCardMunchkin))
-    #Love Letter Game
+    # Love Letter Game
     test_suite.addTest(unittest.makeSuite(TestDeck))
     test_suite.addTest(unittest.makeSuite(TestGuard))
-    test_suite.addTest(unittest.makeSuite(TestPlayer))
+    test_suite.addTest(unittest.makeSuite(LoveLetterTestPlayer))
     test_suite.addTest(unittest.makeSuite(TestLoveLetterGame))
     test_suite.addTest(unittest.makeSuite(TestCard))
     test_suite.addTest(unittest.makeSuite(TestPrincess))
@@ -70,9 +78,9 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestTower))
     # GAME MACHINE
     test_suite.addTest(unittest.makeSuite(TestGame))
-    #Ur Game
+    # Ur Game
     test_suite.addTest(unittest.makeSuite(TestUr))
-    test_suite.addTest(unittest.makeSuite(TestPlayer))
+    test_suite.addTest(unittest.makeSuite(UrTestPlayer))
 
     return test_suite
 

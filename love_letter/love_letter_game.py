@@ -8,7 +8,8 @@ class TargetMyselfException(Exception):
 
 
 class TargetInvalidException(Exception):
-    pass
+    def __init__(self, message):
+        self.message = message
 
 
 hearts_to_win = {
