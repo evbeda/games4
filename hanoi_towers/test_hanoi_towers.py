@@ -73,46 +73,21 @@ class TestHanoiTower(unittest.TestCase):
 
     def test_board_display(self):
         expected_board = \
-            "Tower 0:\n"\
-            " |-\n"\
-            " |--\n"\
-            " |---\n"\
-            " |----\n"\
-            "\n"\
-            "Tower 1:\n"\
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            "\n" \
-            "Tower 2:\n" \
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            "\n"
+            "                  - | -                                      |                                        |                    \n" \
+            "                - - | - -                                    |                                        |                    \n" \
+            "              - - - | - - -                                  |                                        |                    \n" \
+            "            - - - - | - - - -                                |                                        |                    \n" \
+
         self.assertEqual(self.hanoi_towers.board, expected_board)
 
     def test_board_display_after_play(self):
         self.hanoi_towers.play(0, 1)
-        expected_board = "Tower 0:\n" \
-                         " |\n" \
-                         " |--\n" \
-                         " |---\n" \
-                         " |----\n" \
-                         "\n" \
-                         "Tower 1:\n" \
-                         " |\n" \
-                         " |\n" \
-                         " |\n" \
-                         " |-\n" \
-                         "\n" \
-                         "Tower 2:\n" \
-                         " |\n" \
-                         " |\n" \
-                         " |\n" \
-                         " |\n" \
-                         "\n"
+        expected_board = \
+            "                    |                                        |                                        |                    \n" \
+            "                - - | - -                                    |                                        |                    \n" \
+            "              - - - | - - -                                  |                                        |                    \n" \
+            "            - - - - | - - - -                              - | -                                      |                    \n" \
+
         self.assertEqual(self.hanoi_towers.board, expected_board)
 
     def test_play_same_2_towers(self):
