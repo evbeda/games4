@@ -100,12 +100,12 @@ class LoveLetterGame:
         max_score = max(list(alive.values()))
         list_of_winners = []
         for player in self.players:
-            if player.show_card().score == max_score:
+            if player.name in alive and player.show_card().score == max_score:
                 list_of_winners.append(player.name)
         if len(list_of_winners) == 1:
             self.give_heart_to_winner(list_of_winners[0])
             return True
-        else:
+        elif len(list_of_winners) > 1:
             self.tiebreaker(list_of_winners)
             return True
         return False
