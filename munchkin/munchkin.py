@@ -4,13 +4,10 @@ from munchkin.player import Player
 
 class Munchkin(object):
     def __init__(self):
-        self.__players = []
+        self.__players = [Player('1'), Player('2')]
         self.door_deck = DoorDeck()
         #self.tresure_deck = TreasureDeck()
-
-    def add_players(self, name):
-        self.__players.append(Player(name))
-
+        self.current_player = self.__players[0]
 
     # def next_turn(self):
     #     # return -> lo que le debemos mostrar al usuario en su turno actual
@@ -34,7 +31,7 @@ class Munchkin(object):
     #@players.setter
     #def players(self, value):
         #self.__players.append(value)​
-   
+
     @property
     def current_cards_played(self):
         current_cards_played = {}
@@ -47,12 +44,9 @@ class Munchkin(object):
         self.__current_cards_played.append(value)
 
     def get_current_player(self):
-        for player in self.__players:
-            if player.isTurn:
-                return player
+        return self.current_player
 
     def draw_card(self):
         card = self.door_deck.draw_card()
         current_player = self.get_current_player()
         current_player.draw_card(card)
-
