@@ -10,7 +10,11 @@ from .cards.king import King
 from .cards.countess import Countess
 from .cards.princess import Princess
 from .human_player import HumanPlayer
-from .love_letter_game import LoveLetterGame, TargetMyselfException, TargetInvalidException
+from .love_letter_game import (
+    LoveLetterGame,
+    TargetMyselfException,
+    TargetInvalidException,
+)
 from .pc_player import PcPlayer
 from .player import Player
 from .deck import Deck
@@ -143,6 +147,10 @@ class TestPlayer(unittest.TestCase):
         self.str_player.cards.append(Guard())
         text = self.str_player.__str__()
         self.assertEqual(text, "Player: None, Hearts: 0, Cards: 0-Guard ")
+
+    def test_get_heart(self):
+        self.str_player.hearts = 4
+        self.assertEquals(self.str_player.get_heart(), 4)
 
     def test_str_pc(self):
         self.pc_player.cards.pop()
@@ -645,3 +653,9 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[1].score = 0
         self.game.tiebreaker(["Me", "PC Player"])
         self.assertEquals(self.game.players[0].hearts, 1)
+
+    def test_play_catchs_exception(self):
+        self.game.players[0].is_active = False
+        self.game.players[0].name = "Pepe"
+        result = self.game.play("1-0")
+        self.assertEqual(result, 'Player Pepe is not active')
