@@ -20,7 +20,8 @@ from munchkin.test_munchkin import (
     TestFootwear,
     TestHeadwear,
     TestAccesories,
-    TestTreasureSingleUse
+    TestTreasureSingleUse,
+    TestCardMunchkin
 )
 from hanoi_towers.test_hanoi_towers import TestHanoiTower, TestToken, TestTower
 from test_game import TestGame
@@ -47,6 +48,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestHeadwear))
     test_suite.addTest(unittest.makeSuite(TestAccesories))
     test_suite.addTest(unittest.makeSuite(TestTreasureSingleUse))
+    test_suite.addTest(unittest.makeSuite(TestCardMunchkin))
     #Love Letter Game
     test_suite.addTest(unittest.makeSuite(TestDeck))
     test_suite.addTest(unittest.makeSuite(TestGuard))
