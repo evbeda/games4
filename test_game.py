@@ -209,6 +209,9 @@ class TestGame(unittest.TestCase):
                         "0 1",
                         "1 2",
                         "0 2",
+                        "2 1",
+                        "0 2",
+                        "1 2",
                     )
 
                     play = game_moves[self.play_count]
@@ -233,10 +236,10 @@ class TestGame(unittest.TestCase):
             " |\n" \
             " |\n" \
             " |\n" \
-            " |-\n" \
+            " |\n" \
             "\n" \
             "Tower 2:\n" \
-            " |\n" \
+            " |-\n" \
             " |--\n" \
             " |---\n" \
             " |----\n" \
