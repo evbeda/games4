@@ -123,30 +123,18 @@ class TestRace(unittest.TestCase):
 
 class TestMunchkin(unittest.TestCase):
 
-    def test_add_player(self):
+    def test_munchkin_initialization(self):
         self.munchkin = Munchkin()
-        player_name = 'Gaston'
-        self.munchkin.add_players(player_name)
-        self.assertEqual(len(self.munchkin.players), 1)
-
+        self.assertEqual(len(self.munchkin.players), 2)
 
     def test_initial_board(self):
         pass
 
     def test_draw_card(self):
         self.munchkin = Munchkin()
-        self.munchkin.add_players('Gaston')
-        players = self.munchkin.players
-
-        for player in players:
-            if player.name == 'Gaston':
-                player.isTurn = True
-                test_player = player
-
+        player_1 = self.munchkin.players[0]
         self.munchkin.draw_card()
-
-        self.assertEqual(len(test_player.on_hand), 1)
-
+        self.assertEqual(len(player_1.on_hand), 1)
 
 
 class TestTreasure(unittest.TestCase):
@@ -193,6 +181,7 @@ class TestFootwear(unittest.TestCase):
         self.assertEqual(footwear.used_by, None)
         self.assertFalse(footwear.is_big)
 
+
 class TestHeadwear(unittest.TestCase):
 
     def test_headwear_basic_info(self):
@@ -203,6 +192,7 @@ class TestHeadwear(unittest.TestCase):
         self.assertEqual(headwear.used_by, None)
         self.assertFalse(headwear.is_big)
 
+
 class TestAccesories(unittest.TestCase):
 
     def test_accessories_basic_info(self):
@@ -212,6 +202,7 @@ class TestAccesories(unittest.TestCase):
         self.assertEqual(accessories.value, 600)
         self.assertEqual(accessories.used_by, None)
         self.assertFalse(accessories.is_big)
+
 
 class TestTreasureDeck(unittest.TestCase):
 
@@ -274,8 +265,6 @@ class TestCardMunchkin(unittest.TestCase):
         # A special headwear gives you +2 if you are elf!
         self.assertEqual(self.headwear.extra_used_by, "Elf")
 
-
-
     def test_armor_card(self):
         self.assertEqual(self.armor.type, "Treasure")
         self.assertEqual(self.armor.type_treasure, "Armor")
@@ -309,6 +298,7 @@ class TestCardMunchkin(unittest.TestCase):
 
         # Some items can be used by some Races, or some class, when get "All" means what it can use for everyone
         self.assertEqual(self.accessories.used_by, "thief")
+
 
 class TestTreasureSingleUse(unittest.TestCase):
     def test_single_card_level_up_basic_info(self):
@@ -375,5 +365,3 @@ class TestTreasureSingleUse(unittest.TestCase):
         self.assertEqual(treasure_single_use.flee_points, 0)
         self.assertTrue(treasure_single_use.win_treasure)
         self.assertTrue(treasure_single_use.affect_other_player)
-
-
