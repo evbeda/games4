@@ -39,11 +39,12 @@ class LoveLetterGame:
 
     def next_turn(self):
         text = ""
+        if self.check_winner() and self.current_player.is_active:
+            return "{} wins".format(self.current_player.name)
         if self.current_player.is_active:
             for index in range(len(self.current_player.cards)):
-                text += str(index) + "-" + \
-                        self.current_player.cards[index].__str__() + "\n"
-        return "Its your turn\n" + text
+                text += str(index) + "-" + self.current_player.cards[index].__str__() + "\n"
+            return "Its your turn\n" + text
 
     def play(self, command):
         commands = command.split("-")
