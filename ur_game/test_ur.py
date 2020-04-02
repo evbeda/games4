@@ -173,8 +173,16 @@ class TestPlayer(unittest.TestCase):
 
     def setUp(self):
         self.game = UrGame()
-        self.cell = self.game.players[0].shared[1]
 
     def test_get_cell_by_index(self):
+        self.cell = self.game.players[0].shared[1]
         result = self.game.players[0].get_cell_by_index(6)
         self.assertEqual(result, self.cell)
+
+    def test_special_cell_in_shared_true(self):
+        result = self.game.players[0].get_cell_by_index(8)
+        self.assertTrue(result.is_special)
+
+    def test_special_cell_in_shared_false(self):
+        result = self.game.players[0].get_cell_by_index(7)
+        self.assertFalse(result.is_special)
