@@ -8,7 +8,9 @@ class Player:
         self.initial = [Token(i, self) for i in range(7)]
         self.final_stack = []
         self.start = [Cell() for _ in range(4)]
+        self.start[3].set_special()
         self.finish = [Cell() for _ in range(2)]
+        self.finish[0].set_special()
 
     def get_cell_by_index(self, index):
         return (self.start + self.shared + self.finish)[index - 1]
