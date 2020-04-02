@@ -2,7 +2,6 @@ class Player:
 
     def __init__(self, name):
         self.name = name
-        self.isTurn = False
         self.level = 1
         self.__on_hand = []
         self.__on_board = []
