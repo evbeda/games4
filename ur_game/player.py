@@ -63,7 +63,6 @@ class Player:
             self.move_token_from_cell_to_cell(from_cell, to_cell)
 
 
-
 class InvalidMovementException(Exception):
     pass
 
