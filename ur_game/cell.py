@@ -1,7 +1,8 @@
 class Cell:
 
-    def __init__(self):
+    def __init__(self, is_special=False):
         self.token = None
+        self.__is_special = is_special
 
     @property
     def is_empty(self):
@@ -11,4 +12,13 @@ class Cell:
         self.token = token
 
     def clear_cell(self):
+        token = self.token
         self.token = None
+        return token
+
+    def set_special(self):
+        self.__is_special = True
+
+    @property
+    def is_special(self):
+        return self.__is_special

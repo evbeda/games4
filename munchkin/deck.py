@@ -42,6 +42,9 @@ class Deck:
     def draw_card(self):
         return self.cards.pop()
 
+    def __len__(self):
+        return len(self.cards)
+
 
 class DoorDeck(Deck):
 
@@ -73,4 +76,5 @@ class TreasureDeck(Deck):
         for armor_card_config in TREASURE_CARDS['single_use']:
             card.append(TreasureSingleUse(**armor_card_config))
         self.add_cards(card)
+
 

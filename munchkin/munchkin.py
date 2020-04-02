@@ -21,27 +21,17 @@ class Munchkin(object):
 
     @property
     def board(self):
-        board= "{}\n{}".format(self.current_cards_played.__str__(), self.player1.__str__())
+        board = ''
+        for player in self.players:
+            board += "Name: {}, \n"\
+                "Cards on Board:\n".format(player.name)
+            for card in player.on_board:
+                board += "  {}\n".format(card)
         return board
 
     @property
     def players(self):
         return self.__players
-
-    #@players.setter
-    #def players(self, value):
-        #self.__players.append(value)​
-
-    @property
-    def current_cards_played(self):
-        current_cards_played = {}
-        for player in self.__players:
-            current_cards_played[player.name].append(player.on_board)
-        return current_cards_played
-
-    @current_cards_played.setter
-    def current_cards_played(self, value):
-        self.__current_cards_played.append(value)
 
     def get_current_player(self):
         return self.current_player

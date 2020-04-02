@@ -60,7 +60,6 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
-        self.assertEqual(self.player.isTurn, False)
 
     def test_set_default_status(self):
         self.player.name = "changed"
@@ -71,7 +70,6 @@ class TestPlayer(unittest.TestCase):
         self.player.fleeing_chance = -2
         self.player.max_race_cards = 2
         self.player.max_cards_on_hand = 7
-        self.player.isTurn = True
         self.player.set_default_status()
         self.assertEqual(self.player.name, "changed")
         self.assertEqual(self.player.level, 4)
@@ -81,7 +79,6 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.max_class_cards, 1)
         self.assertEqual(self.player.max_cards_on_hand, 5)
         self.assertEqual(self.player.fleeing_chance, -4)
-        self.assertEqual(self.player.isTurn, True)
 
     def test_level_up(self):
         self.player.level_up()
@@ -122,20 +119,39 @@ class TestRace(unittest.TestCase):
 
 
 class TestMunchkin(unittest.TestCase):
+    
+    def setUp(self):
+        self.munchkin = Munchkin()
 
     def test_munchkin_initialization(self):
-        self.munchkin = Munchkin()
         self.assertEqual(len(self.munchkin.players), 2)
 
     def test_initial_board(self):
         pass
 
     def test_draw_card(self):
-        self.munchkin = Munchkin()
         player_1 = self.munchkin.players[0]
         self.munchkin.draw_card()
         self.assertEqual(len(player_1.on_hand), 1)
-
+  
+    def test_munchkin_board(self):
+        player_1 = self.munchkin.players[0]
+        card = {
+            'name': 'Roca enorme',
+            'bonus': 3,
+            'cant_hands': 2,
+            'value': 0,
+            'used_by': '!Thief',
+            'is_big': True,
+        }
+        player_1.on_board = [card]
+        expected = "Name: 1, \n" \
+            "Cards on Board:\n" \
+            "  {'name': 'Roca enorme', 'bonus': 3, 'cant_hands': 2, 'value': 0, 'used_by': '!Thief', 'is_big': True}\n" \
+            "Name: 2, \n"\
+            "Cards on Board:\n"
+        result = self.munchkin.board
+        self.assertEqual(result, expected)
 
 class TestTreasure(unittest.TestCase):
 
@@ -206,13 +222,40 @@ class TestAccesories(unittest.TestCase):
 
 class TestTreasureDeck(unittest.TestCase):
 
-    def test_treasure_deck(self):
-        deck_treasure = TreasureDeck()
-        self.assertTrue(deck_treasure)
+    def setUp(self):
+        self.treasure_deck = TreasureDeck()
+
+    def test_treasure_deck_not_none(self):
+        self.assertIsNotNone(self.treasure_deck)
+
+    def test_len_treasure_deck(self):
+        '''
+            Por Ahora hay esta cantidad de cartas de treasure, este metodo prueba que el len funcione,
+            actualizar el nro de cartas a medida que se vayan agregando nuevas
+        '''
+        self.assertEqual(len(self.treasure_deck), 67)
+
+    def test_treasure_deck_check_every_card_has_attributes_not_none(self):
+        for treasure_card in self.treasure_deck.cards:
+            self.assertIsNotNone(treasure_card.name)
+            self.assertIsNotNone(treasure_card.bonus)
+            self.assertIsNotNone(treasure_card.is_big)
+            self.assertIsNotNone(treasure_card.used_by)
 
 
 class TestDoorDeck(unittest.TestCase):
-    pass
+    def setUp(self):
+        self.door_deck = DoorDeck()
+
+    def test_treasure_deck_not_none(self):
+        self.assertIsNotNone(self.door_deck)
+
+    def test_len_treasure_deck(self):
+        '''
+            Por Ahora hay esta cantidad de cartas de door, este metodo prueba que el len funcione,
+            actualizar el nro de cartas a medida que se vayan agregando nuevas
+        '''
+        self.assertEqual(len(self.door_deck), 1)
 
 
 class TestCardMunchkin(unittest.TestCase):
@@ -305,7 +348,7 @@ class TestTreasureSingleUse(unittest.TestCase):
         cards_single_use = TREASURE_CARDS['single_use']
         single_use_lvl_up = TreasureSingleUse(**cards_single_use[0])
         self.assertEqual(single_use_lvl_up.name, "Matar al escudero")
-        self.assertEqual(single_use_lvl_up.bonus, None)
+        self.assertEqual(single_use_lvl_up.bonus, 0)
         self.assertEqual(single_use_lvl_up.value, None)
         self.assertFalse(single_use_lvl_up.group_effect)
         self.assertTrue(single_use_lvl_up.is_level_up)
@@ -324,7 +367,7 @@ class TestTreasureSingleUse(unittest.TestCase):
         cards_single_use = TREASURE_CARDS['single_use']
         reroll_dice = TreasureSingleUse(**cards_single_use[2])
         self.assertEqual(reroll_dice.name, "Frasco de pegamento")
-        self.assertEqual(reroll_dice.bonus, None)
+        self.assertEqual(reroll_dice.bonus, 0)
         self.assertEqual(reroll_dice.value, 100)
         self.assertFalse(reroll_dice.group_effect)
         self.assertFalse(reroll_dice.is_level_up)
@@ -334,7 +377,7 @@ class TestTreasureSingleUse(unittest.TestCase):
         cards_single_use = TREASURE_CARDS['single_use']
         flee = TreasureSingleUse(**cards_single_use[3])
         self.assertEqual(flee.name, "Muro instantaneo")
-        self.assertEqual(flee.bonus, None)
+        self.assertEqual(flee.bonus, 0)
         self.assertEqual(flee.value, 300)
         self.assertFalse(flee.group_effect)
         self.assertFalse(flee.is_level_up)
@@ -357,7 +400,7 @@ class TestTreasureSingleUse(unittest.TestCase):
         cards_single_use = TREASURE_CARDS['single_use']
         treasure_single_use = TreasureSingleUse(**cards_single_use[5])
         self.assertEqual(treasure_single_use.name, "Pocion de transferencia")
-        self.assertEqual(treasure_single_use.bonus, None)
+        self.assertEqual(treasure_single_use.bonus, 0)
         self.assertEqual(treasure_single_use.value, 300)
         self.assertFalse(treasure_single_use.group_effect)
         self.assertFalse(treasure_single_use.is_level_up)

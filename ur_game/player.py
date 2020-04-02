@@ -7,22 +7,45 @@ class Player:
         self.shared = shared
         self.initial = [Token(i, self) for i in range(7)]
         self.final_stack = []
-        self.start = [Cell() for _ in range(4)]
-        self.finish = [Cell() for _ in range(2)]
+        self.start = [Cell(False) for _ in range(4)]
+        self.start[3].set_special()
+        self.finish = [Cell(False) for _ in range(2)]
+        self.finish[0].set_special()
 
-    def validate_movement(self, from_index, to_index):
-        try:
-            from_cell = self.get_cell_by_index(from_index)
-            to_cell = self.get_cell_by_index(to_index)
-        except OutOfBoardException:
-            raise InvalidMovementException(f"Enter a number between 1 and {len(self.start + self.shared + self.finish)}")
+    def validate_movement_from_cell(self, from_index):
+        from_cell = self.get_cell_by_index(from_index)
 
         if from_cell.token is None or from_cell.token.player is not self:
             raise InvalidMovementException("You don't have any token in this cell")
+        return from_cell
+
+    def validate_movement_to_cell(self, to_index):
+        to_cell = self.get_cell_by_index(to_index)
+
+        if to_cell.is_special and to_cell in self.shared:
+            to_cell = self.get_cell_by_index(to_index + 1)
+
         if to_cell.token is not None and to_cell.token.player is self:
             raise InvalidMovementException("You cannot move to this cell because you have a token there")
+        return to_cell
 
-        return True
+    def validate_movement_from_initial(self):
+        if len(self.initial) == 0:
+            raise InvalidMovementException("You dont have more Tokens")
+
+    def move_token_from_initial_to_cell(self, to_cell):
+        token = self.initial.pop()
+        self.move_token_to_cell(to_cell, token)
+
+    def move_token_from_cell_to_cell(self, from_cell, to_cell):
+        token = from_cell.clear_cell()
+        self.move_token_to_cell(to_cell, token)
+
+    def move_token_to_cell(self, to_cell, token):
+        if to_cell == self.finish[-1]:
+            self.final_stack.append(token)
+        else:
+            to_cell.put_token(token)
 
     def get_cell_by_index(self, index):
         if index < 1 or index > len(self.start + self.shared + self.finish):
@@ -30,83 +53,23 @@ class Player:
         return (self.start + self.shared + self.finish)[index - 1]
 
     def move_token(self, dice_result, index_token):
+        to_cell = self.validate_movement_to_cell(index_token + dice_result)
 
-        if dice_result == 0:
-            return None
-
-        my_index, actual_array = self.search_token(index_token)
-
-        if actual_array == self.initial:
-            my_token = actual_array.pop(my_index)
+        if index_token == 0:
+            self.validate_movement_from_initial()
+            self.move_token_from_initial_to_cell(to_cell)
         else:
-            my_token = actual_array[my_index].token
-            actual_array[my_index].clear_cell()
-
-        if actual_array == self.initial:
-            if not self.start[dice_result - 1].is_empty:
-                raise OccupedCellException
-            else:
-                self.start[dice_result - 1].put_token(my_token)
-        elif actual_array == self.start:
-            if dice_result + my_index > 3:
-                if not self.shared[abs(my_index - 4 + dice_result)].is_empty:
-                    raise OccupedCellException
-                else:
-                    self.shared[abs(my_index - 4 + dice_result)].put_token(my_token)
-            else:
-                if not self.start[my_index + dice_result].is_empty:
-                    raise OccupedCellException
-                else:
-                    self.start[my_index + dice_result].put_token(my_token)
-        elif actual_array == self.shared:
-            if dice_result + my_index > 7:
-                if abs(my_index - 8 + dice_result) == 1:
-                    self.final_stack.append(my_token)
-                else:
-                    if not self.finish[abs(my_index - 8 + dice_result)].is_empty:
-                        raise OccupedCellException
-                    else:
-                        self.finish[abs(my_index - 8 + dice_result)].put_token(my_token)
-            else:
-                if not self.shared[my_index + dice_result].is_empty:
-                    raise OccupedCellException
-                else:
-                    self.shared[my_index + dice_result].put_token(my_token)
-        elif actual_array == self.finish:
-            if dice_result == 1:
-                self.final_stack.append(my_token)
-            else:
-                return None
-
-    def search_token(self, token_index):
-        search_result_in_array_with_tokens = self.__search_array_with_tokens(token_index)
-        search_result_in_array_with_cells = self.__search_array_with_cells(token_index)
-        if search_result_in_array_with_tokens:
-            return search_result_in_array_with_tokens
-        return search_result_in_array_with_cells
-
-    def __search_array_with_tokens(self, token_index):
-        arrays_with_tokens = [self.initial, self.final_stack]
-        for array in arrays_with_tokens:
-            for token_index_array in range(len(array)):
-                if array[token_index_array].index is token_index:
-                    return token_index_array, array,
-        return None
-
-    def __search_array_with_cells(self, token_index):
-        arrays_with_cells = [self.start, self.shared, self.finish]
-        for array in arrays_with_cells:
-            for cell_index in range(len(array)):
-                if not array[cell_index].is_empty and array[cell_index].token.index is token_index:
-                    return cell_index, array,
-        return None
+            from_cell = self.validate_movement_from_cell(index_token)
+            self.move_token_from_cell_to_cell(from_cell, to_cell)
 
 
 class OccupedCellException(Exception):
     pass
 
+
 class InvalidMovementException(Exception):
     pass
+
 
 class OutOfBoardException(Exception):
     pass
