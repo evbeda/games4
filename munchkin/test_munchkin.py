@@ -122,20 +122,24 @@ class TestMunchkin(unittest.TestCase):
     
     def setUp(self):
         self.munchkin = Munchkin()
+        self.player_1 = self.munchkin.players[0]
+        self.player_2 = self.munchkin.players[1]
+        self.door_deck = self.munchkin.door_deck
+        self.treasure_deck = self.munchkin.treasure_deck
 
     def test_munchkin_initialization(self):
         self.assertEqual(len(self.munchkin.players), 2)
-
-    def test_initial_board(self):
-        pass
+        self.assertEqual(len(self.player_1.on_hand), 4)
+        self.assertEqual(len(self.player_2.on_hand), 4)
+        self.assertIsNotNone(self.door_deck)
+        self.assertIsNotNone(self.treasure_deck)
+        self.assertEqual(self.munchkin.current_player, self.player_1)
 
     def test_draw_card(self):
-        player_1 = self.munchkin.players[0]
         self.munchkin.draw_card()
-        self.assertEqual(len(player_1.on_hand), 1)
+        self.assertEqual(len(self.player_1.on_hand), 5)
   
     def test_munchkin_board(self):
-        player_1 = self.munchkin.players[0]
         card = {
             'name': 'Roca enorme',
             'bonus': 3,
@@ -144,7 +148,7 @@ class TestMunchkin(unittest.TestCase):
             'used_by': '!Thief',
             'is_big': True,
         }
-        player_1.on_board = [card]
+        self.player_1.on_board = [card]
         expected = "Name: 1, \n" \
             "Cards on Board:\n" \
             "  {'name': 'Roca enorme', 'bonus': 3, 'cant_hands': 2, 'value': 0, 'used_by': '!Thief', 'is_big': True}\n" \
@@ -255,7 +259,7 @@ class TestDoorDeck(unittest.TestCase):
             Por Ahora hay esta cantidad de cartas de door, este metodo prueba que el len funcione,
             actualizar el nro de cartas a medida que se vayan agregando nuevas
         '''
-        self.assertEqual(len(self.door_deck), 1)
+        self.assertEqual(len(self.door_deck), 5)
 
 
 class TestCardMunchkin(unittest.TestCase):
