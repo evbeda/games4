@@ -54,18 +54,22 @@ class HanoiTowers:
         except IndexError:
             raise NotValidTowerIndexException
         return True
-    
+
     @property
     def board(self):
         tower_print = ""
-        for tower in self.towers:
-            tower_print += f"Tower {self.towers.index(tower)}:\n"
-            for index in range(self.cant_tokens-1, -1, -1):
-                tower_print += " |"
+        for index in range(self.cant_tokens - 1, -1, -1):
+            for tower in self.towers:
                 if len(tower.tokens) > index:
-                    for _ in range(tower.tokens[index].size):
-                        tower_print += "-"
-                tower_print += "\n"
+                    tower_print += " " * (20 - tower.tokens[index].size * 2)
+                    tower_print += "- " * tower.tokens[index].size
+                    tower_print += "|"
+                    tower_print += " -" * tower.tokens[index].size
+                    tower_print += " " * (20 - tower.tokens[index].size * 2)
+                else:
+                    tower_print += " " * (20)
+                    tower_print += "|"
+                    tower_print += " " * (20)
             tower_print += "\n"
         return tower_print
 

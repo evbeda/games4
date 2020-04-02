@@ -104,7 +104,7 @@ class TestGame(unittest.TestCase):
         )
 
     def test_play_senku(self):
-        
+
         class ControlInputValues(object):
             def __init__(self, game, *args, **kwargs):
                 self.game = game
@@ -226,29 +226,16 @@ class TestGame(unittest.TestCase):
             self.game.play()
         self.assertEqual(
             self.output_collector.output_collector[-1],
-            "Tower 0:\n"
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            "\n" \
-            "Tower 1:\n" \
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            " |\n" \
-            "\n" \
-            "Tower 2:\n" \
-            " |-\n" \
-            " |--\n" \
-            " |---\n" \
-            " |----\n" \
-            "\n"
+                "                    |                                        |                                      - | -                  \n" \
+                "                    |                                        |                                    - - | - -                \n" \
+                "                    |                                        |                                  - - - | - - -              \n" \
+                "                    |                                        |                                - - - - | - - - -            \n" \
         )
         self.assertEqual(
             self.output_collector.output_collector[-2],
             "You won",
         )
+
 
 if __name__ == "__main__":
     unittest.main()
