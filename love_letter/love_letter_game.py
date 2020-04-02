@@ -74,18 +74,64 @@ class LoveLetterGame:
             )
         return True
 
+    def check_if_end_round(self):
+        alive = {}
+        for player in self.players:
+            if player.is_active:
+                alive[player.name] = player.show_card().score
+        if len(alive) == 1:
+            winner = list(alive.keys())[0]
+            self.give_heart_to_winner(winner)
+            return True
+        else:
+            if len(self.deck.cards) == 0:
+                self.give_heart_to_max_card(alive)
+                return True
+        return False
+
+    def give_heart_to_winner(self, winner):
+        for player in self.players:
+            if player.name == winner:
+                player.hearts += 1
+                return True
+        return False
+    
+    def give_heart_to_max_card(self, alive):
+        max_score = max(alive.items())
+        list_of_winners = []
+        for player in self.players:
+            if player.show_card().score == max_score:
+                list_of_winners.append(player.name)
+        if len(list_of_winners) == 1:
+            self.give_heart_to_winner(list_of_winners[0])
+            return True
+        else:
+            self.tiebreaker(list_of_winners)
+            return True
+        return False
+
+    def tiebreaker(self, winners):
+        max_score = 0
+        winner = None
+        for player in self.players:
+            if player.name in winners and player.score > max_score:
+                max_score = player.score
+                winner = player.name
+        self.give_heart_to_winner(winner)
+        return True
+
     def give_heart(self):
         alive = {}
         for player in self.players:
             if player.is_active:
                 alive[player.name] = player.show_card().score
         if len(alive) == 1:
-
-            alive_name = lambda x: x[0]
+            alive_name = list(alive.keys())[0]
             for player in self.players:
                 if player.name == alive_name:
                     player.hearts += 1
             return True
+
         if len(self.deck.cards) == 0:
             items_max_value = max(alive.items(), key=lambda x: x[1])
             list_of_winners = list()
