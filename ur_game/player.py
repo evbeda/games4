@@ -10,6 +10,9 @@ class Player:
         self.start = [Cell() for _ in range(4)]
         self.finish = [Cell() for _ in range(2)]
 
+    def get_cell_by_index(self, index):
+        return (self.start + self.shared + self.finish)[index - 1]
+
     def move_token(self, dice_result, index_token):
 
         if dice_result == 0:
