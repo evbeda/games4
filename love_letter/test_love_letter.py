@@ -562,9 +562,24 @@ class TestLoveLetterGame(unittest.TestCase):
             self.game.players[1].name: self.game.players[1].show_card().score,
         }
         self.assertTrue(self.game.give_heart_to_max_card(alive))
+
+    def test_check_if_end_round_1_alive(self):
+        self.game.players[1].is_active = False
+        self.assertEqual(self.game.check_if_end_round(), True)
+        self.assertEqual(self.game.players[0].hearts, 1)
+
+    def test_check_if_end_round_many_alives(self):
+        guard = Guard()
+        king = King()
+        self.game.deck.cards = []
+        self.game.players[0].cards.pop()
+        self.game.players[1].cards.pop()
+        self.game.players[0].cards.append(king)
+        self.game.players[1].cards.append(guard)
+        self.assertEqual(self.game.check_if_end_round(), True)
         self.assertEqual(self.game.players[0].hearts, 1)
         self.assertEqual(self.game.players[1].hearts, 0)
-    
+
     def test_give_heart_to_max_card_enters_tie(self):
         self.game.players[0].cards[0] = Handmaid()
         self.game.players[1].cards[0] = Handmaid()
@@ -577,14 +592,14 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertTrue(self.game.give_heart_to_max_card(alive))
         self.assertEqual(self.game.players[0].hearts, 0)
         self.assertEqual(self.game.players[1].hearts, 0)
-    
+
     def test_give_heart_to_max_card_fails(self):
         notalive = {
             "player1": 3,
             "player2": 4,
         }
         self.assertFalse(self.game.give_heart_to_max_card(notalive))
-    
+
     def test_give_heart_to_winner(self):
         self.assertEqual(self.game.players[0].hearts, 0)
         self.assertTrue(self.game.give_heart_to_winner("Me"))
@@ -596,3 +611,12 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertFalse(self.game.give_heart_to_winner("Nobody"))
         self.assertEqual(self.game.players[0].hearts, 0)
         self.assertEqual(self.game.players[1].hearts, 0)
+
+    def test_check_if_end_round_false(self):
+        guard = Guard()
+        king = King()
+        self.game.players[0].cards.pop()
+        self.game.players[1].cards.pop()
+        self.game.players[0].cards.append(king)
+        self.game.players[1].cards.append(guard)
+        self.assertFalse(self.game.check_if_end_round())
