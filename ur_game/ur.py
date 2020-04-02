@@ -19,3 +19,4 @@ class UrGame:
     @staticmethod
     def roll_dices():
         return randint(0, 4)
+

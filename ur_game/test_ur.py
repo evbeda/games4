@@ -167,3 +167,14 @@ class TestUr(unittest.TestCase):
         self.game.players[0].move_token(2, 1)
         with self.assertRaises(OccupedCellException):
             self.game.players[0].move_token(3, 1)
+
+
+class TestPlayer(unittest.TestCase):
+
+    def setUp(self):
+        self.game = UrGame()
+        self.cell = self.game.players[0].shared[1]
+
+    def test_get_cell_by_index(self):
+        result = self.game.players[0].get_cell_by_index(6)
+        self.assertEqual(result, self.cell)
