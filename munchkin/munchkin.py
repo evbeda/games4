@@ -1,12 +1,22 @@
-from munchkin.deck import DoorDeck
+from munchkin.deck import DoorDeck, TreasureDeck
 from munchkin.player import Player
 
 
 class Munchkin(object):
+
     def __init__(self):
         self.__players = [Player('1'), Player('2')]
         self.door_deck = DoorDeck()
-        #self.tresure_deck = TreasureDeck()
+        self.door_deck.shuffle_deck()
+        self.treasure_deck = TreasureDeck()
+        self.treasure_deck.shuffle_deck()
+        #Reparto de cartas
+        for player in self.players:
+            for index in range(2):
+                treasure_to_draw = self.treasure_deck.draw_card()
+                door_to_draw = self.door_deck.draw_card()
+                player.draw_card(treasure_to_draw)
+                player.draw_card(door_to_draw)
         self.current_player = self.__players[0]
 
     # def next_turn(self):
