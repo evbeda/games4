@@ -10,7 +10,23 @@ class Player:
         self.start = [Cell() for _ in range(4)]
         self.finish = [Cell() for _ in range(2)]
 
+    def validate_movement(self, from_index, to_index):
+        try:
+            from_cell = self.get_cell_by_index(from_index)
+            to_cell = self.get_cell_by_index(to_index)
+        except OutOfBoardException:
+            raise InvalidMovementException(f"Enter a number between 1 and {len(self.start + self.shared + self.finish)}")
+
+        if from_cell.token is None or from_cell.token.player is not self:
+            raise InvalidMovementException("You don't have any token in this cell")
+        if to_cell.token is not None and to_cell.token.player is self:
+            raise InvalidMovementException("You cannot move to this cell because you have a token there")
+
+        return True
+
     def get_cell_by_index(self, index):
+        if index < 1 or index > len(self.start + self.shared + self.finish):
+            raise OutOfBoardException
         return (self.start + self.shared + self.finish)[index - 1]
 
     def move_token(self, dice_result, index_token):
@@ -87,4 +103,10 @@ class Player:
 
 
 class OccupedCellException(Exception):
+    pass
+
+class InvalidMovementException(Exception):
+    pass
+
+class OutOfBoardException(Exception):
     pass

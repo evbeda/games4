@@ -2,7 +2,7 @@ import unittest
 
 from ur_game.cell import Cell
 from ur_game.player import Player
-from ur_game.player import OccupedCellException
+from ur_game.player import OccupedCellException, InvalidMovementException, OutOfBoardException
 from ur_game.token import Token
 from ur_game.ur import UrGame
 
@@ -173,8 +173,31 @@ class TestPlayer(unittest.TestCase):
 
     def setUp(self):
         self.game = UrGame()
-        self.cell = self.game.players[0].shared[1]
+        self.player = self.game.players[0]
+        self.cell = self.player.shared[1]
 
     def test_get_cell_by_index(self):
-        result = self.game.players[0].get_cell_by_index(6)
+        result = self.player.get_cell_by_index(6)
         self.assertEqual(result, self.cell)
+
+    def test_get_cell_by_index_out_of_board(self):
+        with self.assertRaises(OutOfBoardException):
+            self.player.get_cell_by_index(20)
+
+    def test_validate_movement_from_empty_cell(self):
+        with self.assertRaises(InvalidMovementException):
+            self.player.validate_movement(2, 3)
+
+    def test_validate_movement_out_of_board(self):
+        with self.assertRaises(InvalidMovementException):
+            self.player.validate_movement(0, 3)
+
+    def test_validate_movement_to_own_cell(self):
+        self.player.start[1].put_token(self.player.initial[0])
+        self.player.start[2].put_token(self.player.initial[1])
+        with self.assertRaises(InvalidMovementException):
+            self.player.validate_movement(2, 3)
+
+    def test_validate_movement_pass(self):
+        self.player.start[1].put_token(self.player.initial[0])
+        self.assertTrue(self.player.validate_movement(2, 5))
