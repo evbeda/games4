@@ -1,4 +1,6 @@
 import unittest
+
+from munchkin.doors.door import Door
 from munchkin.treasures import TREASURE_CARDS
 from munchkin.treasures.treasure_single_use import TreasureSingleUse
 from munchkin.dice import Dice
@@ -107,15 +109,25 @@ class TestPlayer(unittest.TestCase):
 
 
 class TestRace(unittest.TestCase):
+    def setUp(self):
+        self.race = Race()
+
     def test_race_has_5_cards_on_init(self):
-        race = Race()
-        result = race.max_cards
+        result = self.race.max_cards
         self.assertGreaterEqual(result, 5)
 
     def test_race_cant_carry_objects_on_init(self):
-        race = Race()
-        result = race.carry_objects
+        result = self.race.carry_objects
         self.assertFalse(result)
+
+    def test_race_max_cards_setter(self):
+        number_of_cards = 3
+        self.race.max_cards = 3
+        self.assertEqual(number_of_cards, self.race.max_cards)
+
+    def test_carry_objects_setter(self):
+        self.race.carry_objects = True
+        self.assertTrue(self.race.carry_objects)
 
 
 class TestMunchkin(unittest.TestCase):
@@ -264,20 +276,21 @@ class TestDoorDeck(unittest.TestCase):
 
 class TestCardMunchkin(unittest.TestCase):
     def setUp(self):
-        self.treasure = Treasure()
-        self.weapon = Weapon("Axe", 2, 1, 600, "Human")
-        self.armor = Armor("Armadura de cuero", 1, "Armadura", 200, "Male")
-        self.headwear = Headwear("Yelmo cornudo", 1, 600, "all", extra_bonus = 2, extra_used_by = "Elf")
+        self.treasure = Treasure("treasure", 0, 0)
+        self.door = Door("door")
+        self.weapon = Weapon(1, "Axe", 2, 600, "Human")
+        self.armor = Armor("Armadura de cuero", 1, 200, "Male")
+        self.headwear = Headwear("Yelmo cornudo", 1, 600, "all", extra_bonus=2, extra_used_by = "Elf")
         self.accessories = Accessories("Capa de Sombras", 4, 600, "thief")
-        self.various = Various("Escalera", 3, 400, "Halfling", True)
+        self.various = Various("Escalera", 3, 400, "Halfling", True, 0, 2)
 
     def test_abstract_Card(self):
-        self.assertIsNone(self.treasure.type_treasure)
-        self.assertEqual(self.treasure.type, "Treasure")
+        self.assertEqual(type(self.treasure).__name__, "Treasure")
+        self.assertEqual(type(self.door).__name__, "Door")
 
     def test_weapon_card(self):
-        self.assertEqual(self.weapon.type, "Treasure")
-        self.assertEqual(self.weapon.type_treasure, "Weapon")
+        self.assertTrue(isinstance(self.weapon, Weapon))
+        self.assertEqual(type(self.weapon).__name__, "Weapon")
         self.assertEqual(self.weapon.name, "Axe")
 
         # Level to fight against the monster
@@ -293,8 +306,8 @@ class TestCardMunchkin(unittest.TestCase):
         self.assertEqual(self.weapon.used_by, "Human")
 
     def test_headwear_card(self):
-        self.assertEqual(self.headwear.type, "Treasure")
-        self.assertEqual(self.headwear.type_treasure, "Headwear")
+        self.assertTrue(isinstance(self.headwear, Treasure))
+        self.assertEqual(type(self.headwear).__name__, "Headwear")
         self.assertEqual(self.headwear.name, "Yelmo cornudo")
 
         # Level to fight against the monster
@@ -313,8 +326,8 @@ class TestCardMunchkin(unittest.TestCase):
         self.assertEqual(self.headwear.extra_used_by, "Elf")
 
     def test_armor_card(self):
-        self.assertEqual(self.armor.type, "Treasure")
-        self.assertEqual(self.armor.type_treasure, "Armor")
+        self.assertTrue(isinstance(self.armor, Treasure))
+        self.assertEqual(type(self.armor).__name__, "Armor")
         self.assertEqual(self.armor.name, "Armadura de cuero")
 
         # Level to fight against the monster
@@ -335,7 +348,7 @@ class TestCardMunchkin(unittest.TestCase):
         self.assertEqual(self.various.cant_hand, 2)
 
     def test_accessories_card(self):
-        self.assertEqual(self.accessories.name, "Capa de sombras")
+        self.assertEqual(self.accessories.name, "Capa de Sombras")
 
         # Level to fight against the monster
         self.assertEqual(self.accessories.bonus, 4)
