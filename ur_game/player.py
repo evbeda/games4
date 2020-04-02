@@ -7,9 +7,9 @@ class Player:
         self.shared = shared
         self.initial = [Token(i, self) for i in range(7)]
         self.final_stack = []
-        self.start = [Cell(False) for _ in range(4)]
+        self.start = [Cell() for _ in range(4)]
         self.start[3].set_special()
-        self.finish = [Cell(False) for _ in range(2)]
+        self.finish = [Cell() for _ in range(2)]
         self.finish[0].set_special()
 
     def validate_movement_from_cell(self, from_index):

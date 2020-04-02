@@ -6,7 +6,7 @@ from random import randint
 class UrGame:
 
     def __init__(self):
-        shared = [Cell(False) for _ in range(8)]
+        shared = [Cell() for _ in range(8)]
         shared[3].set_special()
         self.players = [Player(shared) for _ in range(2)]
 
