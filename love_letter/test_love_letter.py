@@ -552,31 +552,57 @@ class TestLoveLetterGame(unittest.TestCase):
         with self.assertRaises(TargetInvalidException):
             self.game.validate_effect(self.game.players[1])
 
-    # def test_give_heart_player(self):
-    #     self.game.players[1].is_active = False
-    #     self.assertTrue(self.game.give_heart())
-    #     self.assertEqual(self.game.players[0].get_heart(), 1)
+    def test_give_heart_player(self):
+        self.game.players[1].is_active = False
+        self.assertTrue(self.game.give_heart())
+        self.assertEqual(self.game.players[0].get_heart(), 1)
 
-    # def test_give_heart_deck_one_winner(self):
-    #     self.guard = Guard()
-    #     self.king = King()
-    #     self.game.reset_round()
-    #     self.game.deck.cards = []
-    #     self.game.players[0].cards.append(self.guard)
-    #     self.game.players[1].cards.append(self.king)
-    #     self.assertTrue(self.game.give_heart())
-    #     self.assertEqual(self.game.players[1].get_heart(), 1)
+    def test_give_heart_deck_one_winner(self):
+        self.guard = Guard()
+        self.king = King()
+        self.game.reset_round()
+        self.game.deck.cards = []
+        self.game.players[0].cards.append(self.guard)
+        self.game.players[1].cards.append(self.king)
+        self.assertTrue(self.game.give_heart())
+        self.assertEqual(self.game.players[1].get_heart(), 1)
 
-    # def test_give_heart_deck_tie_winner(self):
-    #     self.guard = Guard()
-    #     self.king = King()
-    #     self.game.reset_round()
-    #     self.game.players[0].draw_card(self.guard)
-    #     self.game.players[1].draw_card(self.king)
-    #     self.game.deck.cards = []
-    #     self.game.players[0].discard_card(self.game.players[0].show_card())
-    #     self.game.players[0].cards.append(self.king)
-    #     self.game.players[1].discard_card(self.game.players[1].show_card())
-    #     self.game.players[1].cards.append(self.king)
-    #     self.assertTrue(self.game.give_heart())
-    #     self.assertEqual(self.game.players[1].get_heart(), 1)
+    def test_give_heart_deck_tie_winner(self):
+        self.guard = Guard()
+        self.king = King()
+        self.game.reset_round()
+        self.game.players[0].draw_card(self.guard)
+        self.game.players[1].draw_card(self.king)
+        self.game.deck.cards = []
+        self.game.players[0].discard_card(self.game.players[0].show_card())
+        self.game.players[0].cards.append(self.king)
+        self.game.players[1].discard_card(self.game.players[1].show_card())
+        self.game.players[1].cards.append(self.king)
+        self.assertTrue(self.game.give_heart())
+        self.assertEqual(self.game.players[1].get_heart(), 1)
+
+    def test_check_if_end_round_1_alive(self):
+        self.game.players[1].is_active = False
+        self.assertEqual(self.game.check_if_end_round(), True)
+        self.assertEqual(self.game.players[0].hearts, 1)
+
+    def test_check_if_end_round_many_alives(self):
+        guard = Guard()
+        king = King()
+        self.game.deck.cards = []
+        self.game.players[0].cards.pop()
+        self.game.players[1].cards.pop()
+        self.game.players[0].cards.append(king)
+        self.game.players[1].cards.append(guard)
+        self.assertEqual(self.game.check_if_end_round(), True)
+        self.assertEqual(self.game.players[0].hearts, 1)
+        self.assertEqual(self.game.players[1].hearts, 0)
+
+    def test_check_if_end_round_false(self):
+        guard = Guard()
+        king = King()
+        self.game.players[0].cards.pop()
+        self.game.players[1].cards.pop()
+        self.game.players[0].cards.append(king)
+        self.game.players[1].cards.append(guard)
+        self.assertFalse(self.game.check_if_end_round())

@@ -57,7 +57,7 @@ class LoveLetterGame:
                 return e.message
         command_args.extend(commands[2:])
         result = self.current_player.cards[int(commands[0])].execute_action(*command_args)
-        self.give_heart()
+        self.check_if_end_round()
         return result
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
@@ -95,9 +95,9 @@ class LoveLetterGame:
                 player.hearts += 1
                 return True
         return False
-    
+
     def give_heart_to_max_card(self, alive):
-        max_score = max(alive.items())
+        max_score = max(list(alive.values()))
         list_of_winners = []
         for player in self.players:
             if player.show_card().score == max_score:
@@ -120,7 +120,7 @@ class LoveLetterGame:
         self.give_heart_to_winner(winner)
         return True
 
-    def give_heart(self):
+    """def give_heart(self):
         alive = {}
         for player in self.players:
             if player.is_active:
@@ -153,7 +153,7 @@ class LoveLetterGame:
                             winner_player = player
                 winner_player.hearts += 1
                 return True
-        return False
+        return False"""
 
     def look_for_handmaid(self):
         save_players = []
