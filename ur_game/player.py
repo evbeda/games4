@@ -3,7 +3,7 @@ from ur_game.token import Token
 
 
 class Player:
-    def __init__(self, shared=None):
+    def __init__(self, shared=[]):
         self.shared = shared
         self.initial = [Token(i, self) for i in range(7)]
         self.final_stack = []
@@ -62,9 +62,6 @@ class Player:
             from_cell = self.validate_movement_from_cell(index_token)
             self.move_token_from_cell_to_cell(from_cell, to_cell)
 
-
-class OccupedCellException(Exception):
-    pass
 
 
 class InvalidMovementException(Exception):
