@@ -26,7 +26,6 @@ class Monster(Door):
     def execute_bad_effect(self):
         pass
 
-
     @property
     def name(self):
         return self._name
