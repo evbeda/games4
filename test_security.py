@@ -61,6 +61,15 @@ class TestRegistration(unittest.TestCase):
             '7e6a4309ddf6e8866679f61ace4f621b0e3455ebac2e831a60f13cd1',
         )
 
+    def test_register_duplicate_user_fails(self):
+        with self.assertRaises(EmailInUseException):
+            security.register(
+                'Juan',
+                'Perez',
+                'juanp@gmail.com',
+                '12345678',
+            )
+
 
 class TestLogin(unittest.TestCase):
     def test_login_invalid(self):
