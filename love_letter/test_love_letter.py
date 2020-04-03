@@ -686,3 +686,8 @@ class TestLoveLetterGame(unittest.TestCase):
     def test_select_target_not_exist(self):
         with self.assertRaises(TargetInvalidException):
             self.game.select_target("-1")
+
+
+    @patch.object(PcPlayer, 'choose_card', return_value=0)
+    def test_pc_player(self, mock_value):
+        self.assertEqual(self.game.players[1].choose_card(), 0)
