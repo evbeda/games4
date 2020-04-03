@@ -132,7 +132,7 @@ class TestRace(unittest.TestCase):
 
 
 class TestMunchkin(unittest.TestCase):
-    
+
     def setUp(self):
         self.munchkin = Munchkin()
         self.player_1 = self.munchkin.players[0]
@@ -151,7 +151,7 @@ class TestMunchkin(unittest.TestCase):
     def test_draw_card(self):
         self.munchkin.draw_card()
         self.assertEqual(len(self.player_1.on_hand), 5)
-  
+
     def test_munchkin_board(self):
         card = {
             'name': 'Roca enorme',
@@ -181,6 +181,10 @@ class TestTreasure(unittest.TestCase):
         self.assertEqual(treasure.used_by, None)
         self.assertFalse(treasure.is_big)
 
+    def test_treasure_str(self):
+        treasure = Treasure("Armadura de Cuero", 1, 200, "Elfs")
+        self.assertEqual(treasure.__str__(), "Name: Armadura de Cuero | Bonus: 1 | Value: 200 | Used by: Elfs | Is big?: False | ")
+
 
 class TestArmor(unittest.TestCase):
 
@@ -191,6 +195,10 @@ class TestArmor(unittest.TestCase):
         self.assertEqual(armor.value, 400)
         self.assertEqual(armor.used_by, None)
         self.assertFalse(armor.is_big)
+
+    def test_armor_str(self):
+        armor = Armor("Armadura Llameante", 3, 400, "Elfs")
+        self.assertEquals(armor.__str__(), "Name: Armadura Llameante | Bonus: 3 | Value: 400 | Used by: Elfs | Is big?: False | ")
 
 
 class TestWeapon(unittest.TestCase):
@@ -204,6 +212,10 @@ class TestWeapon(unittest.TestCase):
         self.assertEqual(weapon.used_by, None)
         self.assertFalse(weapon.is_big)
 
+    def test_weapon_str(self):
+        weapon = Weapon(2, "Maza Suiza Multiusos", 4, 600)
+        self.assertEqual(weapon.__str__(), "Name: Maza Suiza Multiusos | Bonus: 4 | Value: 600 | Used by: all | Is big?: False | Cant hands: 2 | ")
+
 
 class TestFootwear(unittest.TestCase):
 
@@ -214,6 +226,10 @@ class TestFootwear(unittest.TestCase):
         self.assertEqual(footwear.value, 600)
         self.assertEqual(footwear.used_by, None)
         self.assertFalse(footwear.is_big)
+
+    def test_footwear_str(self):
+        footwear = Footwear("Maza Suiza Multiusos", 4, 600)
+        self.assertEquals(footwear.__str__(), "Name: Maza Suiza Multiusos | Bonus: 4 | Value: 600 | Used by: all | Is big?: False | Flee bonus: 0 | ")
 
 
 class TestHeadwear(unittest.TestCase):
@@ -226,6 +242,10 @@ class TestHeadwear(unittest.TestCase):
         self.assertEqual(headwear.used_by, None)
         self.assertFalse(headwear.is_big)
 
+    def test_headwear_str(self):
+        headwear = Headwear("Pañuelo para tipos duros", 3, 400)
+        self.assertEqual(headwear.__str__(), "Name: Pañuelo para tipos duros | Bonus: 3 | Value: 400 | Used by: all | Is big?: False | Extra bonus: 0 | Extra used by: Nobody | ")
+
 
 class TestAccesories(unittest.TestCase):
 
@@ -237,6 +257,10 @@ class TestAccesories(unittest.TestCase):
         self.assertEqual(accessories.used_by, None)
         self.assertFalse(accessories.is_big)
 
+    def test_accessories_str(self):
+        accessories = Accessories("Capa de Sombras", 4, 600)
+        self.assertEqual(accessories.__str__(), "Name: Capa de Sombras | Bonus: 4 | Value: 600 | Used by: all | Is big?: False | ")
+
 
 class TestDeck(unittest.TestCase):
     def setUp(self):
@@ -247,7 +271,7 @@ class TestDeck(unittest.TestCase):
         self.deck.add_discard(self.treasure)
         self.assertEqual(len(self.deck.discard_cards), 1)
 
-    def test_reset_cards(self):  
+    def test_reset_cards(self):
         self.deck.add_discard(self.treasure)
         self.deck.reset_cards()
         self.assertNotEqual(self.deck.cards, [])
@@ -298,7 +322,7 @@ class TestCardMunchkin(unittest.TestCase):
         self.door = Door("door")
         self.weapon = Weapon(1, "Axe", 2, 600, "Human")
         self.armor = Armor("Armadura de cuero", 1, 200, "Male")
-        self.headwear = Headwear("Yelmo cornudo", 1, 600, "all", extra_bonus=2, extra_used_by = "Elf")
+        self.headwear = Headwear("Yelmo cornudo", 1, 600, "all", extra_bonus=2, extra_used_by="Elf")
         self.accessories = Accessories("Capa de Sombras", 4, 600, "thief")
         self.various = Various("Escalera", 3, 400, "Halfling", True, 0, 2)
 
@@ -377,6 +401,9 @@ class TestCardMunchkin(unittest.TestCase):
         # Some items can be used by some Races, or some class, when get "All" means what it can use for everyone
         self.assertEqual(self.accessories.used_by, "thief")
 
+    def test_various_str(self):
+        self.assertEqual(self.various.__str__(), "Name: Escalera | Bonus: 3 | Value: 400 | Used by: Halfling | Is big?: True | Flee bonus: 0 | Cant Hand: 2 | ")
+
 
 class TestTreasureSingleUse(unittest.TestCase):
     def test_single_card_level_up_basic_info(self):
@@ -443,3 +470,8 @@ class TestTreasureSingleUse(unittest.TestCase):
         self.assertEqual(treasure_single_use.flee_points, 0)
         self.assertTrue(treasure_single_use.win_treasure)
         self.assertTrue(treasure_single_use.affect_other_player)
+
+    def test_single_use_str(self):
+        cards_single_use = TREASURE_CARDS['single_use']
+        single_use_lvl_up = TreasureSingleUse(**cards_single_use[0])
+        self.assertEqual(single_use_lvl_up.__str__(), "Name: Matar al escudero | Bonus: 0 | Value: 0 | Used by: all | Is big?: False | Group effect: False | Is level up: True | Re-roll dice: False | Flee points: 0 | Win treasure: True | Affect other player: False | ")
