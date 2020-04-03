@@ -63,7 +63,7 @@ class Player(object):
         has_king_or_prince = False
         has_countess = False
         for card in self.cards:
-            if isinstance(card, King) or isinstance(card, Prince):
+            if isinstance(card, (King, Prince)):
                 has_king_or_prince = True
             elif isinstance(card, Countess):
                 has_countess = True
