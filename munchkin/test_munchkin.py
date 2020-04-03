@@ -37,6 +37,9 @@ class TestMonster(unittest.TestCase):
     def setUp(self):
         self.monster = Monster("CHUPACABRAS", 8, 1, 2)
 
+    def test_monster_name(self):
+        self.assertEqual(self.monster.name, "CHUPACABRAS")
+
     def test_monster_has_power_greater_or_equal_than_1(self):
         result = self.monster.power
         self.assertGreaterEqual(result, 1)
@@ -205,6 +208,14 @@ class TestMunchkin(unittest.TestCase):
         self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
         self.assertEqual(self.munchkin.play(), "You're safe")
 
+    def test_next_turn(self):
+        result = 'Is your turn: 1\n' \
+                 'Card: Name: Armadura Llameante |' \
+                 ' Bonus: 3 | Value: 400 |' \
+                 ' Used by: Elfs |' \
+                 ' Is big?: False | '
+        self.munchkin.current_card = Armor("Armadura Llameante", 3, 400, "Elfs")
+        self.assertEqual(self.munchkin.next_turn(), result)
 
 class TestTreasure(unittest.TestCase):
 
@@ -335,6 +346,10 @@ class TestTreasureDeck(unittest.TestCase):
             self.assertIsNotNone(treasure_card.is_big)
             self.assertIsNotNone(treasure_card.used_by)
 
+class TestDoor(unittest.TestCase):
+    def test_door_name(self):
+        door = Door('Chupacabras')
+        self.assertEqual(door.__str__(), 'Name: '+door.name)
 
 class TestDoorDeck(unittest.TestCase):
     def setUp(self):

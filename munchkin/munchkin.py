@@ -24,8 +24,8 @@ class Munchkin(object):
         self.current_card = None
 
     def next_turn(self):
-        response = 'Is your turn: ' + self.current_player.name
-        return response + self.current_card.__str__()
+        response = 'Is your turn: ' + self.current_player.name + '\n'
+        return response + 'Card: ' + self.current_card.__str__()
 
     def play(self, action=None):
         if (type(self.current_card).__name__, "Monster"):
