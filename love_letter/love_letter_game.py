@@ -134,6 +134,15 @@ class LoveLetterGame:
     def reset_round(self):
         for player in self.players:
             player.reset_round()
+        self.deck = Deck()
+        self.deck.shuffle_cards()
+        # Logica de sacar cartas (regla del juego para 2 jugadores)
+        if len(self.players) == 2:
+            self.deck.remove_last()
+            self.deck.show_three()
+        for player in self.players:
+            card = self.deck.draw_card()
+            player.draw_card(card)
 
     def check_winner(self):
         return len([player for player in self.players if player.hearts == hearts_to_win[len(self.players)]]) > 0

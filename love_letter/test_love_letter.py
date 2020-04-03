@@ -1,5 +1,7 @@
 import unittest
 
+from mock import patch
+
 from .card import Card
 from .cards.guard import Guard
 from .cards.priest import Priest
@@ -498,17 +500,17 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.reset_round()
         discarded_cards = []
         score = 0
-        cards = []
-        attributes = [discarded_cards, score, cards]
+        cards = 1
+        attributes = [discarded_cards, score]
         player_attributes = [self.game.players[0].discarded,
-                             self.game.players[0].score,
-                             self.game.players[0].cards]
+                             self.game.players[0].score]
         pc_player_attributes = [self.game.players[1].discarded,
-                                self.game.players[1].score,
-                                self.game.players[1].cards]
+                                self.game.players[1].score]
 
         self.assertEqual(attributes, player_attributes)
         self.assertEqual(attributes, pc_player_attributes)
+        self.assertEqual(len(self.game.players[0].cards), cards)
+        self.assertEqual(len(self.game.players[1].cards), cards)
 
     def test_get_opponents(self):
         opponents = self.game.players.copy()
