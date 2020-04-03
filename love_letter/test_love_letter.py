@@ -660,3 +660,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[1].name = "Pepe"
         result = self.game.play("0-1")
         self.assertEqual(result, 'Player Pepe is not active')
+
+    @patch.object(PcPlayer, 'choose_card', return_value=0)
+    def test_pc_player(self, mock_value):
+        self.assertEqual(self.game.players[1].choose_card(), 0)
