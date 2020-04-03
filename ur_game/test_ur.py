@@ -4,7 +4,7 @@ from ur_game.cell import Cell
 from ur_game.player import Player
 from ur_game.player import InvalidMovementException, OutOfBoardException, TokenProtectedException
 from ur_game.token import Token
-from ur_game.ur import UrGame
+from ur_game.ur import UrGame, IsNotOneCharacter
 
 
 class TestUr(unittest.TestCase):
@@ -77,6 +77,10 @@ class TestUr(unittest.TestCase):
         self.assertTrue(dice_throw_value <= 4)
         self.assertFalse(dice_throw_value > 4)
         self.assertFalse(dice_throw_value < 0)
+
+    def test_play_insert_is_not_digit(self):
+        with self.assertRaises(IsNotOneCharacter):
+            self.game.validate_number_lenght('11')
 
 
 class TestPlayer(unittest.TestCase):

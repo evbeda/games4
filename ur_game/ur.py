@@ -1,6 +1,10 @@
 from ur_game.cell import Cell
-from ur_game.player import Player
+from ur_game.player import Player, InvalidMovementException, OutOfBoardException
 from random import randint
+
+
+class IsNotOneCharacter(Exception):
+    pass
 
 
 class UrGame:
@@ -33,6 +37,25 @@ class UrGame:
                 return False
         return True
 
+    def play(self, source):
+        try:
+            source = int(source)
+            for player_turn in self.players:
+                self.validate_input(source)
+                self.validate_number_lenght(source)
+                player_turn.move_token(self.roll_dices(), source)
+                if(player_turn == 7):
+                    print('You won')
+            return "Token moved successfully"
+        except InvalidMovementException:
+            return "You dont have more Tokens"
+        except OutOfBoardException:
+            return "Out of board"
+        except ValueError:
+            return "The value {} is not a number".format(source)
+        except IsNotOneCharacter:
+            return "Only one number is expected, you are introducing {} character".format(len(source))
+
     @staticmethod
     def roll_dices():
         dice1 = randint(0, 1)
@@ -40,3 +63,7 @@ class UrGame:
         dice3 = randint(0, 1)
         dice4 = randint(0, 1)
         return dice1 + dice2 + dice3 + dice4
+
+    def validate_number_lenght(self, source):
+        if len(source) > 1:
+            raise IsNotOneCharacter("Only one number is expected, you are introducing {} character".format(len(source)))
