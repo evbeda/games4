@@ -1,6 +1,6 @@
 import unittest
 
-from mock import patch
+from unittest.mock import patch
 
 from .card import Card
 from .cards.guard import Guard
@@ -151,7 +151,7 @@ class TestPlayer(unittest.TestCase):
 
     def test_get_heart(self):
         self.str_player.hearts = 4
-        self.assertEquals(self.str_player.get_heart(), 4)
+        self.assertEqual(self.str_player.get_heart(), 4)
 
     def test_str_pc(self):
         self.pc_player.cards.pop()
@@ -428,25 +428,25 @@ class TestGuard(unittest.TestCase):
 
     def test_guard_action_on_enemy_true(self):
         result = self.guard.execute_action(self.player_1, self.prince.name)
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
     def test_guard_action_on_enemy_false(self):
         result = self.guard.execute_action(self.player_1, self.king.name)
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
     def test_guard_action_on_enemy_dead(self):
         self.guard.execute_action(self.player_1, self.king.name)
         is_no_dead = self.player_1.is_active
-        self.assertEqual(is_no_dead, True)
+        self.assertTrue(is_no_dead)
 
     def test_guard_action_on_enemy_no_dead(self):
         self.guard.execute_action(self.player_1, self.prince.name)
         is_no_dead = self.player_1.is_active
-        self.assertEqual(is_no_dead, False)
+        self.assertFalse(is_no_dead)
 
     def test_guard_action_card_guard_type(self):
         result = self.guard.execute_action(self.player_1, Guard())
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
     def test_guard_show_instructions(self):
         instructions = "Guard input instructions:\n" \
@@ -463,7 +463,7 @@ class TestLoveLetterGame(unittest.TestCase):
     def test_player_exsistence_when_init(self):
         number_of_players = 2
         result = len(self.game.players)
-        self.assertEquals(number_of_players, result)
+        self.assertEqual(number_of_players, result)
 
     def test_board_with_initial_situation(self):
         # human player
@@ -476,7 +476,7 @@ class TestLoveLetterGame(unittest.TestCase):
                         "Player: Me, Hearts: 0, Cards: 0-Princess \n" \
                         "Player: PC Player, Hearts: 0, Cards: 0-Baron "
         result_text = self.game.board
-        self.assertEquals(expected_text, result_text)
+        self.assertEqual(expected_text, result_text)
 
     def test_check_winner_false(self):
         self.assertFalse(self.game.check_winner())
@@ -515,7 +515,7 @@ class TestLoveLetterGame(unittest.TestCase):
         opponents = self.game.players.copy()
         opponents.remove(self.game.current_player)
         result = self.game.get_opponents()
-        self.assertEquals(opponents, result)
+        self.assertEqual(opponents, result)
 
     def test_select_target_enemy(self):
         target = self.game.players[1]
@@ -532,7 +532,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[0].cards.append(self.princess)
         self.princess.player = self.game.players[0]
         self.game.play("0")
-        self.assertEqual(self.game.players[0].is_active, False)
+        self.assertFalse(self.game.players[0].is_active)
 
     def test_play_with_two_parameteres(self):
         self.priest = Priest()
@@ -552,17 +552,17 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[1].cards.append(self.king)
         self.guard.player = self.game.players[0]
         result = self.game.play("0-1-King")
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
-    def test_validate_effect_active(self):
+    def test_validate_target_active(self):
         self.game.players[1].is_active = False
         with self.assertRaises(TargetInvalidException):
-            self.game.validate_effect(self.game.players[1])
+            self.game.validate_target(self.game.players[1])
 
-    def test_validate_effect_handmaid(self):
+    def test_validate_target_handmaid(self):
         self.game.players[1].discarded.append(Handmaid())
         with self.assertRaises(TargetInvalidException):
-            self.game.validate_effect(self.game.players[1])
+            self.game.validate_target(self.game.players[1])
         self.assertIsNone(Handmaid().execute_action())
 
     def test_give_heart_to_max_card(self):
@@ -652,7 +652,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[0].score = 5
         self.game.players[1].score = 0
         self.game.tiebreaker(["Me", "PC Player"])
-        self.assertEquals(self.game.players[0].hearts, 1)
+        self.assertEqual(self.game.players[0].hearts, 1)
 
     def test_play_target_not_active(self):
         self.game.players[1].is_active = False
