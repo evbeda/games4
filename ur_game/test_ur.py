@@ -37,7 +37,7 @@ class TestUr(unittest.TestCase):
 
     def test_player_finish(self):
         player = Player()
-        self.assertEqual(len(player.finish), 2)
+        self.assertEqual(len(player.finish), 3)
 
     def test_ur_game_playing(self):
         self.assertTrue(self.game.is_playing)
@@ -92,7 +92,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(len(player.initial), 7)
         self.assertEqual(len(player.final_stack), 0)
         self.assertEqual(len(player.start), 4)
-        self.assertEqual(len(player.finish), 2)
+        self.assertEqual(len(player.finish), 3)
 
     def test_player_shared(self):
         shared = [Cell() for _ in range(8)]
@@ -195,7 +195,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(self.player.get_cell_by_index(to_index), self.player.validate_movement_to_cell(to_index))
 
     def test_move_token_to_cell_final(self):
-        to_index = 14
+        to_index = 15
         cell = self.player.get_cell_by_index(to_index)
         token = self.player.initial.pop()
         self.player.move_token_to_cell(cell, token)
