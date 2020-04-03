@@ -158,20 +158,10 @@ class TestMunchkin(unittest.TestCase):
         self.assertEqual(len(self.player_1.on_hand), 5)
 
     def test_munchkin_board(self):
-        card = {
-            'name': 'Roca enorme',
-            'bonus': 3,
-            'cant_hands': 2,
-            'value': 0,
-            'used_by': '!Thief',
-            'is_big': True,
-        }
+        card = Armor("Armadura Llameante", 3, 400)
         self.player_1.on_board = [card]
-        expected = "Name: 1, \n" \
-            "Cards on Board:\n" \
-            "  {'name': 'Roca enorme', 'bonus': 3, 'cant_hands': 2, 'value': 0, 'used_by': '!Thief', 'is_big': True}\n" \
-            "Name: 2, \n"\
-            "Cards on Board:\n"
+        expected = "Name: 1\nCards on Board:\nName: Armadura Llameante | Bonus: 3 | Value: 400 | Used by: all | Is big?: False | \n"\
+            "Name: 2\nCards on Board:\n"
         result = self.munchkin.board
         self.assertEqual(result, expected)
 

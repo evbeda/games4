@@ -33,10 +33,10 @@ class Munchkin(object):
     def board(self):
         board = ''
         for player in self.players:
-            board += "Name: {}, \n"\
+            board += "Name: {}\n"\
                 "Cards on Board:\n".format(player.name)
             for card in player.on_board:
-                board += "  {}\n".format(card)
+                board += "{}\n".format(card.__str__())
         return board
 
     @property
