@@ -1,3 +1,8 @@
+from .cards.countess import Countess
+from .cards.king import King
+from .cards.prince import Prince
+
+
 class Player(object):
 
     def __init__(self, game=None):
@@ -44,3 +49,26 @@ class Player(object):
 
     def get_heart(self):
         return self.hearts
+
+    def select_card(self, string_index):
+        index = int(string_index)
+        selected_card = self.cards[index]
+        if self.must_discard_countess():
+            if not isinstance(selected_card, Countess):
+                raise CountessNotDiscardedException
+
+        return selected_card
+
+    def must_discard_countess(self):
+        has_king_or_prince = False
+        has_countess = False
+        for card in self.cards:
+            if isinstance(card, King) or isinstance(card, Prince):
+                has_king_or_prince = True
+            elif isinstance(card, Countess):
+                has_countess = True
+        return has_countess and has_king_or_prince
+
+
+class CountessNotDiscardedException(Exception):
+    pass
