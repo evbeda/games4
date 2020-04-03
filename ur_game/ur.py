@@ -1,6 +1,10 @@
 from ur_game.cell import Cell
-from ur_game.player import Player
+from ur_game.player import Player, InvalidMovementException, OutOfBoardException
 from random import randint
+
+
+class IsNotOneCharacter(Exception):
+    pass
 
 
 class UrGame:
@@ -10,17 +14,35 @@ class UrGame:
         shared[3].set_special()
         self.players = [Player(shared, _) for _ in range(2)]
         self.active_player = None
+        self.dice_value = None
 
     def next_turn(self):
         if self.active_player is not None and self.active_player.addition_turn:
             self.active_player.addition_turn = False
-        else:    
+        else:
             for player in self.players:
                 if self.active_player != player:
                     self.active_player = player
                     break
         return f"Its Player {self.active_player.id_number} Turn"
 
+    def play(self, source):
+        try:
+            source = int(source)
+            self.validate_number_lenght(source)
+            self.dice_value = self.roll_dices()
+            self.active_player.move_token(self.dice_value, source)
+            if(self.active_player == 7):
+                return 'You won'
+            return "Token moved successfully"
+        except InvalidMovementException:
+            return "You dont have more Tokens"
+        except OutOfBoardException:
+            return "Out of board"
+        except ValueError:
+            return "The value {} is not a number".format(source)
+        except IsNotOneCharacter:
+            return "Only one number is expected, you are introducing {} character".format(len(source))
 
     @property
     def is_playing(self):
@@ -28,7 +50,7 @@ class UrGame:
             if len(player.final_stack) == 7:
                 return False
         return True
-    
+
     @property
     def board(self):
         board = ""
@@ -71,4 +93,8 @@ class UrGame:
         board_str += self.players[1].initial_and_final_arr_str() + "\n"
         board_str += "-" * 36
         return board_str
+
+    def validate_number_lenght(self, source):
+        if len(str(source)) > 1:
+            raise IsNotOneCharacter("Only one number is expected, you are introducing {} character".format(len(source)))
 
