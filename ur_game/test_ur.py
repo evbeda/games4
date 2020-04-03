@@ -256,3 +256,10 @@ class TestPlayer(unittest.TestCase):
         self.game.players[0].move_token(1, 0)
         self.game.players[1].move_token(1, 0)
         self.assertEqual(board, self.game.board)
+
+    def test_cell_representation(self):
+        empty_cell = Cell()
+        self.assertEqual(empty_cell.__str__(), "")
+        occuppied_cell_with_O = Cell()
+        occuppied_cell_with_O.token = self.game.players[0].initial.pop()
+        self.assertEqual(occuppied_cell_with_O.__str__(), "O")
