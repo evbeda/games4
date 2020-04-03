@@ -577,8 +577,7 @@ class TestLoveLetterGame(unittest.TestCase):
 
     def test_check_if_end_round_1_alive(self):
         self.game.players[1].is_active = False
-        self.assertEqual(self.game.check_if_end_round(), True)
-        self.assertEqual(self.game.players[0].hearts, 1)
+        self.assertTrue(self.game.check_if_end_round())
 
     def test_check_if_end_round_many_alives(self):
         guard = Guard()
@@ -588,9 +587,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[1].cards.pop()
         self.game.players[0].cards.append(king)
         self.game.players[1].cards.append(guard)
-        self.assertEqual(self.game.check_if_end_round(), True)
-        self.assertEqual(self.game.players[0].hearts, 1)
-        self.assertEqual(self.game.players[1].hearts, 0)
+        self.assertTrue(self.game.check_if_end_round())
 
     def test_give_heart_to_max_card_enters_tie(self):
         self.game.players[0].cards[0] = Handmaid()
@@ -643,8 +640,6 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[0].score = 5
         self.game.players[1].score = 0
         self.assertTrue(self.game.check_if_end_round())
-        self.assertEqual(self.game.players[0].hearts, 1)
-        self.assertEqual(self.game.players[1].hearts, 0)
 
     def test_tie_breaker(self):
         guard = Guard()
