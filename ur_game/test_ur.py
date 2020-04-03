@@ -4,7 +4,7 @@ from ur_game.cell import Cell
 from ur_game.player import Player
 from ur_game.player import InvalidMovementException, OutOfBoardException, TokenProtectedException
 from ur_game.token import Token
-from ur_game.ur import UrGame
+from ur_game.ur import UrGame, IsNotOneCharacter
 
 
 class TestUr(unittest.TestCase):
@@ -77,6 +77,14 @@ class TestUr(unittest.TestCase):
         self.assertTrue(dice_throw_value <= 4)
         self.assertFalse(dice_throw_value > 4)
         self.assertFalse(dice_throw_value < 0)
+
+    def test_play_insert_is_not_digit(self):
+        with self.assertRaises(IsNotOneCharacter):
+            self.game.validate_number_lenght('11')
+
+    def test_play_one_move(self):
+        self.game.active_player = self.game.players[0]
+        self.assertEqual(self.game.play(0), "Token moved successfully")
 
 
 class TestPlayer(unittest.TestCase):
@@ -181,7 +189,7 @@ class TestPlayer(unittest.TestCase):
         self.player.get_cell_by_index(to_index).put_token(token)
         with self.assertRaises(InvalidMovementException):
             self.player.validate_movement_to_cell(to_index)
-    
+
     def test_validate_movement_to_cell_exception_2(self):
         player2 = self.game.players[1]
         enemy_token = player2.initial.pop()
