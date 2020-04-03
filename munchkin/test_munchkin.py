@@ -32,21 +32,33 @@ class TestDice(unittest.TestCase):
 
 
 class TestMonster(unittest.TestCase):
+    def setUp(self):
+        self.monster = Monster("CHUPACABRAS", 8, 1, 2)
+
     def test_monster_has_power_greater_or_equal_than_1(self):
-        monster = Monster("CHUPACABRAS", 8, 1, 2)
-        result = monster.power
+        result = self.monster.power
         self.assertGreaterEqual(result, 1)
 
     def test_monster_has_treasures_greater_or_equal_than_1(self):
-        monster = Monster("CHUPACABRAS", 8, 1, 2)
-        result = monster.treasures
+        result = self.monster.treasures
         self.assertGreaterEqual(result, 1)
 
     def test_monster_has_level_add_greater_or_equal_than_1(self):
-        monster = Monster("CHUPACABRAS", 8, 1, 2)
-        result = monster.level_add
+        result = self.monster.level_add
         self.assertGreaterEqual(result, 1)
         self.assertLessEqual(result, 9)
+
+    def test_monster_defeated_true(self):
+        player = Player("Rulo")
+        treasure_deck = TreasureDeck()
+        player.level = 9
+        self.assertTrue(self.monster.monster_defeated(player, treasure_deck))
+
+    def test_monster_defeated_false(self):
+        player = Player("Rulo")
+        treasure_deck = TreasureDeck()
+        player.level = 7
+        self.assertFalse(self.monster.monster_defeated(player, treasure_deck))
 
 
 class TestPlayer(unittest.TestCase):
@@ -132,7 +144,7 @@ class TestRace(unittest.TestCase):
 
 
 class TestMunchkin(unittest.TestCase):
-    
+
     def setUp(self):
         self.munchkin = Munchkin()
         self.player_1 = self.munchkin.players[0]
@@ -151,7 +163,7 @@ class TestMunchkin(unittest.TestCase):
     def test_draw_card(self):
         self.munchkin.draw_card()
         self.assertEqual(len(self.player_1.on_hand), 5)
-  
+
     def test_munchkin_board(self):
         card = {
             'name': 'Roca enorme',
@@ -170,6 +182,13 @@ class TestMunchkin(unittest.TestCase):
         result = self.munchkin.board
         self.assertEqual(result, expected)
 
+    def test_munchkin_play_defeat_monster(self):
+        self.player_1.level = 9
+        self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
+        result = self.munchkin.play()
+        expected = "You defetead the monster"
+        self.assertEqual(result, expected)
+        self.assertEqual(self.player_1.level, 11)
 
 class TestTreasure(unittest.TestCase):
 

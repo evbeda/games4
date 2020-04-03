@@ -53,7 +53,7 @@ class Player:
             self.validate_max_card()
         except MaxCardsOnHandOutRangeException as e:
             return str(e)
-        self.__on_board.append(card)
+        self.on_hand.append(card)
 
     def validate_max_card(self):
         if len(self.__on_hand) + 1 <= self.max_cards_on_hand:

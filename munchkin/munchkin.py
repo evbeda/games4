@@ -1,6 +1,7 @@
 from munchkin.deck import DoorDeck, TreasureDeck
 from munchkin.player import Player
 from munchkin.doors import DOOR_CARDS
+from munchkin.dice import Dice
 
 
 class Munchkin(object):
@@ -11,6 +12,7 @@ class Munchkin(object):
         self.door_deck.shuffle_deck()
         self.treasure_deck = TreasureDeck()
         self.treasure_deck.shuffle_deck()
+        self.dice = Dice()
         # Reparto de cartas
         for player in self.players:
             for index in range(2):
@@ -25,25 +27,29 @@ class Munchkin(object):
         response = 'Is your turn: ' + self.current_player.name
         return response + self.current_card.__str__()
 
-    def play(self, action):
-        if self.current_card in DOOR_CARDS['monster']:
-            if action == 'fight':
-                if self.current_player.level > self.current_card.power:
-                    self.current_player.add_level(self.current_card.level_add)
-                    for _ in range(self.current_card.treasure):
-                        card = self.treasure_deck.pop()
-                        self.current_player.draw_card(card)
-        
-
+    def play(self, action=None):
+        if (type(self.current_card).__name__, "Monster"):
+            if not self.current_card.monster_defeated(
+                self.current_player,
+                self.treasure_deck
+            ):
+                dice = self.dice.shuffle()
+                if (dice + self.current_player.fleeing_chance) < 0:
+                    self.current_card.execute_bad_effect()
+                    return "You're lose"
+                else:
+                    return "You're safe"
+            else:
+                return "You defetead the monster"
 
     @property
     def board(self):
         board = ''
         for player in self.players:
             board += "Name: {}, \n" \
-                     "Cards on Board:\n".format(player.name)
+                     "Cards on Board: ".format(player.name)
             for card in player.on_board:
-                board += "  {}\n".format(card)
+                board += "  {}\n".format(card.__str__())
         return board
 
     @property

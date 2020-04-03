@@ -33,12 +33,13 @@ DOOR_CARDS = {
             'level_add': 2,
         },
     ],
-    'malediction': [
+    'curse':
+    [
         {
             'name': 'Maldición Puñetera',
-            'target': 'Class'
-            'effect_decription': 'You lose an item with the highest bonus'
-         }
-    ]
+            'target': 'Class',
+            'effect_decription': 'You lose an item with the highest bonus',
+        },
+    ],
 
 }
