@@ -108,6 +108,11 @@ class TestPlayer(unittest.TestCase):
         with self.assertRaises(MaxCardsOnHandOutRangeException):
             self.player.validate_max_card()
 
+    def test_player_str(self):
+        armor = Armor("Armadura Llameante", 3, 400)
+        self.player.on_hand = [armor]
+        self.assertEqual(self.player.__str__(), "Player: person \n On Hand: Name: Armadura Llameante | Bonus: 3 | Value: 400 | Used by: all | Is big?: False | ")
+
 
 class TestRace(unittest.TestCase):
     def setUp(self):
