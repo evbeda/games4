@@ -11,7 +11,6 @@ class TargetInvalidException(Exception):
     def __init__(self, message):
         self.message = message
 
-
 hearts_to_win = {
     # number_of_players: hearts_to_win
 
@@ -51,9 +50,10 @@ class LoveLetterGame:
         commands = command.split("-")
         command_args = []
         if len(commands) > 1:
-            command_args.append(self.players[int(commands[1])])
             try:
-                self.validate_effect(self.players[int(commands[1])])
+                target = self.select_target(commands[1])
+                command_args.append(target)
+                self.validate_effect(target)
             except TargetInvalidException as e:
                 return e.message
         command_args.extend(commands[2:])
@@ -150,12 +150,13 @@ class LoveLetterGame:
         players_duplicate.remove(self.current_player)
         return players_duplicate
 
-    def select_target(self, player_name):
-        if player_name == self.current_player.name:
+    def select_target(self, player_string_number):
+        player_number = int(player_string_number)
+        if player_number >= len(self.players) or player_number < 0:
+            raise TargetInvalidException("The player selected doesn't exist")
+        if self.players[player_number] is self.current_player:
             raise TargetMyselfException()
-        for player in self.players:
-            if player.name == player_name:
-                return player
+        return self.players[player_number]
 
     def get_deck_card(self):
         return self.deck.draw_card()

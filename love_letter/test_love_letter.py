@@ -518,12 +518,12 @@ class TestLoveLetterGame(unittest.TestCase):
 
     def test_select_target_enemy(self):
         target = self.game.players[1]
-        result = self.game.select_target(self.game.players[1].name)
-        self.assertEquals(target, result)
+        result = self.game.select_target("1")
+        self.assertEqual(target, result)
 
     def test_select_target_current_player(self):
         with self.assertRaises(TargetMyselfException):
-            self.game.select_target(self.game.players[0].name)
+            self.game.select_target("0")
 
     def test_play_with_one_parameter(self):
         self.princess = Princess()
@@ -659,7 +659,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertEquals(self.game.players[0].hearts, 1)
 
     def test_play_catchs_exception(self):
-        self.game.players[0].is_active = False
-        self.game.players[0].name = "Pepe"
-        result = self.game.play("1-0")
+        self.game.players[1].is_active = False
+        self.game.players[1].name = "Pepe"
+        result = self.game.play("0-1")
         self.assertEqual(result, 'Player Pepe is not active')
