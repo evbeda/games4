@@ -38,8 +38,14 @@ class Player:
         self.move_token_to_cell(to_cell, token)
 
     def move_token_from_cell_to_cell(self, from_cell, to_cell):
-        token = from_cell.clear_cell()
-        self.move_token_to_cell(to_cell, token)
+        token = from_cell.clear_cell()  # limpiar la celda anterior
+        # verificar si hay otra ficha -> comer
+        if to_cell.token is not None:
+            # sacar la ficha del oponente
+            enemy_token = to_cell.clear_cell()
+            # devolversela al oponente -> initial.append
+            enemy_token.player.initial.append(enemy_token)
+        self.move_token_to_cell(to_cell, token)  # moviendo
 
     def move_token_to_cell(self, to_cell, token):
         if to_cell == self.finish[-1]:

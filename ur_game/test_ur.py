@@ -168,3 +168,14 @@ class TestPlayer(unittest.TestCase):
         token = self.player.initial.pop()
         self.player.move_token_to_cell(cell, token)
         self.assertIn(token, self.player.final_stack)
+
+    def test_move_token_eat_enemy(self):
+        from_cell = Cell()
+        player_2 = self.game.players[1]
+        enemy_token = player_2.initial.pop()
+        self.cell.token = enemy_token
+        my_token = self.player.initial.pop()
+        from_cell.token = my_token
+        self.assertEqual(len(player_2.initial), 6)
+        self.player.move_token_from_cell_to_cell(from_cell, self.cell)
+        self.assertEqual(len(player_2.initial), 7)
