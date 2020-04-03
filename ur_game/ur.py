@@ -19,4 +19,8 @@ class UrGame:
 
     @staticmethod
     def roll_dices():
-        return randint(0, 4)
+        dice1 = randint(0, 1)
+        dice2 = randint(0, 1)
+        dice3 = randint(0, 1)
+        dice4 = randint(0, 1)
+        return dice1 + dice2 + dice3 + dice4
