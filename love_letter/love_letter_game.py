@@ -80,14 +80,7 @@ class LoveLetterGame:
         for player in self.players:
             if player.is_active:
                 alive[player.name] = player.show_card().score
-        if len(alive) == 1:
-            winner = list(alive.keys())[0]
-            self.give_heart_to_winner(winner)
-            return True
-        elif len(self.deck.cards) == 0:
-            self.give_heart_to_max_card(alive)
-            return True
-        return False
+        return len(alive) == 1 or len(self.deck.cards) == 0
 
     def give_heart_to_winner(self, winner):
         for player in self.players:
