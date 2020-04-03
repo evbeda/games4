@@ -130,6 +130,15 @@ class TestPlayer(unittest.TestCase):
         self.player.on_hand = [armor]
         self.assertEqual(self.player.__str__(), "Player: person \n On Hand: Name: Armadura Llameante | Bonus: 3 | Value: 400 | Used by: all | Is big?: False | ")
 
+    def test_player_win_true(self):
+        self.player.level = 10
+        result = self.player.win()
+        self.assertTrue(result)
+
+    def test_player_win_fales(self):
+        result = self.player.win()
+        self.assertFalse(result)
+
 
 class TestRace(unittest.TestCase):
     def setUp(self):
@@ -216,6 +225,7 @@ class TestMunchkin(unittest.TestCase):
                  ' Is big?: False | '
         self.munchkin.current_card = Armor("Armadura Llameante", 3, 400, "Elfs")
         self.assertEqual(self.munchkin.next_turn(), result)
+
 
 class TestTreasure(unittest.TestCase):
 
@@ -346,10 +356,12 @@ class TestTreasureDeck(unittest.TestCase):
             self.assertIsNotNone(treasure_card.is_big)
             self.assertIsNotNone(treasure_card.used_by)
 
+
 class TestDoor(unittest.TestCase):
     def test_door_name(self):
         door = Door('Chupacabras')
         self.assertEqual(door.__str__(), 'Name: '+door.name)
+
 
 class TestDoorDeck(unittest.TestCase):
     def setUp(self):

@@ -26,7 +26,10 @@ class Player:
             self.level -= 1
 
     def win(self):
-        pass  # Gana si el nivel es 10
+        if self.level == 10:
+            return True
+        else:
+            return False
 
     def __str__(self):
         card_to_print = ""
