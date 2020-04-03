@@ -47,23 +47,26 @@ class LoveLetterGame:
         try:
             commands = command.split("-")
             selected_card = self.current_player.select_card(commands[0])
+            parameters = self.get_parameters(commands)
         except CountessNotDiscardedException:
             return "You must discard your Countess"
-        
-        command_args = []
-        if len(commands) > 1:
-            try:
-                target = self.select_target(commands[1])
-                command_args.append(target)
-                self.validate_target(target)
-            except TargetInvalidException as e:
-                return e.message
-        command_args.extend(commands[2:])
-        result = selected_card.execute_action(*command_args)
+        except TargetInvalidException as e:
+            return e.message
+        result = selected_card.execute_action(*parameters)
         self.check_if_end_round()
         return result
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
+
+    def get_parameters(self, commands):
+        parameters = []
+        if len(commands) > 1:
+            target = self.select_target(commands[1])
+            self.validate_target(target)
+            parameters.append(target)
+        if len(commands) > 2:
+            parameters.append(commands[2])
+        return parameters
 
     def validate_target(self, player):
         if not player.is_active:

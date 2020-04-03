@@ -691,3 +691,8 @@ class TestLoveLetterGame(unittest.TestCase):
     @patch.object(PcPlayer, 'choose_card', return_value=0)
     def test_pc_player(self, mock_value):
         self.assertEqual(self.game.players[1].choose_card(), 0)
+
+    def test_get_parameters(self):
+        expected_params = [self.game.players[1], "Prince"]
+        result = self.game.get_parameters(["0", "1", "Prince"])
+        self.assertEqual(expected_params, result)
