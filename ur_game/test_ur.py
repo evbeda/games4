@@ -2,7 +2,7 @@ import unittest
 
 from ur_game.cell import Cell
 from ur_game.player import Player
-from ur_game.player import InvalidMovementException, OutOfBoardException
+from ur_game.player import InvalidMovementException, OutOfBoardException, TokenProtectedException
 from ur_game.token import Token
 from ur_game.ur import UrGame
 
@@ -48,6 +48,28 @@ class TestUr(unittest.TestCase):
             token = player.initial.pop()
             player.final_stack.append(token)
         self.assertFalse(self.game.is_playing)
+
+    def test_next_turn_functionality(self):
+        player1 = self.game.players[0]
+        player2 = self.game.players[1]
+        self.assertIsNone(self.game.active_player)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player1)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player2)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player1)
+
+    def test_next_turn_additional_turn(self):
+        player2 = self.game.players[1]
+        player = self.game.players[0]
+        player.addition_turn = True
+        self.game.active_player = player
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player)
+        self.assertFalse(player.addition_turn)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player2)
 
     def test_roll_dices(self):
         dice_throw_value = self.game.roll_dices()
@@ -147,15 +169,25 @@ class TestPlayer(unittest.TestCase):
         self.assertIsNone(player.start[0].token)
 
     def test_validate_movement_to_cell_special_cell(self):
+        self.assertFalse(self.player.addition_turn)
         to_index = 8
         to_cell = self.player.validate_movement_to_cell(to_index)
-        self.assertEqual(to_cell, self.player.get_cell_by_index(to_index + 1))
+        self.assertEqual(to_cell, self.player.get_cell_by_index(to_index))
+        self.assertTrue(self.player.addition_turn)
 
     def test_validate_movement_to_cell_exception_1(self):
         token = self.player.initial.pop()
         to_index = 9
         self.player.get_cell_by_index(to_index).put_token(token)
         with self.assertRaises(InvalidMovementException):
+            self.player.validate_movement_to_cell(to_index)
+    
+    def test_validate_movement_to_cell_exception_2(self):
+        player2 = self.game.players[1]
+        enemy_token = player2.initial.pop()
+        to_index = 8
+        player2.get_cell_by_index(to_index).put_token(enemy_token)
+        with self.assertRaises(TokenProtectedException):
             self.player.validate_movement_to_cell(to_index)
 
     def test_validate_movement_to_cell(self):
@@ -168,3 +200,14 @@ class TestPlayer(unittest.TestCase):
         token = self.player.initial.pop()
         self.player.move_token_to_cell(cell, token)
         self.assertIn(token, self.player.final_stack)
+
+    def test_move_token_eat_enemy(self):
+        from_cell = Cell()
+        player_2 = self.game.players[1]
+        enemy_token = player_2.initial.pop()
+        self.cell.token = enemy_token
+        my_token = self.player.initial.pop()
+        from_cell.token = my_token
+        self.assertEqual(len(player_2.initial), 6)
+        self.player.move_token_from_cell_to_cell(from_cell, self.cell)
+        self.assertEqual(len(player_2.initial), 7)

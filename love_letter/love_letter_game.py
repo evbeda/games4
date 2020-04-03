@@ -1,16 +1,12 @@
 from love_letter.deck import Deck
 from love_letter.human_player import HumanPlayer
 from love_letter.pc_player import PcPlayer
-
-
-class TargetMyselfException(Exception):
-    pass
+from love_letter.player import CountessNotDiscardedException
 
 
 class TargetInvalidException(Exception):
     def __init__(self, message):
         self.message = message
-
 
 hearts_to_win = {
     # number_of_players: hearts_to_win
@@ -48,22 +44,28 @@ class LoveLetterGame:
             return "Its your turn\n" + text
 
     def play(self, command):
-        commands = command.split("-")
+        try:
+            commands = command.split("-")
+            selected_card = self.current_player.select_card(commands[0])
+        except CountessNotDiscardedException:
+            return "You must discard your Countess"
+        
         command_args = []
         if len(commands) > 1:
-            command_args.append(self.players[int(commands[1])])
             try:
-                self.validate_effect(self.players[int(commands[1])])
+                target = self.select_target(commands[1])
+                command_args.append(target)
+                self.validate_target(target)
             except TargetInvalidException as e:
                 return e.message
         command_args.extend(commands[2:])
-        result = self.current_player.cards[int(commands[0])].execute_action(*command_args)
+        result = selected_card.execute_action(*command_args)
         self.check_if_end_round()
         return result
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
-    def validate_effect(self, player):
+    def validate_target(self, player):
         if not player.is_active:
             raise TargetInvalidException(
                 'Player {} is not active'.format(player.name)
@@ -80,14 +82,7 @@ class LoveLetterGame:
         for player in self.players:
             if player.is_active:
                 alive[player.name] = player.show_card().score
-        if len(alive) == 1:
-            winner = list(alive.keys())[0]
-            self.give_heart_to_winner(winner)
-            return True
-        elif len(self.deck.cards) == 0:
-            self.give_heart_to_max_card(alive)
-            return True
-        return False
+        return len(alive) == 1 or len(self.deck.cards) == 0
 
     def give_heart_to_winner(self, winner):
         for player in self.players:
@@ -141,6 +136,15 @@ class LoveLetterGame:
     def reset_round(self):
         for player in self.players:
             player.reset_round()
+        self.deck = Deck()
+        self.deck.shuffle_cards()
+        # Logica de sacar cartas (regla del juego para 2 jugadores)
+        if len(self.players) == 2:
+            self.deck.remove_last()
+            self.deck.show_three()
+        for player in self.players:
+            card = self.deck.draw_card()
+            player.draw_card(card)
 
     def check_winner(self):
         return len([player for player in self.players if player.hearts == hearts_to_win[len(self.players)]]) > 0
@@ -150,12 +154,13 @@ class LoveLetterGame:
         players_duplicate.remove(self.current_player)
         return players_duplicate
 
-    def select_target(self, player_name):
-        if player_name == self.current_player.name:
-            raise TargetMyselfException()
-        for player in self.players:
-            if player.name == player_name:
-                return player
+    def select_target(self, player_string_number):
+        player_number = int(player_string_number)
+        if player_number >= len(self.players) or player_number < 0:
+            raise TargetInvalidException("The player selected doesn't exist")
+        if self.players[player_number] is self.current_player:
+            raise TargetInvalidException("You cannot be your own target")
+        return self.players[player_number]
 
     def get_deck_card(self):
         return self.deck.draw_card()
