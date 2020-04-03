@@ -15,7 +15,6 @@ from love_letter.test_love_letter import (
 )
 from ahorcado.test_ahorcado import TestAhorcado
 from munchkin.test_munchkin import (
-    TestDice,
     TestMonster,
     TestPlayer as MunchkinTestPlayer,
     TestRace,
@@ -44,7 +43,6 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestGuessNumberGame))
     test_suite.addTest(unittest.makeSuite(TestSenku))
     #Munchkin
-    test_suite.addTest(unittest.makeSuite(TestDice))
     test_suite.addTest(unittest.makeSuite(TestMonster))
     test_suite.addTest(unittest.makeSuite(MunchkinTestPlayer))
     test_suite.addTest(unittest.makeSuite(TestRace))
