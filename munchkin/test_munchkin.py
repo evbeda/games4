@@ -4,7 +4,6 @@ from unittest.mock import patch
 from munchkin.doors.door import Door
 from munchkin.treasures import TREASURE_CARDS
 from munchkin.treasures.treasure_single_use import TreasureSingleUse
-from munchkin.dice import Dice
 from munchkin.player import (
     Player,
     MaxCardsOnHandOutRangeException,
@@ -22,15 +21,6 @@ from munchkin.treasures.armor import Armor
 from munchkin.treasures.footwear import Footwear
 from munchkin.treasures.headwear import Headwear
 from munchkin.treasures.accessories import Accessories
-
-
-
-class TestDice(unittest.TestCase):
-    def test_dado_between_1_and_6(self):
-        dice = Dice()
-        result = dice.shuffle()
-        self.assertGreaterEqual(result, 1)
-        self.assertLessEqual(result, 6)
 
 
 class TestMonster(unittest.TestCase):
@@ -199,20 +189,20 @@ class TestMunchkin(unittest.TestCase):
         self.assertEqual(result, expected)
         self.assertEqual(self.player_1.level, 11)
 
-    @patch.object(
-        Dice, 'shuffle'
+    @patch(
+        'munchkin.munchkin.random.randint',
+        return_value=2
     )
     def test_munchkin_play_dice_lose(self, patch_dice):
-        patch_dice.return_value = 3
         self.player_1.level = 7
         self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
         self.assertEqual(self.munchkin.play(), "You're lose")
 
-    @patch.object(
-        Dice, 'shuffle'
+    @patch(
+        'munchkin.munchkin.random.randint',
+        return_value=6
     )
     def test_munchkin_play_dice_safe(self, patch_dice):
-        patch_dice.return_value = 6
         self.player_1.level = 7
         self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
         self.assertEqual(self.munchkin.play(), "You're safe")

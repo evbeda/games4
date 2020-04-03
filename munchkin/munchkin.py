@@ -1,7 +1,6 @@
 from munchkin.deck import DoorDeck, TreasureDeck
 from munchkin.player import Player
-from munchkin.doors import DOOR_CARDS
-from munchkin.dice import Dice
+import random as random
 
 
 class Munchkin(object):
@@ -12,7 +11,6 @@ class Munchkin(object):
         self.door_deck.shuffle_deck()
         self.treasure_deck = TreasureDeck()
         self.treasure_deck.shuffle_deck()
-        self.dice = Dice()
         # Reparto de cartas
         for player in self.players:
             for index in range(2):
@@ -33,7 +31,7 @@ class Munchkin(object):
                 self.current_player,
                 self.treasure_deck
             ):
-                dice = self.dice.shuffle()
+                dice = self.shuffle()
                 if (dice + self.current_player.fleeing_chance) < 0:
                     self.current_card.execute_bad_effect()
                     return "You're lose"
@@ -63,3 +61,7 @@ class Munchkin(object):
         card = self.door_deck.draw_card()
         current_player = self.get_current_player()
         current_player.draw_card(card)
+
+    @staticmethod
+    def shuffle():
+        return random.randint(1, 6)
