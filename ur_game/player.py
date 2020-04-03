@@ -5,7 +5,7 @@ from ur_game.token import Token
 class Player:
     def __init__(self, shared=[], id_number=0):
         self.shared = shared
-        self.initial = [Token(i, self) for i in range(7)]
+        self.initial = [Token(self) for i in range(7)]
         self.final_stack = []
         self.start = [Cell() for _ in range(4)]
         self.start[3].set_special()

@@ -16,10 +16,6 @@ class TestUr(unittest.TestCase):
         token = Token()
         self.assertEqual(token.player, None)
 
-    def test_token_index(self):
-        token = Token(1)
-        self.assertEqual(token.index, 1)
-
     def test_cell_empty(self):
         cell = Cell()
         self.assertEqual(cell.token, None)
@@ -207,6 +203,14 @@ class TestPlayer(unittest.TestCase):
         cell = self.player.get_cell_by_index(to_index)
         token = self.player.initial.pop()
         self.player.move_token_to_cell(cell, token)
+        self.assertIn(token, self.player.final_stack)
+    
+    def test_move_token_exact_value(self):
+        to_index = 13
+        cell = self.player.get_cell_by_index(to_index)
+        token = self.player.initial.pop()
+        self.player.move_token_to_cell(cell, token)
+        self.player.move_token(2, 13)
         self.assertIn(token, self.player.final_stack)
 
     def test_move_token_eat_enemy(self):

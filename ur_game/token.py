@@ -1,8 +1,4 @@
 class Token:
 
-    def __init__(self, index=None, player=None):
+    def __init__(self, player=None):
         self.player = player
-        if index is None:
-            self.index = 0
-        else:
-            self.index = index
