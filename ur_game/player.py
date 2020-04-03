@@ -11,6 +11,7 @@ class Player:
         self.start[3].set_special()
         self.finish = [Cell() for _ in range(2)]
         self.finish[0].set_special()
+        self.addition_turn = False
 
     def validate_movement_from_cell(self, from_index):
         from_cell = self.get_cell_by_index(from_index)
@@ -27,7 +28,9 @@ class Player:
         
         elif to_cell.token is not None and to_cell.is_special and to_cell.token is not self:
             raise TokenProtectedException("You cannot move to this cell because the opponent is protected in there")
-
+        
+        elif to_cell.is_special:
+            self.addition_turn = True
         return to_cell
 
 

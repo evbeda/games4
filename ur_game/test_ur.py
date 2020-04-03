@@ -49,6 +49,28 @@ class TestUr(unittest.TestCase):
             player.final_stack.append(token)
         self.assertFalse(self.game.is_playing)
 
+    def test_next_turn_functionality(self):
+        player1 = self.game.players[0]
+        player2 = self.game.players[1]
+        self.assertIsNone(self.game.active_player)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player1)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player2)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player1)
+
+    def test_next_turn_additional_turn(self):
+        player2 = self.game.players[1]
+        player = self.game.players[0]
+        player.addition_turn = True
+        self.game.active_player = player
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player)
+        self.assertFalse(player.addition_turn)
+        self.game.next_turn()
+        self.assertEqual(self.game.active_player, player2)
+
     def test_roll_dices(self):
         dice_throw_value = self.game.roll_dices()
         self.assertTrue(dice_throw_value >= 0)
@@ -147,9 +169,11 @@ class TestPlayer(unittest.TestCase):
         self.assertIsNone(player.start[0].token)
 
     def test_validate_movement_to_cell_special_cell(self):
+        self.assertFalse(self.player.addition_turn)
         to_index = 8
         to_cell = self.player.validate_movement_to_cell(to_index)
         self.assertEqual(to_cell, self.player.get_cell_by_index(to_index))
+        self.assertTrue(self.player.addition_turn)
 
     def test_validate_movement_to_cell_exception_1(self):
         token = self.player.initial.pop()
@@ -165,7 +189,6 @@ class TestPlayer(unittest.TestCase):
         player2.get_cell_by_index(to_index).put_token(enemy_token)
         with self.assertRaises(TokenProtectedException):
             self.player.validate_movement_to_cell(to_index)
-
 
     def test_validate_movement_to_cell(self):
         to_index = 9
