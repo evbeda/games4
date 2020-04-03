@@ -59,6 +59,9 @@ class LoveLetterGame:
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
+    def get_alive_players(self):
+        return [player for player in self.players if player.is_active]
+
     def get_parameters(self, commands):
         parameters = []
         if len(commands) > 1:

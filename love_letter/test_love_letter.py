@@ -711,3 +711,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.current_player = self.game.players[0]
         self.game.change_turn()
         self.assertEqual(self.game.players[1], self.game.current_player)
+
+    def test_alive_player(self):
+        self.game.players[0].is_active =False
+        self.assertEqual(self.game.get_alive_players(), [self.game.players[1]])
