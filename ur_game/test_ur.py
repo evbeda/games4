@@ -211,3 +211,48 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(len(player_2.initial), 6)
         self.player.move_token_from_cell_to_cell(from_cell, self.cell)
         self.assertEqual(len(player_2.initial), 7)
+
+    def test_player_representation(self):
+        player = "Player1 number of initial  tokens: 7\n" \
+                 "Player1 number of finished tokens: 0\n" \
+                 "Player1 type of token: O"
+        self.assertEqual(self.game.players[0].__str__(), player)
+
+    def test_initial_and_final_array_representation(self):
+        initial_and_final_array_representation = "[*4, 3, 2, 1]       [*14, 13]"
+        self.assertEqual(
+            initial_and_final_array_representation,
+            self.game.players[0].initial_and_final_arr_str()
+        )
+
+    def test_board_representation(self):
+        board = "Player1 number of initial  tokens: 7\n" \
+                "Player1 number of finished tokens: 0\n" \
+                "Player1 type of token: O\n" \
+                "------------------------------------\n" \
+                "Special cells marked with '*'\n" \
+                "[*4, 3, 2, 1]       [*14, 13]\n" \
+                "[ 5, 6, 7, *8, 9, 10, 11, 12]\n" \
+                "[*4, 3, 2, 1]       [*14, 13]\n" \
+                "------------------------------------\n" \
+                "Player2 number of initial  tokens: 7\n" \
+                "Player2 number of finished tokens: 0\n" \
+                "Player2 type of token: X"
+        self.assertEqual(self.game.board, board)
+
+    def test_board_representation2(self):
+        board = "Player1 number of initial  tokens: 6\n" \
+                "Player1 number of finished tokens: 0\n" \
+                "Player1 type of token: O\n" \
+                "------------------------------------\n" \
+                "Special cells marked with '*'\n" \
+                "[*4, 3, 2, O]       [*14, 13]\n" \
+                "[ 5, 6, 7, *8, 9, 10, 11, 12]\n" \
+                "[*4, 3, 2, X]       [*14, 13]\n" \
+                "------------------------------------\n" \
+                "Player2 number of initial  tokens: 6\n" \
+                "Player2 number of finished tokens: 0\n" \
+                "Player2 type of token: X"
+        self.game.players[0].move_token(1, 0)
+        self.game.players[1].move_token(1, 0)
+        self.assertEqual(board, self.game.board)

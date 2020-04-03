@@ -22,3 +22,9 @@ class Cell:
     @property
     def is_special(self):
         return self.__is_special
+
+    def __str__(self):
+        if self.is_empty:
+            ""
+        else:
+            return self.token.player.token_type
