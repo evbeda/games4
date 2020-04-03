@@ -29,8 +29,11 @@ class Player:
         pass  # Gana si el nivel es 10
 
     def __str__(self):
-        return "Player: {}, " \
-               "On Hand: {}".format(self.name, self.__on_hand)
+        card_to_print = ""
+        for card in self.__on_hand:
+            card_to_print += card.__str__()
+        return "Player: {} \n " \
+               "On Hand: {}".format(self.name, card_to_print)
 
     @property
     def on_board(self):
