@@ -273,6 +273,9 @@ class TestCountess(unittest.TestCase):
         self.player.cards.append(Baron())
         self.assertFalse(self.countess.must_discard())
 
+    def test_countess_effect(self):
+        self.assertIsNone(self.countess.execute_action())
+
     def test_countess_show_instructions(self):
         instructions = "Countess input instructions:\n" \
                        "'card number'\n" \
@@ -559,6 +562,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.players[1].discarded.append(Handmaid())
         with self.assertRaises(TargetInvalidException):
             self.game.validate_effect(self.game.players[1])
+        self.assertIsNone(Handmaid().execute_action())
 
     def test_give_heart_to_max_card(self):
         self.game.players[0].cards[0] = Princess()
