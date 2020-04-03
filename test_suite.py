@@ -12,6 +12,7 @@ from love_letter.test_love_letter import (
     TestPrince,
     TestBaron,
     TestGuard,
+    TestPcPlayer,
 )
 from ahorcado.test_ahorcado import TestAhorcado
 from munchkin.test_munchkin import (
@@ -71,6 +72,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(TestKing))
     test_suite.addTest(unittest.makeSuite(TestPrince))
     test_suite.addTest(unittest.makeSuite(TestBaron))
+    test_suite.addTest(unittest.makeSuite(TestPcPlayer))
     # Ahorcado game
     test_suite.addTest(unittest.makeSuite(TestAhorcado))
     # Hanoi Towes
