@@ -3,10 +3,6 @@ from love_letter.human_player import HumanPlayer
 from love_letter.pc_player import PcPlayer
 
 
-class TargetMyselfException(Exception):
-    pass
-
-
 class TargetInvalidException(Exception):
     def __init__(self, message):
         self.message = message
@@ -157,7 +153,7 @@ class LoveLetterGame:
         if player_number >= len(self.players) or player_number < 0:
             raise TargetInvalidException("The player selected doesn't exist")
         if self.players[player_number] is self.current_player:
-            raise TargetMyselfException()
+            raise TargetInvalidException("You cannot be your own target")
         return self.players[player_number]
 
     def get_deck_card(self):

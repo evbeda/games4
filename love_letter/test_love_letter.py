@@ -14,7 +14,6 @@ from .cards.princess import Princess
 from .human_player import HumanPlayer
 from .love_letter_game import (
     LoveLetterGame,
-    TargetMyselfException,
     TargetInvalidException,
 )
 from .pc_player import PcPlayer
@@ -524,7 +523,7 @@ class TestLoveLetterGame(unittest.TestCase):
         self.assertEqual(target, result)
 
     def test_select_target_current_player(self):
-        with self.assertRaises(TargetMyselfException):
+        with self.assertRaises(TargetInvalidException):
             self.game.select_target("0")
 
     def test_play_with_one_parameter(self):
@@ -655,8 +654,17 @@ class TestLoveLetterGame(unittest.TestCase):
         self.game.tiebreaker(["Me", "PC Player"])
         self.assertEquals(self.game.players[0].hearts, 1)
 
-    def test_play_catchs_exception(self):
+    def test_play_target_not_active(self):
         self.game.players[1].is_active = False
         self.game.players[1].name = "Pepe"
         result = self.game.play("0-1")
         self.assertEqual(result, 'Player Pepe is not active')
+
+    def test_play_target_self(self):
+        self.game.players[0].name = "Pepe"
+        result = self.game.play("1-0")
+        self.assertEqual(result, 'You cannot be your own target')
+
+    def test_select_target_not_exist(self):
+        with self.assertRaises(TargetInvalidException):
+            self.game.select_target("-1")
