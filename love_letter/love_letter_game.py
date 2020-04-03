@@ -49,7 +49,7 @@ class LoveLetterGame:
             try:
                 target = self.select_target(commands[1])
                 command_args.append(target)
-                self.validate_effect(target)
+                self.validate_target(target)
             except TargetInvalidException as e:
                 return e.message
         command_args.extend(commands[2:])
@@ -59,7 +59,7 @@ class LoveLetterGame:
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
-    def validate_effect(self, player):
+    def validate_target(self, player):
         if not player.is_active:
             raise TargetInvalidException(
                 'Player {} is not active'.format(player.name)
