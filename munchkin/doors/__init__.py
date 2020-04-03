@@ -32,5 +32,14 @@ DOOR_CARDS = {
             'treasures': 4,
             'level_add': 2,
         },
-    ]
+    ],
+    'curse':
+    [
+        {
+            'name': 'Maldición Puñetera',
+            'target': 'Class',
+            'effect_decription': 'You lose an item with the highest bonus',
+        },
+    ],
+
 }

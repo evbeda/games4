@@ -1,5 +1,7 @@
 from munchkin.deck import DoorDeck, TreasureDeck
 from munchkin.player import Player
+from munchkin.doors import DOOR_CARDS
+from munchkin.dice import Dice
 
 
 class Munchkin(object):
@@ -10,7 +12,8 @@ class Munchkin(object):
         self.door_deck.shuffle_deck()
         self.treasure_deck = TreasureDeck()
         self.treasure_deck.shuffle_deck()
-        #Reparto de cartas
+        self.dice = Dice()
+        # Reparto de cartas
         for player in self.players:
             for index in range(2):
                 treasure_to_draw = self.treasure_deck.draw_card()
@@ -18,16 +21,26 @@ class Munchkin(object):
                 player.draw_card(treasure_to_draw)
                 player.draw_card(door_to_draw)
         self.current_player = self.__players[0]
+        self.current_card = None
 
-    # def next_turn(self):
-    #     # return -> lo que le debemos mostrar al usuario en su turno actual
-    #     pass
-    #
-    # def play(self, number):
-    #     # lo que ingreso el usuario por input (puede ser mas de un valor)
-    #     # return -> el resultado de lo que ingreso el usuario: ejemplo: You Win
-    #     pass
-    #
+    def next_turn(self):
+        response = 'Is your turn: ' + self.current_player.name
+        return response + self.current_card.__str__()
+
+    def play(self, action=None):
+        if (type(self.current_card).__name__, "Monster"):
+            if not self.current_card.monster_defeated(
+                self.current_player,
+                self.treasure_deck
+            ):
+                dice = self.dice.shuffle()
+                if (dice + self.current_player.fleeing_chance) < 0:
+                    self.current_card.execute_bad_effect()
+                    return "You're lose"
+                else:
+                    return "You're safe"
+            else:
+                return "You defetead the monster"
 
     @property
     def board(self):

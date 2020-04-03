@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from munchkin.doors.door import Door
 from munchkin.treasures import TREASURE_CARDS
@@ -23,6 +24,7 @@ from munchkin.treasures.headwear import Headwear
 from munchkin.treasures.accessories import Accessories
 
 
+
 class TestDice(unittest.TestCase):
     def test_dado_between_1_and_6(self):
         dice = Dice()
@@ -32,21 +34,33 @@ class TestDice(unittest.TestCase):
 
 
 class TestMonster(unittest.TestCase):
+    def setUp(self):
+        self.monster = Monster("CHUPACABRAS", 8, 1, 2)
+
     def test_monster_has_power_greater_or_equal_than_1(self):
-        monster = Monster("CHUPACABRAS", 8, 1, 2)
-        result = monster.power
+        result = self.monster.power
         self.assertGreaterEqual(result, 1)
 
     def test_monster_has_treasures_greater_or_equal_than_1(self):
-        monster = Monster("CHUPACABRAS", 8, 1, 2)
-        result = monster.treasures
+        result = self.monster.treasures
         self.assertGreaterEqual(result, 1)
 
     def test_monster_has_level_add_greater_or_equal_than_1(self):
-        monster = Monster("CHUPACABRAS", 8, 1, 2)
-        result = monster.level_add
+        result = self.monster.level_add
         self.assertGreaterEqual(result, 1)
         self.assertLessEqual(result, 9)
+
+    def test_monster_defeated_true(self):
+        player = Player("Rulo")
+        treasure_deck = TreasureDeck()
+        player.level = 9
+        self.assertTrue(self.monster.monster_defeated(player, treasure_deck))
+
+    def test_monster_defeated_false(self):
+        player = Player("Rulo")
+        treasure_deck = TreasureDeck()
+        player.level = 7
+        self.assertFalse(self.monster.monster_defeated(player, treasure_deck))
 
 
 class TestPlayer(unittest.TestCase):
@@ -164,6 +178,32 @@ class TestMunchkin(unittest.TestCase):
             "Name: 2\nCards on Board:\n"
         result = self.munchkin.board
         self.assertEqual(result, expected)
+
+    def test_munchkin_play_defeat_monster(self):
+        self.player_1.level = 9
+        self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
+        result = self.munchkin.play()
+        expected = "You defetead the monster"
+        self.assertEqual(result, expected)
+        self.assertEqual(self.player_1.level, 11)
+
+    @patch.object(
+        Dice, 'shuffle'
+    )
+    def test_munchkin_play_dice_lose(self, patch_dice):
+        patch_dice.return_value = 3
+        self.player_1.level = 7
+        self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
+        self.assertEqual(self.munchkin.play(), "You're lose")
+
+    @patch.object(
+        Dice, 'shuffle'
+    )
+    def test_munchkin_play_dice_safe(self, patch_dice):
+        patch_dice.return_value = 6
+        self.player_1.level = 7
+        self.munchkin.current_card = Monster('Rey Tut', 8, 4, 2)
+        self.assertEqual(self.munchkin.play(), "You're safe")
 
 
 class TestTreasure(unittest.TestCase):

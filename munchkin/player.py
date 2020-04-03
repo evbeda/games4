@@ -18,8 +18,8 @@ class Player:
         self.max_class_cards = 1
         self.fleeing_chance = -4
 
-    def level_up(self):  # Suma mas 1 al nivel
-        self.level += 1
+    def level_up(self, level=1):  # Suma mas 1 al nivel
+        self.level += level
 
     def level_down(self):  # Resta 1 nivel, solo si es mayor a 1
         if self.level > 1:
@@ -56,7 +56,7 @@ class Player:
             self.validate_max_card()
         except MaxCardsOnHandOutRangeException as e:
             return str(e)
-        self.__on_hand.append(card)
+        self.on_hand.append(card)
 
     def validate_max_card(self):
         if len(self.__on_hand) + 1 <= self.max_cards_on_hand:

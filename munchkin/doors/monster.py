@@ -14,6 +14,18 @@ class Monster(Door):
         # object_lost
         # who_object_lost
 
+    def monster_defeated(self, current_player, treasure_deck):
+        if current_player.level > self.power:
+            current_player.level_up(self.level_add)
+            for _ in range(self.treasures):
+                card = treasure_deck.draw_card()
+                current_player.draw_card(card)
+            return True
+        return False
+
+    def execute_bad_effect(self):
+        pass
+
     @property
     def name(self):
         return self._name
