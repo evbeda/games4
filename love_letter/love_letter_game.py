@@ -53,7 +53,8 @@ class LoveLetterGame:
         except TargetInvalidException as e:
             return e.message
         result = selected_card.execute_action(*parameters)
-        self.check_if_end_round()
+
+        self.change_turn()        
         return result
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
@@ -167,3 +168,10 @@ class LoveLetterGame:
 
     def get_deck_card(self):
         return self.deck.draw_card()
+
+    def change_turn(self):
+        last_player_turn_index = self.players.index(self.current_player)
+        if last_player_turn_index == len(self.players) - 1:
+            self.current_player = self.players[0]
+        else:
+            self.current_player = self.players[last_player_turn_index+1]

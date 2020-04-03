@@ -214,6 +214,9 @@ class TestPlayer(unittest.TestCase):
 
 class TestPcPlayer(unittest.TestCase):
 
+    def setUp(self):
+        self.game = LoveLetterGame("Human Player")
+
     @patch('love_letter.pc_player.randint', return_value=0)
     def test_choose_card(self, mock_randint):
         self.assertEqual(self.game.players[1].choose_card(), 0)
@@ -698,3 +701,13 @@ class TestLoveLetterGame(unittest.TestCase):
         expected_params = [self.game.players[1], "Prince"]
         result = self.game.get_parameters(["0", "1", "Prince"])
         self.assertEqual(expected_params, result)
+
+    def test_change_turn_to_first_player(self):
+        self.game.current_player = self.game.players[1]
+        self.game.change_turn()
+        self.assertEqual(self.game.players[0], self.game.current_player)
+
+    def test_change_turn_to_second_player(self):
+        self.game.current_player = self.game.players[0]
+        self.game.change_turn()
+        self.assertEqual(self.game.players[1], self.game.current_player)
