@@ -10,4 +10,4 @@ class PcPlayer(Player):
         self.name = "PC Player"
 
     def choose_card(self):
-        return randint(0, 1)
+        return randint(0, 200)

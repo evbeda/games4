@@ -212,6 +212,13 @@ class TestPlayer(unittest.TestCase):
         self.assertFalse(self.human_player.must_discard_countess())
 
 
+class TestPcPlayer(unittest.TestCase):
+
+    @patch('love_letter.pc_player.randint', return_value=0)
+    def test_choose_card(self, mock_randint):
+        self.assertEqual(self.game.players[1].choose_card(), 0)
+
+
 class TestCard(unittest.TestCase):
 
     def setUp(self):
@@ -686,11 +693,6 @@ class TestLoveLetterGame(unittest.TestCase):
     def test_select_target_not_exist(self):
         with self.assertRaises(TargetInvalidException):
             self.game.select_target("-1")
-
-
-    @patch.object(PcPlayer, 'choose_card', return_value=0)
-    def test_pc_player(self, mock_value):
-        self.assertEqual(self.game.players[1].choose_card(), 0)
 
     def test_get_parameters(self):
         expected_params = [self.game.players[1], "Prince"]
