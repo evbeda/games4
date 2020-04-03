@@ -11,6 +11,7 @@ class Player:
         self.start[3].set_special()
         self.finish = [Cell() for _ in range(2)]
         self.finish[0].set_special()
+        self.addition_turn = False
 
     def validate_movement_from_cell(self, from_index):
         from_cell = self.get_cell_by_index(from_index)
@@ -22,12 +23,16 @@ class Player:
     def validate_movement_to_cell(self, to_index):
         to_cell = self.get_cell_by_index(to_index)
 
-        if to_cell.is_special and to_cell in self.shared:
-            to_cell = self.get_cell_by_index(to_index + 1)
-
         if to_cell.token is not None and to_cell.token.player is self:
             raise InvalidMovementException("You cannot move to this cell because you have a token there")
+        
+        elif to_cell.token is not None and to_cell.is_special and to_cell.token is not self:
+            raise TokenProtectedException("You cannot move to this cell because the opponent is protected in there")
+        
+        elif to_cell.is_special:
+            self.addition_turn = True
         return to_cell
+
 
     def validate_movement_from_initial(self):
         if len(self.initial) == 0:
@@ -38,8 +43,14 @@ class Player:
         self.move_token_to_cell(to_cell, token)
 
     def move_token_from_cell_to_cell(self, from_cell, to_cell):
-        token = from_cell.clear_cell()
-        self.move_token_to_cell(to_cell, token)
+        token = from_cell.clear_cell()  # limpiar la celda anterior
+        # verificar si hay otra ficha -> comer
+        if to_cell.token is not None:
+            # sacar la ficha del oponente
+            enemy_token = to_cell.clear_cell()
+            # devolversela al oponente -> initial.append
+            enemy_token.player.initial.append(enemy_token)
+        self.move_token_to_cell(to_cell, token)  # moviendo
 
     def move_token_to_cell(self, to_cell, token):
         if to_cell == self.finish[-1]:
@@ -68,4 +79,8 @@ class InvalidMovementException(Exception):
 
 
 class OutOfBoardException(Exception):
+    pass
+
+
+class TokenProtectedException(Exception):
     pass

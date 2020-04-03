@@ -9,6 +9,16 @@ class UrGame:
         shared = [Cell() for _ in range(8)]
         shared[3].set_special()
         self.players = [Player(shared) for _ in range(2)]
+        self.active_player = None
+
+    def next_turn(self):
+        if self.active_player is not None and self.active_player.addition_turn:
+            self.active_player.addition_turn = False
+        else:    
+            for player in self.players:
+                if self.active_player != player:
+                    self.active_player = player
+                    break
 
     @property
     def is_playing(self):
@@ -19,4 +29,8 @@ class UrGame:
 
     @staticmethod
     def roll_dices():
-        return randint(0, 4)
+        dice1 = randint(0, 1)
+        dice2 = randint(0, 1)
+        dice3 = randint(0, 1)
+        dice4 = randint(0, 1)
+        return dice1 + dice2 + dice3 + dice4

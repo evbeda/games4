@@ -1,10 +1,7 @@
 from love_letter.deck import Deck
 from love_letter.human_player import HumanPlayer
 from love_letter.pc_player import PcPlayer
-
-
-class TargetMyselfException(Exception):
-    pass
+from love_letter.player import CountessNotDiscardedException
 
 
 class TargetInvalidException(Exception):
@@ -47,23 +44,28 @@ class LoveLetterGame:
             return "Its your turn\n" + text
 
     def play(self, command):
-        commands = command.split("-")
+        try:
+            commands = command.split("-")
+            selected_card = self.current_player.select_card(commands[0])
+        except CountessNotDiscardedException:
+            return "You must discard your Countess"
+        
         command_args = []
         if len(commands) > 1:
             try:
                 target = self.select_target(commands[1])
                 command_args.append(target)
-                self.validate_effect(target)
+                self.validate_target(target)
             except TargetInvalidException as e:
                 return e.message
         command_args.extend(commands[2:])
-        result = self.current_player.cards[int(commands[0])].execute_action(*command_args)
+        result = selected_card.execute_action(*command_args)
         self.check_if_end_round()
         return result
         # lo que ingreso el usuario por input (puede ser mas de un valor)
         # return #-> el resultado de lo que ingreso el usuario: ejemplo: You Win
 
-    def validate_effect(self, player):
+    def validate_target(self, player):
         if not player.is_active:
             raise TargetInvalidException(
                 'Player {} is not active'.format(player.name)
@@ -157,7 +159,7 @@ class LoveLetterGame:
         if player_number >= len(self.players) or player_number < 0:
             raise TargetInvalidException("The player selected doesn't exist")
         if self.players[player_number] is self.current_player:
-            raise TargetMyselfException()
+            raise TargetInvalidException("You cannot be your own target")
         return self.players[player_number]
 
     def get_deck_card(self):
