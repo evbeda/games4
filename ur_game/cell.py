@@ -25,6 +25,6 @@ class Cell:
 
     def __str__(self):
         if self.is_empty:
-            ""
+            return ""
         else:
             return self.token.player.token_type

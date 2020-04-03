@@ -97,9 +97,11 @@ class Player:
         initial_arr += "]"
 
         final_arr = "["
-        ini = 14
+        ini = 15
         for cell in reversed(self.finish):
-            if cell.is_empty and ini == 14:
+            if ini == 15:
+                pass
+            elif cell.is_empty and ini == 14:
                 final_arr += "*{},".format(ini)
             elif cell.is_empty and ini == 13:
                 final_arr += " {}".format(ini)
