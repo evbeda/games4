@@ -2,7 +2,7 @@ import unittest
 
 from ur_game.cell import Cell
 from ur_game.player import Player
-from ur_game.player import InvalidMovementException, OutOfBoardException
+from ur_game.player import InvalidMovementException, OutOfBoardException, TokenProtectedException
 from ur_game.token import Token
 from ur_game.ur import UrGame
 
@@ -149,7 +149,7 @@ class TestPlayer(unittest.TestCase):
     def test_validate_movement_to_cell_special_cell(self):
         to_index = 8
         to_cell = self.player.validate_movement_to_cell(to_index)
-        self.assertEqual(to_cell, self.player.get_cell_by_index(to_index + 1))
+        self.assertEqual(to_cell, self.player.get_cell_by_index(to_index))
 
     def test_validate_movement_to_cell_exception_1(self):
         token = self.player.initial.pop()
@@ -157,6 +157,15 @@ class TestPlayer(unittest.TestCase):
         self.player.get_cell_by_index(to_index).put_token(token)
         with self.assertRaises(InvalidMovementException):
             self.player.validate_movement_to_cell(to_index)
+    
+    def test_validate_movement_to_cell_exception_2(self):
+        player2 = self.game.players[1]
+        enemy_token = player2.initial.pop()
+        to_index = 8
+        player2.get_cell_by_index(to_index).put_token(enemy_token)
+        with self.assertRaises(TokenProtectedException):
+            self.player.validate_movement_to_cell(to_index)
+
 
     def test_validate_movement_to_cell(self):
         to_index = 9

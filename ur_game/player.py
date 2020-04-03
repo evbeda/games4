@@ -22,12 +22,14 @@ class Player:
     def validate_movement_to_cell(self, to_index):
         to_cell = self.get_cell_by_index(to_index)
 
-        if to_cell.is_special and to_cell in self.shared:
-            to_cell = self.get_cell_by_index(to_index + 1)
-
         if to_cell.token is not None and to_cell.token.player is self:
             raise InvalidMovementException("You cannot move to this cell because you have a token there")
+        
+        elif to_cell.token is not None and to_cell.is_special and to_cell.token is not self:
+            raise TokenProtectedException("You cannot move to this cell because the opponent is protected in there")
+
         return to_cell
+
 
     def validate_movement_from_initial(self):
         if len(self.initial) == 0:
@@ -74,4 +76,8 @@ class InvalidMovementException(Exception):
 
 
 class OutOfBoardException(Exception):
+    pass
+
+
+class TokenProtectedException(Exception):
     pass
