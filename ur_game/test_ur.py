@@ -53,22 +53,22 @@ class TestUr(unittest.TestCase):
         player1 = self.game.players[0]
         player2 = self.game.players[1]
         self.assertIsNone(self.game.active_player)
-        self.game.next_turn()
+        self.assertEqual("Its Player 1 Turn", self.game.next_turn())
         self.assertEqual(self.game.active_player, player1)
-        self.game.next_turn()
+        self.assertEqual("Its Player 2 Turn", self.game.next_turn())
         self.assertEqual(self.game.active_player, player2)
-        self.game.next_turn()
+        self.assertEqual("Its Player 1 Turn", self.game.next_turn())
         self.assertEqual(self.game.active_player, player1)
 
     def test_next_turn_additional_turn(self):
         player2 = self.game.players[1]
         player = self.game.players[0]
-        player.addition_turn = True
-        self.game.active_player = player
-        self.game.next_turn()
+        self.assertEqual("Its Player 1 Turn", self.game.next_turn())
         self.assertEqual(self.game.active_player, player)
+        player.addition_turn = True
+        self.assertEqual("Its Player 1 Turn", self.game.next_turn())
         self.assertFalse(player.addition_turn)
-        self.game.next_turn()
+        self.assertEqual("Its Player 2 Turn", self.game.next_turn())
         self.assertEqual(self.game.active_player, player2)
 
     def test_roll_dices(self):
