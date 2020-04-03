@@ -9,8 +9,8 @@ class Player:
         self.final_stack = []
         self.start = [Cell() for _ in range(4)]
         self.start[3].set_special()
-        self.finish = [Cell() for _ in range(2)]
-        self.finish[0].set_special()
+        self.finish = [Cell() for _ in range(3)]
+        self.finish[1].set_special()
         self.addition_turn = False
         self.id_number = id_number + 1
         self.type = None

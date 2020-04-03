@@ -19,12 +19,7 @@ class UrGame:
                 if self.active_player != player:
                     self.active_player = player
                     break
-        player_name = None
-        if self.active_player == self.players[0]:
-            player_name = "Player 1"
-        else:
-            player_name = "Player 2"
-        return f"Its {player_name} Turn"
+        return f"Its Player {self.active_player.id_number} Turn"
 
 
     @property
